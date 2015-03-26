@@ -48,11 +48,15 @@
 				<th>Name</th>
 				<th>Email</th>
 			</tr>
-			<% @users.each do |user| %>
-		     <tr>
-		       <%= render user %>
-		     </tr>
-		  <% end %>
+			<% if @users.empty? %>
+				<em>No users found</em>
+			<% else %>
+				<% @users.each do |user| %>
+				   <tr>
+				     <%= render user %>
+				   </tr>
+				<% end %>
+			<% end %>
 		</table>
 	<% else %>
 		<table class='table table-striped'>
@@ -63,11 +67,15 @@
 				<th>Department</th>
 				<th>Delete</th>
 			</tr>
-		  <% @users.each do |user| %>
-		     <tr>
-		       <%= render user %>
-		     </tr>
-		   <% end %>
+			<% if @users.empty? %>
+				<em>No users found</em>
+			<% else %>
+				<% @users.each do |user| %>
+				   <tr>
+				     <%= render user %>
+				   </tr>
+				 <% end %>
+			<% end %>
 	 </table>
 	<% end %>
 </div>
