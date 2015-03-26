@@ -24,7 +24,11 @@
 <% end %>
 <td>
 	<% if user != current_user %>
-		<%= link_to("", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'glyphicon glyphicon-trash') %>
+		<% if mobile_device? %>
+			<%= link_to("", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'glyphicon glyphicon-trash') %>
+		<% else %>
+			<%= link_to("Delete User", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') %>
+		<% end %>
 	<% else %>
 		--
 	<% end %>
