@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_filter :authorize_student_or_librarian, :except => [:index, :show]
+  before_filter :authorize_initialized, :except => [:index, :show]
 
   def index
 		@q = Book.ransack(params[:q])
@@ -140,7 +140,7 @@ class BooksController < ApplicationController
 	end
 	def renew
 		@book = Book.find(params[:book])
-		if user_signed_in? and current_user.student? and @book.holder_id == current_user.id and not @book.renewed 
+		if user_signed_in? and not current_user.uninitialized? and @book.holder_id == current_user.id and not @book.renewed 
 			@book.renewed = true
 			if Date.today >= @book.due_date
 				@book.update_attributes(:due_date => Date.today + 7.days)

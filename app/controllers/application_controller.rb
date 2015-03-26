@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
 	def authorize_student_instructor_or_admin
 		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and (current_user.student? or current_user.instructor? or current_user.admin?)
 	end
+	def authorize_initialized
+		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and not current_user.uninitialied?
+	end
+
 	def mobile_device?
 		request.user_agent =~ /Mobile|webOS/
 	end
