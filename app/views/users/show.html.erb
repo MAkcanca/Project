@@ -94,11 +94,7 @@
 			<th>Delete</th>
 			<td>
 				<% if @user != current_user %>
-					<% if mobile_device? %>
-						<%= link_to("", user_path(@user), :data => { :confirm => "Delete #{@user.first_name} #{@user.last_name}?" }, :method => :delete, :class => 'glyphicon glyphicon-trash') %>
-					<% else %>
-						<%= link_to("Delete User", user_path(@user), :data => { :confirm => "Delete #{@user.first_name} #{@user.last_name}?" }, :method => :delete, :class => 'button-xs') %>
-					<% end %>
+					<%= link_to("Delete User", user_path(@user), :data => { :confirm => "Delete #{@user.first_name} #{@user.last_name}?" }, :method => :delete, :class => 'button-xs') %>
 				<% else %>
 					--
 				<% end %>
