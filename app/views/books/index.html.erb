@@ -53,7 +53,7 @@
 				<th>Available</th>
 				<% if not mobile_device? %>
 					<th>Queue</th>
-					<% if user_signed_in? and current_user.student? %>
+					<% if user_signed_in? and not current_user.uninitialized? %>
 						<th style="width:10em">Reserve</th>
 					<% end %>
 					<% if user_signed_in? and current_user.librarian? %>
