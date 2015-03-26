@@ -3,7 +3,9 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @users = User.all
+		@q = User.ransack(params[:q])
+		@users = @q.result(distinct:true)
+		@collapse = @users.count != User.all.count
     authorize User
   end
 

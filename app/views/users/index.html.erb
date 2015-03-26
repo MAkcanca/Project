@@ -1,16 +1,45 @@
 <style>
-	td,th{
-		padding:5px 10px;	
-	}
-	table{ width: 100%; }
 	table.desktop{
-		text-align: center;
+		margin: 0 auto;
+		text-align:right;
 	}
-	table.desktop tr th{
-		text-align:center;	
-	}
+	table.desktop td { padding: 0 10px; }
+	table.desktop select, table.desktop input.field{ width: 10em}
 </style>
-
+<div class='panel-group' id='accordion'>
+	<div class='panel panel-default'>
+		<div class='panel-heading'>
+			<h4 class='panel-title' style='text-align:center'>				
+				<a data-toggle='collapse' data-parent='#accordion' href='#collapse1'>Search Form</a>
+			</h4>
+		</div>
+		<div id='collapse1' class="<%= @collapse ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+			<div class='panel-body'>
+				<%= search_form_for @q, url: search_users_path, method: :post do |f| %>
+					<table class="<%= (mobile_device?) ? '' : 'desktop' %>">	
+						<tr>
+							<td><%= f.label 'First Name' %></td>
+							<td><%= f.search_field :first_name_cont, :class => 'field' %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Last Name' %></td>
+							<td><%= f.search_field :last_name_cont, :class => 'field' %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Email' %></td>
+							<td><%= f.search_field :email_cont, :class => 'field' %></td>
+						</tr>
+						<tr>						
+							<td><%= f.label 'Department' %></td>
+							<td><%= f.select :department_id_eq, options_from_collection_for_select(Department.all, 'id', 'title', @q.department_id_eq), :style => 'display:inline-block;width:100%',:include_blank => true %></td>
+						</tr>
+					</table><br/>
+					<span style="width:100%;text-align:center;display:inline-block;"><%= f.submit "Search", :class => 'btn btn-primary'%></span>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="well">
 	<h3 style="text-align:center">Users</h3>
 	<% if mobile_device? %>
