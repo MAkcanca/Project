@@ -2,6 +2,7 @@
 	td,th{ 
 		padding: 0 10px; 
 	}
+	th{ vertical-align:top; }
 	th{ width: 5em; }
 	select{ width: 10em; }
 </style>
@@ -43,7 +44,7 @@
 		<% end %>
 	</tr>
 	<tr>
-		<th style='vertical-align:top'>Courses</th>
+		<th>Courses</th>
 		<% if @user.instructor? %>
 			<% if Course.where('instructor_id = ?', @user.id).empty? %>
 				<td>No courses here!</td>
@@ -74,7 +75,7 @@
 	</tr>
 	<% if user_signed_in? and current_user == @user or current_user.librarian? or current_user.admin? %>
 		<tr>
-			<th style="vertical-align:top">Books</th>
+			<th>Books</th>
 			<td>
 				<% if not @user.books.where('holder_id = ?', @user.id).empty? %>
 					<ul>
@@ -84,6 +85,22 @@
 					</ul>
 				<% else %>
 					<em>No books checked out.</em>
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+	<% if user_signed_in? and current_user.admin? %>
+		<tr>
+			<th>Delete</th>
+			<td>
+				<% if user != current_user %>
+					<% if mobile_device? %>
+						<%= link_to("", user_path(user), :data => { :confirm => "Delete #{user.first_name} #{user.last_name}?" }, :method => :delete, :class => 'glyphicon glyphicon-trash') %>
+					<% else %>
+						<%= link_to("Delete User", user_path(user), :data => { :confirm => "Delete #{user.first_name} #{user.last_name}?" }, :method => :delete, :class => 'button-xs') %>
+					<% end %>
+				<% else %>
+					--
 				<% end %>
 			</td>
 		</tr>
