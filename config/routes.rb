@@ -8,15 +8,15 @@ Rails.application.routes.draw do
   resources :courses do
 		collection {post :search, to: 'courses#index'}
 	end
+	resources :books do
+		collection {post :search, to: 'books#index'}
+	end
 	resources :icons
 	resources :uploads, :only => [:new, :create, :show, :destroy]
 	resources :grades
 	resources :folders
 	resources :articles
 	resources :semesters
-	resources :books do
-		collection {post :search, to: 'books#index'}
-	end
 	resources :uploads
 
   get '/enroll' => 'courses#enroll', :as => :enroll

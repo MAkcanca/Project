@@ -21,11 +21,11 @@
 			<%= f.submit 'Save', :class => 'button-xs' %>
 		<% end %>
 	</td>
-	<td>
-		<% if user != current_user %>
-			<%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') %>
-		<% else %>
-			--
-		<% end %>
-	</td>
+<% end %>
+<td>
+	<% if user != current_user %>
+		<%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') %>
+	<% else %>
+		--
 	<% end %>
+</td>

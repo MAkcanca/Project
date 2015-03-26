@@ -32,9 +32,7 @@ class UsersController < ApplicationController
   end
 
   private
-
-  def secure_params
-    params.require(:user).permit(:role, :department_id)
-  end
-
+		def secure_params
+		  params.require(:user).permit(:role, :department_id)
+		end
 end
