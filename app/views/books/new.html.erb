@@ -1,0 +1,44 @@
+<style>
+	input.field, textarea, p#category select{ 
+		width: 50%;
+		max-width: 300px;
+	}
+</style>
+<div class="well" %>
+	<%= form_for :book, url: books_path do |f| %>
+		<h3>Create Book</h3>
+		<p>
+			<%= f.label :title %><br/>
+			<%= f.text_field :title, :class => 'field' %>
+		</p>
+		<p>
+			<%= f.label :author %><br/>
+			<%= f.text_field :author, :class => 'field' %>
+		</p>
+		<p>
+			<%= f.label :description %><br/>
+			<%= f.text_area 'description', :rows => 4 %>
+		</p>
+		<p>
+			<%= f.label :pages %><br/>
+			<%= f.text_field :pages, :class => 'field' %>
+		</p>
+		<p>
+			<label>ISBN</label><br/>
+			<%= f.text_field :isbn, :class => 'field' %>
+		</p>
+		<p>
+			<%= f.label :publisher %><br/>
+			<%= f.text_field :publisher, :class => 'field' %>
+		</p>
+		<p>
+		  <%= f.label :publish_date %><br>
+			<%= select_date Date.today, prefix: :publish_date %>
+		</p>
+		<p id='category'>
+			<%= f.label :category_id %><br/>
+			<%= f.collection_select :category_id, Category.order(:title),:id,:title, :style=>'width:50%;',:include_blank => true %>
+		</p>
+		<%= f.submit 'Submit', :class=>'btn btn-primary' %>
+	<% end %>
+</div>

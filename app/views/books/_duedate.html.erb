@@ -1,0 +1,5 @@
+<% if not @book.due_date.nil? %>
+	<%= @book.due_date %>
+<% else %>
+	<em>No due date</em>
+<% end %>

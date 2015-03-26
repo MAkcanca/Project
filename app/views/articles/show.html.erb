@@ -1,0 +1,14 @@
+<h3><%= @article.title %></h3>
+
+<p>
+  <%= @article.description %>
+</p>
+
+<% if user_signed_in? and current_user.id == @article.course.instructor_id %>
+	<p><%= link_to 'Edit', edit_article_path(@article) %>
+	<%= link_to 'Delete', article_path(@article),
+				method: :delete,
+				data: { confirm: "Delete '#{@article.title}'?" } %></p>
+<% end %>
+
+&#8592; <%= link_to 'Back to course page', icon_path(@article.course_id) %>

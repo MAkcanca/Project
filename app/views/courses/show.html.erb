@@ -1,0 +1,47 @@
+<script>
+	$(document).ready(function() {
+		/* Activating Best In Place */
+		jQuery(".best_in_place").best_in_place();
+	});
+</script>
+
+<h3><%= @course.department.abbreviation %>:<%= @course_id %> <%= @course.title %></h3>
+
+<strong>Instructor</strong>
+<p><%= @instructor.first_name %> <%= @instructor.last_name %> </p>
+
+<strong>Description</strong>
+<p><%= @course.description %> </p>
+
+<strong>Days</strong>
+<p>
+	<% if @course.m %>M<%end%>
+	<% if @course.t %>T<%end%>
+	<% if @course.w %>W<%end%>
+	<% if @course.r %>R<%end%>
+	<% if @course.f %>F<%end%>
+</p>
+
+<strong>Department</strong>
+<p><%= @course.department.title %></p>
+
+<strong>Semester</strong>
+<p><%= @course.semester.title %></p>
+
+<strong>Enrolled</strong>
+<div id="course-<%= @course.id %>">
+	<%= @course.enrolled %> of <%= @course.capacity %> enrolled
+
+	<% if user_signed_in? and current_user.student? %>
+		<% if not current_user.courses.include? @course and @course.semester.start_date > Date.today + 10.days %>
+			<%= link_to "Enroll", enroll_path(:course => @course), :remote => true %>
+		<% elsif current_user.courses.include? @course and @course.semester.start_date > Date.today + 10.days %>
+			<%= link_to "Drop", drop_path(:course => @course), :remote => true %>
+		<% end %>
+	<% end %><br/>
+</div>
+
+<% if user_signed_in? and current_user.admin? %>
+	<%= link_to 'Edit Course', edit_course_path(@course.id) %><br/>
+<% end %>
+&#8592; <%= link_to 'Back to Courses page', courses_path %>

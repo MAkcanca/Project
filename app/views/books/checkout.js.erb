@@ -1,0 +1,6 @@
+$("#queue-<%= @book.id %>").html("<%= (j render :partial => 'books/queue', :locals => {book:@book}).html_safe %>" );
+$("#available-<%= @book.id %>").html("<%= (j render :partial => 'books/available', :locals => {book:@book}).html_safe %>");
+$("#checkout-<%= @book.id %>").html("<%= (j render :partial => 'books/checkout', :locals => {book:@book}).html_safe %>");
+$("#holder-<%= @book.id %>").html("<%= (j render :partial => 'books/holder', :locals => {book:@book}).html_safe %>");
+$("#duedate-<%= @book.id %>").html("<%= (j render :partial => 'books/duedate', :locals => {book:@book}).html_safe %>");
+$("#fine-<%= @book.id %>").html("<%= (j render :partial => 'books/fine', :locals => {book:@book}).html_safe %>");

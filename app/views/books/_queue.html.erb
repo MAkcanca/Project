@@ -1,0 +1,5 @@
+<% if book.nil? %>
+	<%= (@book.user_ids.include? book.holder_id) ? @book.users.count - 1 : @book.users.count %>
+<% else %>
+	<%= (book.user_ids.include? book.holder_id) ? book.users.count - 1 : book.users.count %>
+<% end %>

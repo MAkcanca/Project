@@ -1,0 +1,7 @@
+<% if not @instructor_uploads.empty? %>
+	<% @instructor_uploads.each do |f| %>
+		<%= link_to f.title, f %><br/>
+	<% end %>
+<% else %>
+	No folders here.
+<% end %>	

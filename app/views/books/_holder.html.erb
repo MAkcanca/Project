@@ -1,0 +1,5 @@
+<% if @book.holder_id.nil? %>
+	<em>Not checked out</em>
+<% else %>
+	<%= "#{User.find(@book.holder_id).first_name} #{User.find(@book.holder_id).last_name}" %>
+<% end %>

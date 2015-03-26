@@ -1,0 +1,20 @@
+<div class="authform" %>
+	<%= form_for :semester, url: semesters_path do |f| %>
+		<h3>Create new semester</h3>
+		<p>
+		  <%= f.label :title %><br>
+		  <%= f.text_field :title %>
+		</p>
+		<p>
+		  <%= f.label :start_date %><br>
+			<%= select_date Date.today, prefix: :start_date %>
+		</p>
+		<p>
+		  <%= f.label :end_date %><br>
+			<%= select_date Date.today, prefix: :end_date %>
+		</p>
+		<p>
+		  <%= f.submit 'Submit', :class=>'btn btn-primary' %>
+		</p>
+	<% end %>
+</div>

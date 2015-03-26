@@ -1,0 +1,24 @@
+<br />
+<%= link_to "New File", new_upload_path, class: "btn btn-primary" %>
+<br />
+<br />
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Uploader</th>
+      <th>Title</th>
+      <th>Download Link</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @instructor_files.each do |f| %>
+	    <tr>
+				<td><%= f.user.first_name %> <%= f.user.last_name %></td>
+	      <td><%= f.title %></td>
+	      <td><%= link_to "Download File", f.attachment_url %></td>
+	      <td><%= button_to "Delete", f, method: :delete, class: "btn btn-danger", confirm: "Are you sure that you wish to delete #{f.title}?" %></td>
+	    </tr>
+	  <% end %>
+  </tbody>
+</table>

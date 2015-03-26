@@ -1,0 +1,7 @@
+<% if user_signed_in? and current_user.student? and not book.users.include? current_user and not book.holder_id == current_user.id %>
+	<%= link_to 'Reserve', reserve_path(:book => book), :remote => true %>
+<% elsif user_signed_in? and current_user.student? and book.users.include? current_user and not book.holder_id == current_user.id %>
+	<%= link_to 'Unreserve', unreserve_path(:book => book), :remote => true %>
+<% elsif user_signed_in? and current_user.student? and book.holder_id == current_user.id and not book.renewed %>
+	<%= link_to 'Renew', renew_path(:book => book), :remote => true %>
+<% end %>

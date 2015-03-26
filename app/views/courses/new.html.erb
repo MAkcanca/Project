@@ -1,0 +1,53 @@
+<style>
+	input.field, textarea, p.category select{ 
+		width: 50%;
+		max-width: 300px;
+	}
+</style>
+
+<div class="well" %>
+	<%= form_for :course, url: courses_path do |f| %>
+		<h3>Create Course</h3>
+		<p>
+			<%= f.label :title %><br/>
+			<%= f.text_field :title, :class => 'field' %>
+		</p>
+		<p>
+			<label>Days</label><br/>
+			<%= f.check_box :m %> <%= f.label :m %>
+			<%= f.check_box :t %> <%= f.label :t %>
+			<%= f.check_box :w %> <%= f.label :w %>
+			<%= f.check_box :r %> <%= f.label :r %>
+			<%= f.check_box :f %> <%= f.label :f %>
+		</p>
+		<p class='category'>
+			<%= f.label :department_id %><br/>
+			<%= f.collection_select :department_id, Department.order(:title),:id,:title,:include_blank => true %>
+		</p>
+		<p>
+			<%= f.label :course_number %><br/>
+			<%= f.text_field :course_number, :class => 'field' %>
+		</p>
+		<p class='category'>
+			<%= f.label :semester_id %><br/>
+			<%= f.collection_select :semester_id, Semester.where('start_date > ?', Date.today).order(:title),:id,:title,:include_blank => true %>
+		</p>
+		<p>
+			<%= f.label :capacity %><br/>
+			<%= f.text_field :capacity, :class => 'field' %>
+		</p>
+		<p>
+			<%= f.label :description %><br/>
+			<%= f.text_area 'description', :rows => 4 %>
+		</p>
+		<% if current_user.instructor? %>
+			<%= f.hidden_field :instructor_id, :value => current_user.id, :class => 'field' %>
+		<% elsif current_user.admin? %>
+			<p class='category'>
+				<%= f.label :instructor_id %><br/>
+				<%= f.collection_select :instructor_id, User.where('role = ?',2).order(:first_name),:id,:full_name,:include_blank => true %>
+			</p>
+		<% end %>
+		<%= f.submit 'Submit', :class=>'btn btn-primary' %>
+	<% end %>
+</div>

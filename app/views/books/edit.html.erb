@@ -1,0 +1,51 @@
+<style>
+	input.field, textarea, p#category select{ 
+		width: 50%;
+		max-width: 300px;
+	}
+</style>
+
+<div class="well">
+	<%= form_for :book, url: book_path(@book), method: :patch do |f| %>
+		<h2>Editing book</h2>
+		<% if @book.errors.any? %>
+			<div id="error_explanation">
+				<h2>
+					<%= pluralize(@book.errors.count, "error") %> prohibited
+					this book from being saved:
+				</h2>
+				<ul>
+					<% @book.errors.full_messages.each do |msg| %>
+						<li><%= msg %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		<p>
+			<%= f.label :title %><br/>
+			<%= f.text_field :title, :class=> 'field' %>
+		</p>
+		<p>
+			<%= f.label :author %><br/>
+			<%= f.text_field :author, :class=> 'field' %>
+		</p>
+		<p>
+			<%= f.label :description %><br/>
+			<%= f.text_area 'description', :rows => 3, :style=>'width:50%'%>
+		</p>
+		<p>
+			<%= f.label :pages %><br/>
+			<%= f.text_field :pages, :class=> 'field' %>
+		</p>
+		<p>
+			<%= f.label :isbn %><br/>
+			<%= f.text_field :isbn, :class=> 'field' %>
+		</p>
+		<p id='category'>
+			<%= f.label :category_id %><br/>
+			<%= f.collection_select :category_id, Category.order(:title),:id,:title, :style=>'width:50%;',:include_blank => true %>
+		</p>
+		<%= f.submit 'Submit', :class=>"btn btn-primary" %>
+	<% end %>
+</div>
+&#8592; <%= link_to 'Back to Catalog', books_path %>

@@ -1,0 +1,11 @@
+<% if course.nil? %>
+  <%= @course.enrolled %> of <%= @course.capacity %> enrolled
+<% else %>
+  <%= course.enrolled %> of <%= course.capacity %> enrolled
+<% end %>
+
+<% if user_signed_in? and current_user.student? and not current_user.courses.include? course and course.semester.start_date > Date.today + 10.days %>
+  <%= link_to "Enroll", enroll_path(:course => course), :remote => true %>
+<% elsif user_signed_in? and current_user.student? and current_user.courses.include? course and course.semester.start_date > Date.today + 10.days %>
+  <%= link_to "Drop", drop_path(:course => course), :remote => true %>
+<% end %>

@@ -1,0 +1,111 @@
+<style>
+	td,th{ padding: 0 10px; }
+	table.desktop tr td{
+		width: 10em;
+		text-align:right;	
+	}
+	table.desktop{ margin: 0 auto; }
+	div#collapse1 select{ width: 10em; }
+	div#collapse1 input{ width: 10em; }
+</style>
+
+<div class='panel-group' id='accordion'>
+	<div class='panel panel-default'>
+		<div class='panel-heading'>
+			<h4 class='panel-title' style='text-align:center'>				
+				<a data-toggle='collapse' data-parent='#accordion' href='#collapse1'>Search Form</a>
+			</h4>
+		</div>
+		<div id='collapse1' class="<%= @collapse ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+			<div class='panel-body'>
+				<%= search_form_for @q, url: search_books_path, method: :post do |f| %>
+					<table class="<%= (mobile_device?) ? '' : 'desktop' %>">	
+						<tr>
+							<td><%= f.label 'Keywords' %></td>
+							<td><%= f.search_field :title_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Author' %></td>
+							<td><%= f.search_field :author_cont %></td>
+						</tr>
+						<tr>
+							<td><label>ISBN</label></td>
+							<td><%= f.search_field :isbn_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Publisher' %></td>
+							<td><%= f.search_field :publisher_cont %></td>
+						</tr>
+						<tr>						
+							<td><%= f.label 'Category' %></td>
+							<td><%= f.select :category_id_eq, options_from_collection_for_select(Category.all, 'id', 'title', @q.category_id_eq), :style => 'display:inline-block;width:100%',:include_blank => true %></td>
+						</tr>
+					</table><br/>
+					<span style="width:100%;text-align:center;display:inline-block;"><%= f.submit "Search", :class => 'btn btn-primary'%></span>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<% if not @books.empty? %>
+	<div class='well'>
+		<h3>Books</h3>
+		<table class='table table-striped' style='width:100%'>
+			<tr>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Available</th>
+				<% if not mobile_device? %>
+					<th>Queue</th>
+					<% if user_signed_in? and current_user.student? %>
+						<th style="width:10em">Reserve</th>
+					<% end %>
+					<% if user_signed_in? and current_user.librarian? %>
+						<th>Assign</th>
+						<th></th>
+						<th></th>
+					<% end %>
+				<% end %>
+				<th></th>
+			</tr>
+			<% @books.each do |book| %>
+				<tr>			
+					<td><%= link_to book.title, book_path(book.id) %></td>
+					<td><%= book.author %></td>
+					<td id="available-<%= book.id %>">
+						<%= render partial: "available", locals: {book:book} %>
+					</td>
+					<% if not mobile_device? %>
+						<td id="queue-<%= book.id %>">
+							<%= render partial: "queue", locals: {book:book} %> 
+						</td>
+						<% if user_signed_in? and current_user.student? %>
+							<td id="reserve-<%= book.id %>" style="width:10em">
+								<%= render partial: "reserve", locals: {book:book} %>
+							</td>
+						<% end %>
+						<% if user_signed_in? and current_user.librarian? %>
+							<td id="checkout-<%= book.id %>">
+								<%= render partial: "checkout", locals: {book:book} %>
+							</td>
+						<% end %>
+					<% end %>
+					<% if user_signed_in? and current_user.librarian? %>
+						<td><%= link_to '', edit_book_path(book),class: 'glyphicon glyphicon-wrench'%>
+						<td><%= link_to '', book_path(book),
+										class: 'glyphicon glyphicon-trash',
+										method: :delete,
+										data: { confirm: "Delete '#{book.title}'?" } %>
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>
+		<hr/>
+		<% if user_signed_in? and current_user.librarian? %>
+			<%= link_to 'Create New Book', new_book_path %>
+		<% end %>
+	</div>
+<% else %>
+	No results returned.
+<% end %>

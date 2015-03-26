@@ -1,0 +1,21 @@
+<style>
+	label{ width: 10em }
+</style>
+
+<div class="authform">
+	<%= form_for :grade, url: grades_path do |f| %>
+		<h3>Create new grades</h3>
+		<p>
+			<%= f.label :title %>
+			<%= f.text_field :title %>
+		</p>
+		<p>
+			<%= f.label :max_score %>
+			<%= f.text_field :max_score %>
+		</p>
+
+		<%= f.hidden_field :course_id, :value => @course_id %>
+
+		<%= f.submit 'Save Grade', :class => 'button' %>
+	<% end %>
+</div>

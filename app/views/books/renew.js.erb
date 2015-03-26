@@ -1,0 +1,1 @@
+$("#reserve-<%= @book.id %>").html("<%= (j render :partial => 'books/reserve', :locals => {book:@book}).html_safe %>");

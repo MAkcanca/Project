@@ -1,0 +1,19 @@
+<style>
+	a:link, a:visited{
+		color: black;
+		text-decoration:none;
+	}
+	a:hover{
+		text-decoration:underline;
+	}
+</style>
+
+<% if not @articles.nil? and not @articles.empty? %>
+	<% @articles.each do |a| %>
+		<h4><%= link_to a.title, article_path(a.id) %></h4>
+		<p style='color:#888888;font-size:8pt'><%= a.created_at %></p>
+		<p><%= a.description %></p>
+	<% end %>
+<% else %>
+	No news items here.
+<% end %>	

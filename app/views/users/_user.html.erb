@@ -1,0 +1,31 @@
+<style>
+	select{ width: 10em; }
+</style>
+
+<td>
+	<%= "#{user.first_name} #{user.last_name}" %>
+</td>
+<td>
+  <%= link_to user.email, user %>
+</td>
+<% if not mobile_device? %>
+	<td>
+		<%= form_for(user) do |f| %>
+		  <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, :disabled => (user == current_user)) %>
+		  <%= f.submit 'Save', :class => 'button-xs' %>
+		<% end %>
+	</td>
+	<td>
+		<%= form_for(user) do |f| %>
+			<%= f.collection_select :department_id, Department.order(:abbreviation),:id,:abbreviation, include_blank: true %>
+			<%= f.submit 'Save', :class => 'button-xs' %>
+		<% end %>
+	</td>
+	<td>
+		<% if user != current_user %>
+			<%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') %>
+		<% else %>
+			--
+		<% end %>
+	</td>
+	<% end %>

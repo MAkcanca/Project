@@ -1,0 +1,7 @@
+<% if not @folder.nil? and not @folder.empty? %>
+	<% @folder.each do |f| %>
+		<%= link_to f.title, folder_path(f.id) %><br/>
+	<% end %>
+<% else %>
+	No folders here.
+<% end %>

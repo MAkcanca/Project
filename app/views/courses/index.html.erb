@@ -1,0 +1,104 @@
+<style>
+	td,th{ padding: 0 10px; }
+	table.desktop tr td{
+		width: 10em;
+		text-align:right;	
+	}
+	table.desktop{ margin: 0 auto; }
+	div#collapse1 select{ width: 10em; }
+	div#collapse1 input{ width: 10em; }
+</style>
+
+<div class='panel-group' id='accordion'>
+	<div class='panel panel-default'>
+		<div class='panel-heading'>
+			<h4 class='panel-title' style='text-align:center'>				
+				<a data-toggle='collapse' data-parent='#accordion' href='#collapse1'>Search Form</a>
+			</h4>
+		</div>
+		<div id='collapse1' class="<%= @collapse ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+			<div class='panel-body'>
+				<%= search_form_for @q, url: search_courses_path, method: :post do |f| %>
+					<table class="<%= (mobile_device?) ? '' : 'desktop' %>">
+						<tr>
+							<td><%= f.label 'Keywords' %></td>
+							<td><%= f.search_field :title_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Department Code' %></td>
+							<td><%= f.search_field :department_abbreviation_cont %></td>
+						</tr>
+						<tr>						
+							<td><%= f.label 'Semester' %></td>
+							<td><%= f.select :semester_id_eq, options_from_collection_for_select(Semester.all, 'id', 'title', @q.semester_id_eq), :include_blank => true %></td>
+						</tr>
+						<tr>
+							<td><%= f.label :instructor_id %></td>
+							<td><%= f.select :instructor_id_eq, options_from_collection_for_select(User.where('role = ?',2).order(:first_name),:id,:full_name,@q.instructor_id_eq), :include_blank => true,:include_blank => true,:style=>'width:10em;' %></td>
+						</tr>
+					</table><br/>
+					<span style="width:100%;text-align:center;display:inline-block;"><%= f.submit "Search", :class => 'btn btn-primary'%></span>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='well'>
+	<table class='table table-striped'>
+		<h3>Courses</h3>
+		<tr>
+			<th>Semester</th>
+			<th>Course ID</th>
+			<th>Title</th>
+			<th>Instructor</th>
+			<% if not mobile_device? %>
+				<th>Days</th>
+				<th>Enrollments</th>
+			<% end %>
+			<% if user_signed_in? and current_user.admin? %>
+				<th></th>
+				<th></th>
+			<% end %>
+		</tr>
+		<% if not @courses.nil? and not @courses.empty? %>
+			<% @courses.each do |course| %>
+				<tr>
+					<td><%= course.semester.title %></td>
+					<td><%= course.department.abbreviation %>:<%= "%04d" % course.course_number.to_s %></td>
+					<td><%= link_to course.title, course_path(course,:id => course.id) %></td>
+					<td><%= User.find(course.instructor_id).full_name %></td>
+					<% if not mobile_device? %>
+						<td>
+							<% if course.m %>M<%end%>
+							<% if course.t %>T<%end%>
+							<% if course.w %>W<%end%>
+							<% if course.r %>R<%end%>
+							<% if course.f %>F<%end%>
+						</td>
+						<td id="course-<%= course.id %>">
+							<%= render partial: "course", locals: {course:course} %>
+						</td>
+					<% end %>
+					<% if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == course.instructor_id)) %>
+						<td>
+								<%= link_to '', edit_course_path(course), class: 'glyphicon glyphicon-wrench' %>
+								<%= link_to '', course_path(course),
+										class: 'glyphicon glyphicon-trash',
+										method: :delete,
+										data: { confirm: "Delete '#{course.title}'?" } %>
+						</td>
+					<% end %>
+				</tr>
+			<% end %>
+		<% else %>
+			<tr>
+				<td></td><td></td>
+				<td>No courses.</td>
+			</tr>
+		<% end %>
+	</table><br/>
+	<% if user_signed_in? and current_user.admin? %>
+		<%= link_to 'Create new course', new_course_path %><br/>
+		<%= link_to 'Create new semester', new_semester_path %>		
+	<% end %>
+</div>

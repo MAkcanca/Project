@@ -1,0 +1,28 @@
+<% if not @grades.empty? %>
+	<table>
+		<tr>
+			<% if user_signed_in? and current_user.instructor? %>
+				<th>Student</th>
+			<% end %>
+			<th>Item</th>
+			<th>Score</th>
+			<% if user_signed_in? and current_user.instructor? %>
+				<th></th>
+			<% end %>
+		</tr>
+		<% @grades.each do |g| %>
+			<tr>
+				<% if user_signed_in? and current_user.instructor? %>
+					<td><%= g.user.first_name %> <%= g.user.last_name %></td>
+				<% end %>
+				<td><%= g.title %></td>
+				<td><%= g.score %> out of <%= g.max_score %></td>
+				<% if user_signed_in? and current_user.instructor? %>
+					<td><%= link_to 'Edit', edit_grade_path(g) %></td>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+	No grades here.
+<% end %>

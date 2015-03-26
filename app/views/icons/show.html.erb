@@ -1,0 +1,92 @@
+<style>
+	td,th{
+		padding:0 10px;
+	}
+</style>
+
+<h1><%= @course.department.abbreviation %>:<%= "%04d" % @course.course_number.to_s %> <%= @course.title %></h1>
+
+<% if user_signed_in? and current_user.instructor? and @course.instructor_id == current_user.id %>
+	<%= link_to 'Create News Item', new_article_path(:course_id => @course.id) %><br/>
+	<%= link_to 'Create New Grade Item', new_grade_path(:course_id => @course.id) %><br/>
+	<%= link_to 'Create New Dropbox', new_folder_path(:course_id => @course.id) %><br/>
+<% end %>
+
+<% if (current_user.instructor? and not @instructor_uploads.empty?) or (current_user.student? and not @folder.empty?) %>
+	<%= link_to 'Upload New File', new_upload_path(:course_id => @course.id) %><br/>
+<% end %>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          News
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+				<%= render 'articles' %>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
+          Files
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+				<%= render 'files' %>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					Grades
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+				<%= render 'grades' %>
+      </div>
+    </div>
+  </div>
+	<div class="panel panel-default">
+	  <div class="panel-heading" role="tab" id="headingFour">
+	    <h4 class="panel-title">
+	      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+					User Uploads
+	      </a>
+	    </h4>
+	  </div>
+	  <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+	    <div class="panel-body">
+				<%= render 'useruploads' %>
+	    </div>
+	  </div>
+	</div>	
+	<% if current_user.instructor? %>
+	<div class="panel panel-default">
+	  <div class="panel-heading" role="tab" id="headingFive">
+	    <h4 class="panel-title">
+	      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+					Class List
+	      </a>
+	    </h4>
+	  </div>
+	  <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+	    <div class="panel-body">
+				<%= render 'classlist' %>
+	    </div>
+	  </div>
+	</div>
+	<% end %>
+</div>

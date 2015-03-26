@@ -1,0 +1,5 @@
+<% if not @book.nil? %>
+	<%= (@book.holder_id.nil?) ? 'Yes' : 'No' %>
+<% else %>
+	<%= (book.holder_id.nil?) ? 'Yes' : 'No' %>
+<% end %>

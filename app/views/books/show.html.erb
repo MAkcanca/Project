@@ -1,0 +1,80 @@
+<style>
+	td,th{ padding: 0 10px; }
+	th{ vertical-align:top }
+</style>
+
+<div class='well'>
+	<h3>Book Details</h3>
+	<table>
+		<tr>
+			<th>Title</th>
+			<td><%= @book.title %></td>
+		</tr>
+		<tr>
+			<th>Author(s):</th>
+			<td><%= @book.author %></td>
+		</td>
+		<tr>
+			<th>Description</th>
+			<td><%= @book.description %></td>
+		</tr>
+		<tr>
+			<th>Pages</th>
+			<td><%= @book.pages %></td>
+		</tr>
+		<tr>
+			<th>ISBN</th>
+			<td><%= @book.isbn %></td>
+		</tr>
+		<tr>
+			<th>Publisher</th>
+			<td><%= @book.publisher %></td>
+		</tr>
+		<tr>
+			<th>Category</th>
+			<td><%= @book.category.title %></td>
+		</tr>
+		<tr>
+			<th>Available</th>
+			<td id='available-<%= @book.id %>'><%= render 'available' %></td>
+		</tr>
+		<% if user_signed_in? and current_user.student? %>
+			<th>Reserve</th>
+			<td id='reserve-<%= @book.id %>'><%= render partial: "reserve", locals: {book:@book} %></td>
+		<% end %>
+		<tr>
+			<th>Queue</th>
+			<td id='queue-<%= @book.id %>'><%= (not @book.holder_id.nil? and @book.holder_id == @book.user_ids.first) ? @book.users.count - 1 : @book.users.count %></td>
+		</tr>
+		<% if user_signed_in? and (current_user.librarian? or current_user.id == @book.holder_id)%>
+			<tr>
+				<th>Holder</th>
+				<td id='holder-<%= @book.id %>'><%= render 'holder' %></td>
+			</tr>
+			<tr>
+				<th>Due Date</th>
+				<td id='duedate-<%= @book.id %>'><%= render 'duedate' %></td>
+			</tr>
+			<tr class='duedate'>
+				<th>Fine</th>
+				<td id='fine-<%= @book.id %>'><%= render 'fine' %></td>
+			</tr>
+		<% end %>
+		<% if user_signed_in? and current_user.librarian? %>
+			<% if not @book.user_ids.empty? %>
+				<tr>
+					<th>Checkout</th>
+					<td id="checkout-<%= @book.id %>">
+						<%= render partial: "checkout", locals: {book:@book} %>
+					</td>
+				</tr>
+			<% end %>
+		<% end %>
+	</table>
+</div>
+
+<% if user_signed_in? and current_user.librarian? %>
+	<%= link_to 'Edit page', edit_book_path(@book.id) %><br/>
+<% end %>
+
+&#8592; <%= link_to 'Back to Books page', books_path %>

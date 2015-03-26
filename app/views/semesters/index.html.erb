@@ -1,0 +1,33 @@
+<style>
+	td, th{ padding: 0 10px; text-align:left }
+</style> 
+
+<div style='text-align:center'>
+<div class='well' style="display:inline-block;margin-top:10px">
+	<h3>Semesters</h3>
+	<% if not @semesters.nil? and not @semesters.empty? %>
+		<table>
+			<tr>
+				<th>Title</th>
+				<th>Start</th>
+				<th>End</th>
+				<th></th>
+			</tr>
+			<% @semesters.each do |semester| %>
+				<tr>
+					<td><%= semester.title %></td>
+					<td><%= semester.start_date %></td>
+					<td><%= semester.end_date %></td>
+					<% if semester.courses.empty? %>
+						<td><%= link_to '', semester_path(semester),
+										class: 'glyphicon glyphicon-trash',
+										method: :delete,
+										data: { confirm: "Delete '#{semester.title}'?" } %></td>
+					<% end %>
+				</tr>
+			<% end %>
+		</table>	
+	<% end %>
+	<%= link_to 'Create new semester', new_semester_path %>
+</div>
+</div>

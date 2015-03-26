@@ -1,0 +1,98 @@
+<style>
+	td,th{ 
+		padding: 0 10px; 
+	}
+	th{ width: 5em; }
+	select{ width: 10em; }
+</style>
+
+<h3>User Profile</h3>
+<table>
+	<tr>
+		<th>Name</th>
+		<td><%= "#{@user.first_name} #{@user.last_name}"  %></td>
+	</tr>
+	<tr>
+		<th>Email</th>
+		<td><%= @user.email %></td>
+	</tr>
+	<tr>
+		<th>Role</th>
+		<% if current_user.admin? and @user.id != current_user.id %>
+			<td>
+				<%= form_for(@user) do |f| %>
+					<%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}) %>
+					<%= f.submit 'Save', :class => 'button-xs' %>
+				<% end %>
+			</td>
+		<% else %>
+			<td><%= @user.role.humanize %></td>
+		<% end %>
+	</tr>
+	<tr>
+		<th>Department</th>
+		<% if current_user.admin? %>
+			<td>
+				<%= form_for(@user) do |f| %>
+					<%= f.collection_select :department_id, Department.order(:abbreviation),:id,:abbreviation, include_blank: true %>
+					<%= f.submit 'Save', :class => 'button-xs' %>
+				<% end %>
+			</td>
+		<% else %>
+			<td><%= @user.department.title %></td>
+		<% end %>
+	</tr>
+	<tr>
+		<th style='vertical-align:top'>Courses</th>
+		<% if @user.instructor? %>
+			<% if Course.where('instructor_id = ?', @user.id).empty? %>
+				<td>No courses here!</td>
+			<% else %>
+				<td>
+					<ul>
+						<% Course.where('instructor_id = ?', @user.id).each do |c| %>
+							<li><%= link_to c.title, course_path(c) %></li>
+						<% end %>
+					</ul>
+				</td>
+			<% end %>
+		<% elsif @user.student? %>
+			<% if @user.courses.empty? %>
+				<td><em>No courses.</em></td>
+			<% else %>
+				<td>
+					<ul>
+						<% @user.courses.each do |c| %>
+							<li><%= c.title %></li>			
+						<% end %>
+					</ul>
+				</td>
+			<% end %>
+		<% elsif @user.admin? or @user.librarian? %>
+			<td><em>No courses.</em></td>
+		<% end %>
+	</tr>
+	<% if user_signed_in? and current_user == @user or current_user.librarian? or current_user.admin? %>
+		<tr>
+			<th style="vertical-align:top">Books</th>
+			<td>
+				<% if not @user.books.where('holder_id = ?', @user.id).empty? %>
+					<ul>
+						<% @user.books.where('holder_id = ?', @user.id).each do |book| %>
+							<li><%= book.title %></li>
+						<% end %>
+					</ul>
+				<% else %>
+					<em>No books checked out.</em>
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+	<% if user_signed_in? and current_user.admin? %>
+		<tr>
+			<th>
+		</tr>
+	<% end %>
+</table>
+
+

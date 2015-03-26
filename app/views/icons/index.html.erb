@@ -1,0 +1,47 @@
+<style>
+	td,th{
+		padding:0 10px;
+	}
+</style>
+
+<h1>ICON</h1> 
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+	<% if not @semesters.nil? %>
+		<% @semesters.each do |s| %>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="heading-<%= s.id %>">
+				  <h4 class="panel-title">
+				    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-<%=s.id%>" aria-expanded="true" aria-controls="collapse-<%=s.id%>">
+				      <%= s.title %>
+				    </a>
+				  </h4>
+				</div>
+				<div id="collapse-<%=s.id%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= s.id %>">
+				  <div class="panel-body">
+						<% if not @courses.empty? %>
+							<% @courses.each do |c| %>
+								<% if s.courses.include? c %>
+									<table>
+										<% if c.semester == s %>
+											<tr>
+												<td><%= c.department.abbreviation %>:<%= "%04d" % c.course_number.to_s %></td>
+												<td><%= link_to c.title, icon_path(c) %></td>
+											</tr>
+										<% end %>
+									</table>
+								<% else %>
+									No courses here!
+									<% break %>
+								<% end %>
+							<% end %>
+						<% else %>
+							No courses here!
+						<% end %>
+				  </div>
+				</div>
+			</div>
+		<% end %>
+	<% else %>
+		No semesters here!
+	<% end %>
+</div>

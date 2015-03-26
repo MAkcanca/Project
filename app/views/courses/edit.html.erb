@@ -1,0 +1,64 @@
+<style>
+	input.field, textarea, p.category select{ 
+		width: 50%;
+		max-width: 300px;
+	}
+	label{ vertical-align: top; width: 10em; }
+</style>
+<div class="well">
+	<%= form_for :course, url: course_path(@course), method: :patch do |f| %>
+		<h2>Editing course</h2>
+		<% if @course.errors.any? %>
+			<div id="error_explanation">
+				<h2>
+					<%= pluralize(@course.errors.count, "error") %> prohibited
+					this course from being saved:
+				</h2>
+				<ul>
+					<% @course.errors.full_messages.each do |msg| %>
+						<li><%= msg %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		<p>
+			<%= f.label :title %>
+			<%= f.text_field :title, :class=>'field',:disabled => @disabled %>
+		</p>
+		<p>
+			<label>Days</label>
+			<%= f.check_box :m, :disabled => @disabled %> M
+			<%= f.check_box :t, :disabled => @disabled %> T
+			<%= f.check_box :w, :disabled => @disabled %> W
+			<%= f.check_box :r, :disabled => @disabled %> R
+			<%= f.check_box :f, :disabled => @disabled %> F
+		</p>
+		<p class='category'>
+			<%= f.label :department_id %>
+			<%= f.collection_select :department_id, Department.order(:title),:id,:title,{},:include_blank => true, :disabled => @disabled %>
+		</p>
+		<% if current_user.instructor? %>
+			<%= f.hidden_field :instructor_id, :value => current_user.id %>
+		<% elsif current_user.admin? %>
+			<p class='category'>
+				<%= f.label :instructor_id %>
+				<%= f.collection_select :instructor_id, User.where('role = ?',2).order(:first_name),:id,:full_name,{},:include_blank => true, :disabled => @disabled %>
+			</p>
+		<% end %>
+		<p class='category'>
+			<%= f.label :semester_id %>
+			<%= f.collection_select :semester_id, Semester.order(:title),:id,:title,{},:include_blank => true, :disabled => @disabled %>
+		</p>
+		<p>
+			<%= f.label :capacity %>
+			<%= f.text_field :capacity, :disabled => @disabled, :class=> 'field' %>
+		</p>
+		<p>
+			<%= f.label :description %>
+			<%= f.text_area 'description', :rows => 4, :class=> 'field',:disabled => @disabled %>
+		</p>
+
+		<%= f.submit 'Submit', :class=>"btn btn-primary", :disabled => @disabled %>
+	<% end %>
+</div>
+&#8592; <%= link_to 'Back to ISIS', courses_path %>

@@ -1,0 +1,9 @@
+<% if not book.user_ids.empty? %>
+	<% if book.holder_id.nil? %>
+		<%= link_to 'Assign', checkout_path(:book => book), :data => { confirm: "Check out '#{book.title}'?", :remote => true } %>
+	<% else %>
+		<%= link_to 'Return', uncheckout_path(:book => book), :data => { confirm: "Return '#{book.title}'?", :remote => true } %>
+	<% end %>
+<% else %>
+	<em>No action available</em>
+<% end %>

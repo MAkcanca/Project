@@ -1,0 +1,44 @@
+<style>
+	td,th{
+		padding:5px 10px;	
+	}
+	table{ width: 100%; }
+	table.desktop{
+		text-align: center;
+	}
+	table.desktop tr th{
+		text-align:center;	
+	}
+</style>
+
+<div class="well">
+	<h3 style="text-align:center">Users</h3>
+	<% if mobile_device? %>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+			</tr>
+			<% @users.each do |user| %>
+		     <tr>
+		       <%= render user %>
+		     </tr>
+		  <% end %>
+		</table>
+	<% else %>
+		<table class='desktop'>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Department</th>
+				<th>Delete</th>
+			</tr>
+		  <% @users.each do |user| %>
+		     <tr>
+		       <%= render user %>
+		     </tr>
+		   <% end %>
+	 </table>
+	<% end %>
+</div>
