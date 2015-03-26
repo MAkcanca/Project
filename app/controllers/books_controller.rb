@@ -73,7 +73,7 @@ class BooksController < ApplicationController
 
 	def reserve
 		@book = Book.find(params[:book])
-		if user_signed_in? and current_user.student?
+		if user_signed_in? and not current_user.uninitialized?
 			@book.user_ids = @book.user_ids << current_user.id
 			@book.save!
 			respond_to do |format|
@@ -88,7 +88,7 @@ class BooksController < ApplicationController
 
 	def unreserve
 		@book = Book.find(params[:book])
-		if user_signed_in? and current_user.student?
+		if user_signed_in? and not current_user.uninitialized?
 			current_user.book_ids = current_user.book_ids - [@book.id]
 			@book.user_ids = @book.user_ids - [current_user.id]
 			@book.save!
