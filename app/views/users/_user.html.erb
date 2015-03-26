@@ -24,7 +24,7 @@
 <% end %>
 <td>
 	<% if user != current_user %>
-		<%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'button-xs') %>
+		<%= link_to("", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'glyphicon glyphicon-trash') %>
 	<% else %>
 		--
 	<% end %>
