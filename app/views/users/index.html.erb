@@ -46,7 +46,9 @@
 				<th>Email</th>
 			</tr>
 			<% if @users.empty? %>
-				<tr><em>No users found</em></tr>
+				<tr>
+					<td><em>No users found</em></td>
+				</tr>
 			<% else %>
 				<% @users.each do |user| %>
 				   <tr>
@@ -65,7 +67,9 @@
 				<th>Delete</th>
 			</tr>
 			<% if @users.empty? %>
-				<tr><em>No users found</em></tr>
+				<tr>
+					<td><em>No users found</em></td>
+				</tr>
 			<% else %>
 				<% @users.each do |user| %>
 				   <tr>
