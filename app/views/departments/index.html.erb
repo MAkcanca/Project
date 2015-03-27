@@ -10,11 +10,10 @@
 				<% end %>
 				<th>Title</th>
 				<% if not mobile_device? %>
-					<th>Courses</th>
 					<th>Instructors</th>
 					<th>Students</th>
 				<% else %>
-					<th>Crs./Instrs./Stdts.</th>
+					<th>Instrs./Stdts.</th>
 				<% end %>
 				<% if user_signed_in? and current_user.admin? %>
 					<th></th>
@@ -27,11 +26,10 @@
 					<% end %>
 					<td><%= link_to d.title, department_path(d) %></td>
 					<% if not mobile_device? %>
-						<td><%= d.courses.size %></td>
 						<td><%= d.users.where('role = ?', 2).size %></td>
 						<td><%= d.users.where('role = ?', 1).size %></td>
 					<% else %>
-						<td><%= "#{d.courses.size}/#{d.users.where('role = ?', 2).size}/#{d.users.where('role = ?', 1).size}" %></td>
+						<td><%= "#{d.users.where('role = ?', 2).size}/#{d.users.where('role = ?', 1).size}" %></td>
 					<% end %>
 					<% if user_signed_in? and current_user.admin? %>
 						<td><%= link_to '', edit_department_path(d), class: 'glyphicon glyphicon-wrench' %>
