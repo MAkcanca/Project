@@ -16,6 +16,23 @@ class CoursesController < ApplicationController
   def new
   end
 
+  def create
+		if user_signed_in? and current_user.admin?
+		  @course = Course.new(secure_params)
+
+		  if @course.save
+		    flash[:notice] = "Course created!"
+		    redirect_to @course
+		  else
+		    flash[:error] = @course.errors.full_messages.to_sentence.humanize
+		    render 'new'
+		  end
+		else
+			flash[:error] = "Access denied."
+			redirect_to root_path
+		end
+  end
+
   def edit
 		if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == Course.find(params[:id]).instructor_id))
 		  @course = Course.find(params[:id])
@@ -39,23 +56,6 @@ class CoursesController < ApplicationController
 			end
 		else
 			flash[:error] = 'Access denied.'
-		end
-  end
-
-  def create
-		if user_signed_in? and current_user.admin?
-		  @course = Course.new(secure_params)
-
-		  if @course.save
-		    flash[:notice] = "Course created!"
-		    redirect_to @course
-		  else
-		    flash[:error] = @course.errors.full_messages.to_sentence.humanize
-		    render 'new'
-		  end
-		else
-			flash[:error] = "Access denied."
-			redirect_to root_path
 		end
   end
 

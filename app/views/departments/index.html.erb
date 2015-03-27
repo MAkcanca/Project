@@ -33,7 +33,9 @@
 					<td><%= link_to d.title, department_path(d) %></td>
 					<% if not mobile_device? %>
 						<td><%= d.users.where('role = ?', 2).size %></td>
-						<td><%= d.users.where('role = ?', 1).size %></td>
+						<% if user_signed_in? and (current_user.instructor? or current_user.admin?) %>
+							<td><%= d.users.where('role = ?', 1).size %></td>
+						<% end %>
 					<% else %>
 						<td><%= "#{d.users.where('role = ?', 2).size}" %></td>
 					<% end %>

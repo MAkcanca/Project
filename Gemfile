@@ -19,6 +19,7 @@ gem 'ransack'
 gem 'carrierwave'
 gem 'jquery-ui-rails'
 gem 'figaro'
+gem 'validates_overlap'
 
 group :development do
   gem 'better_errors'

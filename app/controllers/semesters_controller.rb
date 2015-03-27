@@ -11,7 +11,7 @@ class SemestersController < ApplicationController
 
 	def create
 		if user_signed_in? and current_user.admin? 
-			semester = Semester.new(secure_params)
+			@semester = Semester.new(secure_params)
 			startdate = Date.civil(params[:start_date][:year].to_i, params[:start_date][:month].to_i, params[:start_date][:day].to_i)
 			enddate = Date.civil(params[:end_date][:year].to_i, params[:end_date][:month].to_i, params[:end_date][:day].to_i)
 			
@@ -21,13 +21,13 @@ class SemestersController < ApplicationController
 				enddate = tmp
 			end
 
-			semester.update_attributes(start_date: startdate, end_date: enddate)
+			@semester.update_attributes(start_date: startdate, end_date: enddate)
 		
-			if semester.save
+			if @semester.save
 				flash[:notice] = 'Successfully created new semester!'
 				redirect_to semesters_path
 			else
-				flash[:error] = semester.errors.full_messages.to_sentence.humanize
+				flash[:error] = @semester.errors.full_messages.to_sentence.humanize
 				render 'new'
 			end
 		else
