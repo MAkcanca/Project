@@ -6,7 +6,7 @@
 			<% if user_signed_in? and (current_user.admin? or current_user.id == u.id) %>
 				<li><%= link_to u.full_name, user_path(u) %></li>
 			<% else %>
-				<li><%= u.full_name, user_path(u) %></li>
+				<li><%= u.full_name %></li>
 			<% end %>
 		<% end %>
 	</ul>
