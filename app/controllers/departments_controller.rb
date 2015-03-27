@@ -46,19 +46,20 @@ class DepartmentsController < ApplicationController
 		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
 	end
 	def destroy
-		@department = department.find(params[:id])
+		@department = Department.find(params[:id])
 		
 		if @department.courses.empty?
 			@department.users.each do |user|
 				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').first.id)
 			end
 			@department.destroy
+			redirect_to departments_path
 		else
 			flash[:error] = 'Cannot delete a department with courses.'
 			redirect_to :back
 	 	end
-		redirect_to departments_path
 	end
+
 	private
 		def secure_params
 		  params[:department].permit(:title,:abbreviation)
