@@ -35,7 +35,7 @@
 		<% if current_user.admin? %>
 			<td>
 				<%= form_for(@user) do |f| %>
-					<%= f.collection_select :department_id, Department.order(:abbreviation),:id,:abbreviation, include_blank: true %>
+					<%= f.collection_select :department_id, Department.order(:title),:id,:abbreviation, include_blank: true %>
 					<%= f.submit 'Save', :class => 'button-xs' %>
 				<% end %>
 			</td>
