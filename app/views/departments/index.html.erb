@@ -46,5 +46,6 @@
 		</table>
 	<% end %>
 </div>
-
-<%= link_to 'Create new department', new_department_path %>
+<% if user_signed_in? and current_user.admin? %>
+	<%= link_to 'Create new department', new_department_path %>
+<% end %>
