@@ -53,6 +53,9 @@ class DepartmentsController < ApplicationController
 				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').first.id)
 			end
 			@department.destroy
+		else
+			flash[:error] = 'Cannot delete a department with courses.'
+			redirect_to :back
 	 	end
 		redirect_to departments_path
 	end
