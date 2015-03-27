@@ -1,6 +1,5 @@
 class DepartmentsController < ApplicationController
 	before_filter :authorize_admin
-	before_save { |department| department.abbreviation = department.abbreviation.upcase }
 
   def index
 		@departments = Department.all
@@ -25,6 +24,7 @@ class DepartmentsController < ApplicationController
 		end
 	end
   def edit
+		@department = Department.find(params[:id])
   end
 	def show
 		@department = Department.find(params[:id])
