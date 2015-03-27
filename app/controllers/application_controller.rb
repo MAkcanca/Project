@@ -39,7 +39,9 @@ class ApplicationController < ActionController::Base
 	def authorize_initialized
 		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and not current_user.uninitialized?
 	end
-
+	def authorized_not_librarian
+		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and not current_user.librarian?
+	end
 	def mobile_device?
 		request.user_agent =~ /Mobile|webOS/
 	end

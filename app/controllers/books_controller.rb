@@ -73,7 +73,7 @@ class BooksController < ApplicationController
 
 	def reserve
 		@book = Book.find(params[:book])
-		if user_signed_in? and not current_user.uninitialized?
+		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
 			@book.user_ids = @book.user_ids << current_user.id
 			@book.save!
 			respond_to do |format|
@@ -88,7 +88,7 @@ class BooksController < ApplicationController
 
 	def unreserve
 		@book = Book.find(params[:book])
-		if user_signed_in? and not current_user.uninitialized?
+		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
 			current_user.book_ids = current_user.book_ids - [@book.id]
 			@book.user_ids = @book.user_ids - [current_user.id]
 			@book.save!
@@ -140,7 +140,7 @@ class BooksController < ApplicationController
 	end
 	def renew
 		@book = Book.find(params[:book])
-		if user_signed_in? and not current_user.uninitialized? and @book.holder_id == current_user.id and not @book.renewed 
+		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?) and @book.holder_id == current_user.id and not @book.renewed 
 			@book.renewed = true
 			if Date.today >= @book.due_date
 				@book.update_attributes(:due_date => Date.today + 7.days)

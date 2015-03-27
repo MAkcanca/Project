@@ -38,7 +38,7 @@
 			<th>Available</th>
 			<td id='available-<%= @book.id %>'><%= render 'available' %></td>
 		</tr>
-		<% if user_signed_in? and not current_user.uninitialized? %>
+		<% if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)%>
 			<th>Reserve</th>
 			<td id='reserve-<%= @book.id %>'><%= render partial: "reserve", locals: {book:@book} %></td>
 		<% end %>
