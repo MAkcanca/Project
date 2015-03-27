@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
 		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and (current_user.student? or current_user.instructor? or current_user.admin?)
 	end
 	def authorize_initialized
-		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and not current_user.uninitialied?
+		redirect_to root_path, alert: 'Access denied.' unless user_signed_in? and not current_user.uninitialized?
 	end
 
 	def mobile_device?
