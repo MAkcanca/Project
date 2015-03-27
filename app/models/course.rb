@@ -13,5 +13,6 @@ class Course < ActiveRecord::Base
 	validates :course_number, presence: true
 	validates :instructor_id, presence: true
 
+	# Cannot have duplicate course numbers in the same department in the same semester
 	validates :course_number, :uniqueness => {:scope => [:department_id, :semester_id]}
 end
