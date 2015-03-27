@@ -6,9 +6,9 @@ class CreateCourses < ActiveRecord::Migration
 			t.integer :enrolled, :null => false, :default => 0
 			t.integer :capacity, :null => false, :default => 0
       t.integer :user_id
-      t.integer :instructor_id, :null => false
-      t.integer :semester_id, :null => false
-			t.integer :department_id, :null => false
+      t.integer :instructor_id, :null => false, :default => 0
+      t.integer :semester_id, :null => false, :default => 0
+			t.integer :department_id, :null => false, :default => 0
 			t.string :course_number, :null => false, :unique => true
       t.boolean :m, :null => false, :default => false
       t.boolean :t, :null => false, :default => false
