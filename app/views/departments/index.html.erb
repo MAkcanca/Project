@@ -11,9 +11,15 @@
 				<th>Title</th>
 				<% if not mobile_device? %>
 					<th>Instructors</th>
-					<th>Students</th>
+					<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+						<th>Students</th>
+					<% end %>
 				<% else %>
-					<th>Instrs./Stdts.</th>
+					<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+						<th>Instrs./Stdts.</th>
+					<% else %>
+						<th>Instructors</th>
+					<% end %>
 				<% end %>
 				<% if user_signed_in? and current_user.admin? %>
 					<th></th>
@@ -29,7 +35,7 @@
 						<td><%= d.users.where('role = ?', 2).size %></td>
 						<td><%= d.users.where('role = ?', 1).size %></td>
 					<% else %>
-						<td><%= "#{d.users.where('role = ?', 2).size}/#{d.users.where('role = ?', 1).size}" %></td>
+						<td><%= "#{d.users.where('role = ?', 2).size}" %></td>
 					<% end %>
 					<% if user_signed_in? and current_user.admin? %>
 						<td><%= link_to '', edit_department_path(d), class: 'glyphicon glyphicon-wrench' %>
