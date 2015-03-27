@@ -14,11 +14,11 @@
 ActiveRecord::Schema.define(version: 20150322171921) do
 
   create_table "articles", force: :cascade do |t|
-    t.string   "title",       null: false
-    t.string   "description", null: false
-    t.integer  "course_id",   null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "title",       default: "", null: false
+    t.string   "description", default: "", null: false
+    t.integer  "course_id",   default: 0,  null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "books", force: :cascade do |t|
@@ -64,9 +64,9 @@ ActiveRecord::Schema.define(version: 20150322171921) do
     t.integer  "enrolled",      default: 0,     null: false
     t.integer  "capacity",      default: 0,     null: false
     t.integer  "user_id"
-    t.integer  "instructor_id",                 null: false
-    t.integer  "semester_id",                   null: false
-    t.integer  "department_id",                 null: false
+    t.integer  "instructor_id", default: 0,     null: false
+    t.integer  "semester_id",   default: 0,     null: false
+    t.integer  "department_id", default: 0,     null: false
     t.string   "course_number",                 null: false
     t.boolean  "m",             default: false, null: false
     t.boolean  "t",             default: false, null: false
@@ -85,10 +85,10 @@ ActiveRecord::Schema.define(version: 20150322171921) do
   add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id"
 
   create_table "departments", force: :cascade do |t|
-    t.string   "title",        null: false
-    t.string   "abbreviation", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "title",        default: "", null: false
+    t.string   "abbreviation", default: "", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "folders", force: :cascade do |t|
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(version: 20150322171921) do
     t.string   "title",                  null: false
     t.integer  "score",      default: 0
     t.integer  "max_score",  default: 0
-    t.integer  "user_id",                null: false
-    t.integer  "course_id",              null: false
+    t.integer  "user_id",    default: 0, null: false
+    t.integer  "course_id",  default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
@@ -122,13 +122,13 @@ ActiveRecord::Schema.define(version: 20150322171921) do
   end
 
   create_table "uploads", force: :cascade do |t|
-    t.string   "title",      null: false
-    t.string   "attachment", null: false
-    t.integer  "user_id",    null: false
-    t.integer  "course_id",  null: false
-    t.integer  "folder_id",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title",      default: "", null: false
+    t.string   "attachment", default: "", null: false
+    t.integer  "user_id",    default: 0,  null: false
+    t.integer  "course_id",  default: 0,  null: false
+    t.integer  "folder_id",  default: 0,  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|

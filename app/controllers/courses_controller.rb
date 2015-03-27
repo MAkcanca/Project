@@ -47,7 +47,7 @@ class CoursesController < ApplicationController
 		  @course = Course.new(secure_params)
 
 		  if @course.save
-		    flash[:flash] = "Course created!"
+		    flash[:notice] = "Course created!"
 		    redirect_to @course
 		  else
 		    flash[:error] = @course.errors.full_messages.to_sentence.humanize
