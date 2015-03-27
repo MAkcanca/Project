@@ -1,0 +1,27 @@
+<div class='well'>
+	<h3>Departments</h3>
+	<% if @departments.empty? %>
+		<em>No departments here</em>
+	<% else %>
+		<table class='table table-striped'>
+			<tr>
+				<th>Abbreviation</th>
+				<th>Title</th>
+				<th>Number of Courses</th>
+				<th>Number of Instructors</th>
+				<th>Number of Students</th>
+			</tr>
+			<% @departments.each do |d| %>
+				<tr>
+					<td><%= d.abbreviation %></td>
+					<td><%= link_to d.title, department_path(d) %></td>
+					<td><%= d.courses.size %></td>
+					<td><%= d.users.where('role = ?', 2).size %></td>
+					<td><%= d.users.where('role = ?', 1).size %></td>
+				</tr>
+			<% end %>
+		</table>
+	<% end %>
+</div>
+
+<%= link_to 'Create new department', new_department_path %>

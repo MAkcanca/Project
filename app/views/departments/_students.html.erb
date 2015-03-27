@@ -1,0 +1,9 @@
+<% if @department.users.where('role = ?', 1).empty? %>
+	<em>No departments</em>
+<% else %>
+	<ul>
+		<% @department.users.where('role = ?', 1).each do |u| %>
+			<li><%= link_to u.full_name, user_path(u) %></li>
+		<% end %>
+	</ul>
+<% end %>

@@ -1,0 +1,21 @@
+<style>
+	input.field, textarea, p.category select{ 
+		width: 50%;
+		max-width: 300px;
+	}
+</style>
+
+<div class="well" %>
+	<%= form_for :department, url: departments_path do |f| %>
+		<h3>Create Department</h3>
+		<p>
+			<%= f.label :title %><br/>
+			<%= f.text_field :title, :class => 'field' %>
+		</p>
+		<p>
+			<%= f.label :abbreviation %><br/>
+			<%= f.text_field :abbreviation, :class => 'field' %>
+		</p>
+		<%= f.submit 'Submit', :class=>'btn btn-primary' %>
+	<% end %>
+</div>
