@@ -26,6 +26,21 @@ class DepartmentsController < ApplicationController
   def edit
 		@department = Department.find(params[:id])
   end
+  def update
+		if user_signed_in? and current_user.admin?
+		  @department = Department.find(params[:id])
+
+			if @department.update(secure_params)
+				flash[:notice] = "Successfully updated the course #{@department.title}!"
+				redirect_to course_path(@department.id)
+			else
+				flash[:error] = @department.errors.full_messages.to_sentence.humanize
+				render 'edit'
+			end
+		else
+			flash[:error] = 'Access denied.'
+		end
+  end
 	def show
 		@department = Department.find(params[:id])
 	end
