@@ -1,5 +1,5 @@
 <% if @department.users.where('role = ?', 2).empty? %>
-	<em>No departments</em>
+	<em>No instructors</em>
 <% else %>
 	<ul>
 		<% @department.users.where('role = ?', 2).each do |u| %>
