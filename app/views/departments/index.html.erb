@@ -39,6 +39,8 @@
 					<% else %>
 						<% if user_signed_in? and (current_user.instructor or current_user.admin?) %>
 							<td><%= "#{d.users.where('role = ?', 2).size}/#{d.users.where('role = ?', 1).size}" %></td>
+						<% else %>
+							<td><%= "#{d.users.where('role = ?', 2).size}" %></td>
 						<% end %>
 					<% end %>
 					<% if user_signed_in? and current_user.admin? %>
