@@ -66,7 +66,12 @@ class GradesController < ApplicationController
 			redirect_to root_path
 		end
 	end
-
+	def destroy
+		@article = Article.find(params[:id])
+		@article.destroy
+	 
+		redirect_to articles_path
+	end
 	private 
 		def secure_params
 			params.require(:grade).permit(:title,:score,:max_score,:course_id)

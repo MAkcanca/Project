@@ -45,7 +45,17 @@ class DepartmentsController < ApplicationController
 		@department = Department.find(params[:id])
 		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
 	end
-
+	def destroy
+		@department = department.find(params[:id])
+		
+		if @department.courses.empty?
+			@department.users.each do |user|
+				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').id)
+			end
+			@department.destroy
+	 	end
+		redirect_to departments_path
+	end
 	private
 		def secure_params
 		  params[:department].permit(:title,:abbreviation)
