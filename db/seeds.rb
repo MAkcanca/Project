@@ -7,13 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 department_list = [
-  ['Undeclared', 'UN'],
-	['Computer Science','CS'],
-	['Electrical and Computer Engineering','ECE'],
-	['Civil and Environmental Engineering','CEE'],
-	['Chemical and Biochemical Engineering','CBE'],
-	['Mechanical and Industrial Engineering','MIE'],
-	['Biomedical Engineering','BME']
+  ['Undeclared', 'un'],
+	['Computer Science','cs'],
+	['Electrical and Computer Engineering','ece'],
+	['Civil and Environmental Engineering','cee'],
+	['Chemical and Biochemical Engineering','cbe'],
+	['Mechanical and Industrial Engineering','mie'],
+	['Biomedical Engineering','bme']
 ]
 department_list.each do |title, abbreviation|
 	Department.create(title:title,abbreviation:abbreviation)

@@ -1,5 +1,6 @@
 class DepartmentsController < ApplicationController
 	before_filter :authorize_admin
+	before_save { |department| department.abbreviation = department.abbreviation.upcase }
 
   def index
 		@departments = Department.all
@@ -11,18 +12,12 @@ class DepartmentsController < ApplicationController
 	def create
 		if user_signed_in? and current_user.admin?
 			@department = Department.new(secure_params)
-			if @department.abbreviation.length < 2 or @department.abbreviation.length > 3
-				flash[:error] = 'Attribute must be 2 or 3 characters long.'
-				render 'new'
+			if @department.save
+				flash[:notice] = 'Added department!'
+				redirect_to departments_path
 			else
-				@department.update_attribute(:abbreviation, @department.abbreviation.upcase)
-				if @department.save
-					flash[:notice] = 'Added department!'
-					redirect_to departments_path
-				else
-					flash[:error] = @department.errors.full_messages.to_sentence.humanize
-					render 'new'
-				end
+				flash[:error] = @department.errors.full_messages.to_sentence.humanize
+				render 'new'
 			end
 		else
 			flash[:error] = 'Access denied.'

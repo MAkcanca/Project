@@ -13,7 +13,7 @@
 			</tr>
 			<% @departments.each do |d| %>
 				<tr>
-					<td><%= d.abbreviation %></td>
+					<td><%= d.abbreviation.upcase %></td>
 					<td><%= link_to d.title, department_path(d) %></td>
 					<td><%= d.courses.size %></td>
 					<td><%= d.users.where('role = ?', 2).size %></td>
