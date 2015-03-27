@@ -1,36 +1,41 @@
 <div class='well'>
 	<h3><%= "#{@department.abbreviation.upcase}: #{@department.title}" %></h3>
 	
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-		<div class="panel panel-default">
-		  <div class="panel-heading" role="tab" id="headingTwo">
-		    <h4 class="panel-title">
-		      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
-		        Instructors
-		      </a>
-		    </h4>
-		  </div>
-		  <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-		    <div class="panel-body">
-					<%= render 'instructors' %>
-		    </div>
-		  </div>
-		</div>
-		<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+	<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 			<div class="panel panel-default">
-				<div class="panel-heading" role="tab" id="headingThree">
+				<div class="panel-heading" role="tab" id="headingTwo">
 				  <h4 class="panel-title">
-				    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-							Students
+				    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
+				      Instructors
 				    </a>
 				  </h4>
 				</div>
-				<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+				<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 				  <div class="panel-body">
-						<%= render 'students' %>
+						<%= render 'instructors' %>
 				  </div>
 				</div>
 			</div>
-		<% end %>
-	</div>
+			<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingThree">
+						<h4 class="panel-title">
+						  <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								Students
+						  </a>
+						</h4>
+					</div>
+					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							<%= render 'students' %>
+						</div>
+					</div>
+				</div>
+			<% end %>
+		</div>
+	<% else %>
+		<h3>Instructors</h3>
+		<%= render 'instructors' %>
+	<% end %>
 </div>
