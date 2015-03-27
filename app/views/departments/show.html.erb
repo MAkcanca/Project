@@ -30,19 +30,21 @@
 		    </div>
 		  </div>
 		</div>
-		<div class="panel panel-default">
-		  <div class="panel-heading" role="tab" id="headingThree">
-		    <h4 class="panel-title">
-		      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-						Students
-		      </a>
-		    </h4>
-		  </div>
-		  <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-		    <div class="panel-body">
-					<%= render 'students' %>
-		    </div>
-		  </div>
-		</div>
+		<% if user_signed_in? and (current_user.admin? or current_user.instructor?) %>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingThree">
+				  <h4 class="panel-title">
+				    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							Students
+				    </a>
+				  </h4>
+				</div>
+				<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+				  <div class="panel-body">
+						<%= render 'students' %>
+				  </div>
+				</div>
+			</div>
+		<% end %>
 	</div>
 </div>
