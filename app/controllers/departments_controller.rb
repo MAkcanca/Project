@@ -50,7 +50,7 @@ class DepartmentsController < ApplicationController
 		
 		if @department.courses.empty?
 			@department.users.each do |user|
-				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').id)
+				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').first.id)
 			end
 			@department.destroy
 	 	end
