@@ -43,6 +43,7 @@ class DepartmentsController < ApplicationController
   end
 	def show
 		@department = Department.find(params[:id])
+		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today)
 	end
 
 	private
