@@ -5,7 +5,7 @@
 
 <div class='well'>
 	<h3>Book Details</h3>
-	<table>
+	<table class='table table-striped'>
 		<tr>
 			<th>Title</th>
 			<td><%= @book.title %></td>
@@ -46,7 +46,7 @@
 			<th>Queue</th>
 			<td id='queue-<%= @book.id %>'><%= (not @book.holder_id.nil? and @book.holder_id == @book.user_ids.first) ? @book.users.count - 1 : @book.users.count %></td>
 		</tr>
-		<% if user_signed_in? and (current_user.librarian? or current_user.id == @book.holder_id)%>
+		<% if user_signed_in? and (current_user.librarian? or current_user.id == @book.holder_id) %>
 			<tr>
 				<th>Holder</th>
 				<td id='holder-<%= @book.id %>'><%= render 'holder' %></td>
