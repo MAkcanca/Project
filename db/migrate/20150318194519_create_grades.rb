@@ -4,8 +4,8 @@ class CreateGrades < ActiveRecord::Migration
       t.string :title, :null => false
       t.integer :score, :default => 0
       t.integer :max_score, :default => 0
-      t.integer :user_id, :null => false
-			t.integer :course_id, :null => false
+      t.integer :user_id, :null => false, :default => 0
+			t.integer :course_id, :null => false, :default => 0
 
       t.timestamps null: false
     end
