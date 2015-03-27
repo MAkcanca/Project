@@ -32,7 +32,7 @@ class DepartmentsController < ApplicationController
 
 			if @department.update(secure_params)
 				flash[:notice] = "Successfully updated the course #{@department.title}!"
-				redirect_to course_path(@department.id)
+				redirect_to department_path(@department.id)
 			else
 				flash[:error] = @department.errors.full_messages.to_sentence.humanize
 				render 'edit'

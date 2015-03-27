@@ -5,7 +5,7 @@
 	});
 </script>
 
-<h3><%= @course.department.abbreviation %>:<%= @course_id %> <%= @course.title %></h3>
+<h3><%= @course.department.abbreviation.upcase %>:<%= @course_id %> <%= @course.title %></h3>
 
 <strong>Instructor</strong>
 <p><%= @instructor.first_name %> <%= @instructor.last_name %> </p>
