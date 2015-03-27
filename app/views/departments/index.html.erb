@@ -14,9 +14,11 @@
 					<th>Instructors</th>
 					<th>Students</th>
 				<% else %>
-					<th>Courses/Instructors/Students</th>
+					<th>Crs./Instrs./Stdts.</th>
 				<% end %>
-				<th></th>
+				<% if user_signed_in? and current_user.admin? %>
+					<th></th>
+				<% end %>
 			</tr>
 			<% @departments.each do |d| %>
 				<tr>
@@ -31,12 +33,14 @@
 					<% else %>
 						<td><%= "#{d.courses.size}/#{d.users.where('role = ?', 2).size}/#{d.users.where('role = ?', 1).size}" %></td>
 					<% end %>
-					<td><%= link_to '', edit_department_path(d), class: 'glyphicon glyphicon-wrench' %>
-							<%= link_to '', department_path(d),
-									class: 'glyphicon glyphicon-trash',
-									method: :delete,
-									data: { confirm: "Delete '#{d.title}'?" } %>
-					</td>
+					<% if user_signed_in? and current_user.admin? %>
+						<td><%= link_to '', edit_department_path(d), class: 'glyphicon glyphicon-wrench' %>
+								<%= link_to '', department_path(d),
+										class: 'glyphicon glyphicon-trash',
+										method: :delete,
+										data: { confirm: "Delete '#{d.title}'?" } %>
+						</td>
+					<% end %>
 				</tr>
 			<% end %>
 		</table>

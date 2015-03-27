@@ -1,5 +1,5 @@
 class DepartmentsController < ApplicationController
-	before_filter :authorize_admin
+	before_filter :authorize_admin, :except => [:index, :show]
 
   def index
 		@departments = Department.all
