@@ -78,10 +78,12 @@
 					<% if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == course.instructor_id)) %>
 						<td>
 								<%= link_to '', edit_course_path(course), class: 'glyphicon glyphicon-wrench' %>
-								<%= link_to '', course_path(course),
-										class: 'glyphicon glyphicon-trash',
-										method: :delete,
-										data: { confirm: "Delete '#{course.title}'?" } %>
+								<% if course.users.empty? %>
+									<%= link_to '', course_path(course),
+											class: 'glyphicon glyphicon-trash',
+											method: :delete,
+											data: { confirm: "Delete '#{course.title}'?" } %>
+								<% end %>
 						</td>
 					<% end %>
 				</tr>

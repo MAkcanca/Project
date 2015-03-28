@@ -4,7 +4,7 @@
 	}
 </style>
 
-<h1><%= @course.department.abbreviation %>:<%= "%04d" % @course.course_number.to_s %> <%= @course.title %></h1>
+<h1><%= @course.department.abbreviation.upcase %>:<%= "%04d" % @course.course_number.to_s %> <%= @course.title %></h1>
 
 <% if user_signed_in? and current_user.instructor? and @course.instructor_id == current_user.id %>
 	<%= link_to 'Create News Item', new_article_path(:course_id => @course.id) %><br/>

@@ -24,7 +24,7 @@
 									<table>
 										<% if c.semester == s %>
 											<tr>
-												<td><%= c.department.abbreviation %>:<%= "%04d" % c.course_number.to_s %></td>
+												<td><%= c.department.abbreviation.upcase %>:<%= "%04d" % c.course_number.to_s %></td>
 												<td><%= link_to c.title, icon_path(c) %></td>
 											</tr>
 										<% end %>
