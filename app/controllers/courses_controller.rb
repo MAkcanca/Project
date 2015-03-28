@@ -101,6 +101,16 @@ class CoursesController < ApplicationController
 		end
   end
 
+	def remove
+		if user_signed_in? and current_user.admin? 
+			user = User.find(params[:user])
+			course = Course.find(params[:course])
+			course.users = course.users - [user]
+			course.save!
+
+			redirect_to user_path(user)
+		end
+	end
   private
   def secure_params
     params[:course].permit(:title,:m,:t,:w,:r,:f,:department_id,:semester_id,:description,:capacity,:course_number,:instructor_id)

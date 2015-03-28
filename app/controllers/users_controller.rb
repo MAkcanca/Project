@@ -6,7 +6,7 @@ class UsersController < ApplicationController
 		@q = User.ransack(params[:q])
 		@users = @q.result(distinct:true)
 		@collapse = @users.count != User.all.count
-    authorize User
+    authorize @users
   end
 
   def show

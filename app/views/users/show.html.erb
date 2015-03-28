@@ -62,11 +62,14 @@
 				<td><em>No courses.</em></td>
 			<% else %>
 				<td>
-					<ul>
+					<table>
 						<% @user.courses.each do |c| %>
-							<li><%= c.title %></li>			
+							<tr>
+								<td><%= c.title %></td>
+								<td><%= link_to 'Remove from Class', remove_path(:user => @user, :course => c) %></td>
+							</tr>			
 						<% end %>
-					</ul>
+					</table>	
 				</td>
 			<% end %>
 		<% elsif @user.admin? or @user.librarian? %>

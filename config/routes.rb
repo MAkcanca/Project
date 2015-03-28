@@ -27,4 +27,5 @@ Rails.application.routes.draw do
 	get '/checkout' => 'books#checkout', :as => :checkout
 	get '/uncheckout' => 'books#uncheckout', :as => :uncheckout
 	get '/renew' => 'books#renew', :as => :renew
+	get '/remove' => 'courses#remove', :as => :remove
 end
