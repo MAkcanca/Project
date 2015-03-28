@@ -3,7 +3,11 @@
 <% else %>
 	<ul>
 		<% @department.users.where('role = ?', 1).each do |u| %>
-			<li><%= link_to u.full_name, user_path(u) %></li>
+			<% if user_signed_in? and (current_user.id == u.id or current_user.admin?) %>
+				<li><%= link_to u.full_name, user_path(u) %></li>
+			<% else %>
+				<li><%= u.full_name %></li>
+			<% end %>
 		<% end %>
 	</ul>
 <% end %>
