@@ -1,17 +1,7 @@
-<h2>Welcome!</h1>
+<h2><%= @home.title %></h1>
 
-<p>
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam dignissim lacinia nibh ut pellentesque. Cras tempus magna tellus, id consequat turpis varius a. Etiam eu ullamcorper purus. Etiam porta semper mauris, in luctus tellus dignissim quis. Quisque laoreet fermentum nunc, eu luctus ipsum rhoncus id. Etiam ultrices ante sapien, sed rhoncus diam posuere non. Quisque in efficitur justo.
-</p>
-<p>
-Fusce malesuada, erat sit amet tempor tincidunt, lectus erat ornare lectus, sit amet condimentum nunc augue vel metus. Mauris pharetra est nec mi consequat, vitae tristique elit hendrerit. Quisque sagittis, tellus a efficitur facilisis, nisi elit porttitor felis, at euismod nunc elit in elit. Duis viverra leo sem, aliquet viverra tortor porta nec. Sed auctor dictum iaculis. Curabitur eros elit, commodo sed placerat eu, ultricies sed nibh. Sed ultricies quam sit amet augue tempor suscipit. Nunc mollis accumsan leo id eleifend. Maecenas efficitur erat diam, et scelerisque magna iaculis in. Vivamus efficitur orci et eros dictum, eu tempus neque varius. Fusce enim nibh, ultrices in ultricies at, auctor eu massa. Mauris posuere neque vel elit vehicula, convallis blandit est tincidunt. Pellentesque et rhoncus massa, et eleifend ante. Mauris at urna et elit rhoncus dignissim vel eget nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</p>
-<p>
-Sed dignissim aliquet vehicula. Quisque vulputate ligula ornare sollicitudin varius. Aenean rutrum porta auctor. Phasellus egestas odio eu erat egestas, ut ultrices metus suscipit. Phasellus semper felis diam, quis interdum nulla congue sollicitudin. Vivamus sed turpis tempor, varius libero a, eleifend nulla. Quisque faucibus tellus eu nisl facilisis, id sagittis nisi fermentum. Sed velit justo, aliquet eu nulla a, viverra volutpat mauris. Vivamus condimentum quam imperdiet, accumsan sapien sed, lobortis est. Ut sollicitudin cursus dignissim. Sed a lacinia nisl. Nunc nec accumsan magna. Donec elementum metus risus, a imperdiet dui rhoncus sed. Vivamus hendrerit velit tortor, eget pulvinar ante ultrices a. Phasellus vel erat est. In tempus nisl ante, sit amet consequat felis suscipit sed.
-</p>
-<p>
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus nec felis eget arcu semper vestibulum. Nullam lobortis, ex et condimentum rutrum, lacus ante aliquet erat, sit amet facilisis orci diam et mi. Donec erat libero, fermentum eget velit vel, laoreet sagittis sem. Quisque varius leo eu risus iaculis fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque laoreet ultricies tempor. Nullam convallis tincidunt nisi, in feugiat turpis posuere nec. In finibus vitae dolor ut semper. Integer et quam arcu. Sed posuere nisl ut convallis viverra. Sed lobortis id libero eget convallis. Cras gravida nisl vel enim bibendum placerat.
-</p>
-<p>
-Quisque justo tortor, tristique non libero non, faucibus lacinia leo. Integer laoreet scelerisque dui, quis pellentesque metus fermentum id. Cras ornare tincidunt est, sit amet porta urna mattis non. Sed dapibus pulvinar elit, id vestibulum turpis elementum in. In ac elit rhoncus, tincidunt dui ac, gravida nisl. Donec id imperdiet mi, sed maximus eros. Phasellus eleifend ante dictum, rhoncus lacus sit amet, auctor risus. 
-</p>
+<p><%= @home.description %></p>
+
+<% if user_signed_in? and current_user.admin? %>
+	<p><%= link_to 'Edit Description', edit_home_path(1) %></p>
+<% end %>

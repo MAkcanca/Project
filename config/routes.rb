@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 	resources :semesters
 	resources :uploads
 	resources :departments
+	resources :homes
 
   get '/enroll' => 'courses#enroll', :as => :enroll
   get '/drop' => 'courses#drop', :as => :drop

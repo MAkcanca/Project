@@ -150,3 +150,14 @@ book_list.each do |title,author,pages,isbn,category_id,publisher,publish_date|
 	Book.create(title:title, author:author, pages:pages, isbn:isbn, category_id:category_id, publisher:publisher, publish_date:publish_date)
 	puts 'CREATED NEW BOOK: ' << title
 end
+
+home_description = [
+	[
+		'Welcome!',
+		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac dolor sed libero pretium suscipit ac vitae augue. Nunc viverra velit et sapien volutpat, eget semper felis cursus. Vivamus ac nunc auctor urna gravida euismod eu non dui. Etiam in scelerisque sem. Pellentesque laoreet erat ac nulla molestie placerat. Nam euismod sapien vel enim efficitur imperdiet. Suspendisse potenti. Phasellus ultrices consectetur varius. Proin massa mauris, consectetur quis tincidunt vitae, auctor a enim. Nunc finibus lacus quis iaculis posuere. Sed ac tellus dictum, semper dolor eu, feugiat diam. Ut id erat est. Vivamus convallis ex lorem, ut aliquam ex fermentum ac. Sed eget commodo elit. Proin ac pulvinar magna, sit amet cursus odio. Cras eu turpis nunc. '
+	]
+]
+home_description.each do |title,description|
+	Home.create(title:title, description:description)
+	puts 'CREATED NEW HOME DESCRIPTION: ' << title
+end 
