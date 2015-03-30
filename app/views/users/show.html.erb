@@ -8,6 +8,7 @@
 </style>
 
 <h3>User Profile</h3>
+<%= image_tag @user.avatar_url(:thumb) if @user.avatar? %>
 <table class='table table-striped'>
 	<tr>
 		<th>Name</th>

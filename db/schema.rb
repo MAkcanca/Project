@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20150328232003) do
     t.string   "encrypted_password",     default: "", null: false
     t.string   "first_name",             default: "", null: false
     t.string   "last_name",              default: "", null: false
+    t.string   "avatar"
     t.integer  "role",                   default: 0,  null: false
     t.integer  "department_id",          default: 0,  null: false
     t.integer  "grade_id"

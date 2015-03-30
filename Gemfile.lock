@@ -120,6 +120,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
+    mini_magick (4.2.0)
     mini_portile (0.6.2)
     minitest (5.5.0)
     multi_json (1.10.1)
@@ -261,6 +262,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   launchy
+  mini_magick
   pg
   pundit
   quiet_assets
