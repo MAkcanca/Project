@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 	resources :uploads
 	resources :departments
 	resources :homes
+	resources :avatars
 
   get '/enroll' => 'courses#enroll', :as => :enroll
   get '/drop' => 'courses#drop', :as => :drop

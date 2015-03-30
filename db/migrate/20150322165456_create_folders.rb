@@ -7,7 +7,7 @@ class CreateFolders < ActiveRecord::Migration
       t.integer :course_id
       t.integer :upload_id
 			t.boolean :instructor_only, :null => false, :default => false
-
+			t.date :close_date
       t.timestamps null: false
     end
   end
