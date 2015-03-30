@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 	belongs_to :department
 	has_and_belongs_to_many :books, :join_table => 'books_users'
 	has_and_belongs_to_many :courses, :join_table => 'courses_users'
-
+	mount_uploader :avatar, AvatarUploader
   enum role: [:uninitialized, :student, :instructor, :librarian, :admin]
   after_initialize :set_default_role, :if => :new_record?
 

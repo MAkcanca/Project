@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :encrypted_password, :null => false, :default => ''
 			t.string :first_name, 			  :null => false, :default => ''
 			t.string :last_name, 					:null => false, :default => ''
+			t.string :avatar
 			t.integer :role,							:null => false, :default => 0
 			t.integer :department_id,			:null => false, :default => 0
 			t.integer :grade_id					
