@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+	mount_uploader :avatar, AvatarUploader
 	has_many :grades
 	has_many :books
 	has_many :uploads
@@ -6,7 +7,6 @@ class User < ActiveRecord::Base
 	has_and_belongs_to_many :books, :join_table => 'books_users'
 	has_and_belongs_to_many :courses, :join_table => 'courses_users'
 
-	mount_uploader :avatar, AvatarUploader
   enum role: [:uninitialized, :student, :instructor, :librarian, :admin]
   after_initialize :set_default_role, :if => :new_record?
 
@@ -20,7 +20,6 @@ class User < ActiveRecord::Base
 	validates :first_name, presence: true
 	validates :last_name, presence: true
 	validates :email, presence: true
-	# validates :password, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

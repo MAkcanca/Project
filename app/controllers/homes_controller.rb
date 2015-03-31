@@ -21,15 +21,18 @@ class HomesController < ApplicationController
 
 	def update
 		if user_signed_in? and current_user.admin?
-			@home = Home.first
+			@home = Home.find(params[:id])
 			
-			if @home.update_attribute(secure_params)
+			if @home.update_attributes(secure_params)
 				flash[:notice] = 'Successfully updated description!'
-				redirect_to root_path
+				redirect_to :root
 			else
 				flash[:error] = @home.errors.full_messages.to_sentence.humanize
 				render 'edit'
 			end
+		else 
+			flash[:error] = 'Access denied.'
+			redirect_to root_path
 		end
 	end
 	private

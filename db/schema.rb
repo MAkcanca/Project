@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20150328232003) do
     t.integer  "course_id"
     t.integer  "upload_id"
     t.boolean  "instructor_only", default: false, null: false
+    t.date     "close_date"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
   end

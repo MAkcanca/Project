@@ -6,7 +6,7 @@
 </style>
 
 <div class="well">
-	<%= form_for :home, url: root_path, method: :patch do |f| %>
+	<%= form_for :home, url: home_path(@home), method: :patch do |f| %>
 		<h2>Editing book</h2>
 		<% if @home.errors.any? %>
 			<div id="error_explanation">
@@ -27,7 +27,7 @@
 		</p>
 		<p>
 			<%= f.label :description %><br/>
-			<%= f.text_area 'description', :rows => 3, :style=>'width:50%'%>
+			<%= f.text_area 'description', :rows => 3 %>
 		</p>
 		<%= f.submit 'Submit', :class=>"btn btn-primary" %>
 	<% end %>
