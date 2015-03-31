@@ -12,24 +12,29 @@ class SemestersController < ApplicationController
 	def create
 		if user_signed_in? and current_user.admin? 
 			@semester = Semester.new(secure_params)
-			startdate = Date.civil(params[:start_date][:year].to_i, params[:start_date][:month].to_i, params[:start_date][:day].to_i)
-			enddate = Date.civil(params[:end_date][:year].to_i, params[:end_date][:month].to_i, params[:end_date][:day].to_i)
-			
-			if enddate < startdate
-				tmp = startdate
-				startdate = enddate
-				enddate = tmp
-			end
+			if Date.valid_date?(params[:start_date][:year].to_i,params[:start_date][:month].to_i,params[:start_date][:day].to_i) and Date.valid_date?(params[:end_date][:year].to_i, params[:end_date][:month].to_i, params[:end_date][:day].to_i)
+				startdate = Date.civil(params[:start_date][:year].to_i, params[:start_date][:month].to_i, params[:start_date][:day].to_i)
+				enddate = Date.civil(params[:end_date][:year].to_i, params[:end_date][:month].to_i, params[:end_date][:day].to_i)
+				if enddate < startdate
+					tmp = startdate
+					startdate = enddate
+					enddate = tmp
+				end
 
-			@semester.update_attributes(start_date: startdate, end_date: enddate)
+				@semester.update_attributes(start_date: startdate, end_date: enddate)
 		
-			if @semester.save
-				flash[:notice] = 'Successfully created new semester!'
-				redirect_to semesters_path
+				if @semester.save
+					flash[:notice] = 'Successfully created new semester!'
+					redirect_to semesters_path
+				else
+					flash[:error] = @semester.errors.full_messages.to_sentence.humanize
+					render 'new'
+				end
 			else
-				flash[:error] = @semester.errors.full_messages.to_sentence.humanize
+				flash[:error] = 'Invalid date'
 				render 'new'
-			end
+			end		
+
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
