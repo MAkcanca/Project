@@ -17,7 +17,7 @@ gem 'devise'
 gem 'pundit'
 gem 'ransack'
 gem 'carrierwave'
-gem "mini_magick"
+gem 'mini_magick'
 gem 'jquery-ui-rails'
 gem 'figaro'
 gem 'validates_overlap'

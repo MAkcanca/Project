@@ -8,7 +8,11 @@
 </style>
 
 <h3>User Profile</h3>
-<%= image_tag @user.avatar.url if @user.avatar? %>
+<% if @user.avatar.url.present? %>
+	<%= image_tag @user.avatar.url, :size => '200x200', :style=>'float:left' %>
+<% else %>
+	<em>No profile picture</em>
+<% end %>
 <table class='table table-striped'>
 	<tr>
 		<th>Name</th>
