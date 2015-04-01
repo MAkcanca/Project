@@ -121,19 +121,6 @@ person_list = [
 	['George Hodgman', Date.new(1956,1,1), true, 1],				#5
 	['Erik Larson', Date.new(1954,1,3), true, 1],						#6
 	['David McCullough', Date.new(1933,7,7), true, 1],			#7
-	['Joss Whedon', Date.new(1964,6,23), true, 4],					#8
-	['Kevin Feige', Date.new(1973,6,2), true, 2],						#9
-	['Robert Downey Jr.', Date.new(1965,4,4), true, 5],			#10
-	['Chris Evans', Date.new(1981,6,13), true, 5],					#11
-	['Mark Ruffalo', Date.new(1967,11,22), true, 5],				#12
-	['Chris Hemsworth', Date.new(1983,8,11), true, 5],			#13
-	['Scarlett Johansson', Date.new(1984,11,22), false, 5],	#14
-	['Jeremy Renner', Date.new(1971,1,7), true, 5],					#15
-	['Tom Hiddleston', Date.new(1981,2,9), true, 5],				#16
-	['Clark Gregg', Date.new(1962,4,2), true, 5],						#17
-	['Cobie Smulders', Date.new(1982,4,3), false, 5],				#18
-	['Stellan Skarsgard', Date.new(1951,6,13), true, 5],		#19
-	['Samuel L. Jackson', Date.new(1948,12,21), true, 5]		#20
 ]
 person_list.each do |name, birthday, sex, occupation_id|
 	puts 'CREATED NEW PERSON: ' << name
@@ -186,23 +173,6 @@ book_list = [
 		Date.new(2015,5,5)
 	]
 ]
-book_list.each do |title,author,pages,isbn,category_id,publisher,publish_date|
-	Book.create(title:title, author:author, pages:pages, isbn:isbn, category_id:category_id, publisher:publisher, publish_date:publish_date)
-	puts 'CREATED NEW BOOK: ' << title
-end
-movie_list = [
-	[
-		'The Avengers',
-		[10,11,12,13,14,15,16,17,18,19,20],
-		8,
-		9,
-		8
-	]
-]
-movie_list.each do |title, people, director, producer, screenplay_writer|
-	Video.create(title:title,people:people,director:director,producer:producer,screenplay_writer:screenplay_writer)
-	puts 'CREATED NEW MOVIE: ' << title
-end
 
 home_description = [
 	[

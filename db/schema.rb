@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 20150401013056) do
     t.integer  "director",          default: 0,  null: false
     t.integer  "producer",          default: 0,  null: false
     t.integer  "screenplay_writer", default: 0,  null: false
-    t.integer  "cast"
+    t.integer  "person_id",         default: 0,  null: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
