@@ -200,7 +200,7 @@ movie_list = [
 	]
 ]
 movie_list.each do |title, cast, director, producer, screenplay_writer|
-	Video.create(title:title,director:director,producer:producer,screenplay_writer:screenplay_writer,cast:cast)
+	Video.create(title:title,cast:cast,director:director,producer:producer,screenplay_writer:screenplay_writer)
 	puts 'CREATED NEW MOVIE: ' << title
 end
 

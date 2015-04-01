@@ -5,7 +5,7 @@ class CreateVideos < ActiveRecord::Migration
 			t.integer :director, :null => false, :default => 0
 			t.integer :producer, :null => false, :default => 0
 			t.integer :screenplay_writer, :null => false, :default => 0
-			t.integer :cast, :null => false, :default => 0
+			t.integer :cast
 
       t.timestamps null: false
     end
