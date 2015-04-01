@@ -195,14 +195,4 @@ ActiveRecord::Schema.define(version: 20150401013056) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "videos", force: :cascade do |t|
-    t.string   "title",             default: "", null: false
-    t.integer  "director",          default: 0,  null: false
-    t.integer  "producer",          default: 0,  null: false
-    t.integer  "screenplay_writer", default: 0,  null: false
-    t.integer  "person_id",         default: 0,  null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-  end
-
 end

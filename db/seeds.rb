@@ -98,38 +98,10 @@ category_list.each do |title|
 	puts 'CREATED NEW CATEGORY: ' << title
 end
 
-occupation_list = [
-	'Writer',				#1
-	'Director',			#2
-	'Producer',			#3
-	'Screenwriter',	#4
-	'Actor',				#5
-	'Economist',		#6
-	'Lawyer'				#7
-]
-
-occupation_list.each do |title|
-	Occupation.create(title:title)
-	puts 'CREATED NEW OCCUPATION: ' << title
-end 
-
-person_list = [
-	['Temple Grandin',Date.new(1947,8,29), false, 1],				#1
-	['Catherine Johnson',Date.new(1962,1,1), false, 1],			#2
-	['Richard H. Thaler',Date.new(1945,9,12), true, 6],			#3
-	['Cass R. Sunstein', Date.new(1954,9,21), true, 7],			#4
-	['George Hodgman', Date.new(1956,1,1), true, 1],				#5
-	['Erik Larson', Date.new(1954,1,3), true, 1],						#6
-	['David McCullough', Date.new(1933,7,7), true, 1],			#7
-]
-person_list.each do |name, birthday, sex, occupation_id|
-	puts 'CREATED NEW PERSON: ' << name
-	Person.create(full_name:name, birthday:birthday, sex:sex, occupation_id:occupation_id)
-end
 book_list = [
 	[
 		'Animals in Translation: Using the Mysteries of Autism to Decode Animal Behavior',  
-		[1,2],
+		'Temple Grandin, Catherine Johnson',
 		358,
 		'0156031442',
 		1,
@@ -138,7 +110,7 @@ book_list = [
 	],
 	[
 		'Nudge: Improving Decisions About Health, Wealth, and Happiness',
-		[3,4],
+		'Richard H. Thaler,Cass R. Sunstein',
 		304,
 		'0300122233',
 		1,
@@ -147,7 +119,7 @@ book_list = [
 	],
 	[ 
 		'Bettyville: A Memoir',
-		[5],
+		'George Hodgman',
 		288,
 		'0525427201',
 		3,
@@ -156,7 +128,7 @@ book_list = [
 	],
 	[
 		'Dead Wake: The Last Crossing of the Lusitania',
-		[6],
+		'Erik Larson',
 		488,
 		'0307408868',
 		3,
@@ -165,7 +137,7 @@ book_list = [
 	],
 	[
 		'The Wright Brothers',
-		[7],
+		'David McCullough',
 		368,
 		'1476728747',
 		3,
