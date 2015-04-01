@@ -146,6 +146,10 @@ book_list = [
 	]
 ]
 
+book_list.each do |title, author, pages, isbn, category, publisher, publish_date|
+	Book.create(title:title, author:author, pages:pages, isbn:isbn, publisher:publisher, publish_date:publish_date)
+	puts 'CREATED NEW BOOK: ' << title
+end
 home_description = [
 	[
 		'Welcome!',

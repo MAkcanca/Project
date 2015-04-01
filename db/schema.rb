@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401013056) do
+ActiveRecord::Schema.define(version: 20150328232003) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title",       default: "", null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150401013056) do
   create_table "books", force: :cascade do |t|
     t.string   "title",                                             null: false
     t.string   "description",  default: "No description available", null: false
-    t.integer  "author",       default: 0,                          null: false
+    t.string   "author",       default: "",                         null: false
     t.string   "isbn",                                              null: false
     t.integer  "pages",                                             null: false
     t.string   "publisher",                                         null: false
@@ -119,38 +119,6 @@ ActiveRecord::Schema.define(version: 20150401013056) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
-
-  create_table "occupations", force: :cascade do |t|
-    t.string   "title",      default: "", null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  create_table "occupations_people", id: false, force: :cascade do |t|
-    t.integer "occupation_id"
-    t.integer "person_id"
-  end
-
-  add_index "occupations_people", ["occupation_id", "person_id"], name: "index_occupations_people_on_occupation_id_and_person_id"
-
-  create_table "people", force: :cascade do |t|
-    t.string   "full_name",     default: "",           null: false
-    t.date     "birthday",      default: '1900-01-01', null: false
-    t.boolean  "sex",           default: true,         null: false
-    t.string   "photo"
-    t.integer  "occupation_id",                        null: false
-    t.integer  "book_id",       default: 0,            null: false
-    t.integer  "video_id",      default: 0,            null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-  end
-
-  create_table "people_videos", id: false, force: :cascade do |t|
-    t.integer "person_id"
-    t.integer "video_id"
-  end
-
-  add_index "people_videos", ["person_id", "video_id"], name: "index_people_videos_on_person_id_and_video_id"
 
   create_table "semesters", force: :cascade do |t|
     t.string   "title",      default: "",           null: false
