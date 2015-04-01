@@ -199,8 +199,8 @@ movie_list = [
 		8
 	]
 ]
-movie_list.each do |title, cast, director, producer, screenplay_writer|
-	Video.create(title:title,cast:cast,director:director,producer:producer,screenplay_writer:screenplay_writer)
+movie_list.each do |title, people, director, producer, screenplay_writer|
+	Video.create(title:title,people:people,director:director,producer:producer,screenplay_writer:screenplay_writer)
 	puts 'CREATED NEW MOVIE: ' << title
 end
 
