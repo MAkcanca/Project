@@ -136,6 +136,7 @@ person_list = [
 	['Samuel L. Jackson', Date.new(1948,12,21), true, 5]		#20
 ]
 person_list.each do |name, birthday, sex, occupation_id|
+	puts 'CREATED NEW PERSON: ' << name
 	Person.create(full_name:name, birthday:birthday, sex:sex, occupation_id:occupation_id)
 end
 book_list = [
@@ -155,8 +156,7 @@ book_list = [
 		'0300122233',
 		1,
 		'Yale University Press',
-		Date.new(2008,4,8),
-		[]
+		Date.new(2008,4,8)
 	],
 	[ 
 		'Bettyville: A Memoir',
@@ -193,13 +193,13 @@ end
 movie_list = [
 	[
 		'The Avengers',
+		[10,11,12,13,14,15,16,17,18,19,20],
 		8,
 		9,
-		8,
-		[10,11,12,13,14,15,16,17,18,19,20]	
+		8
 	]
 ]
-movie_list.each do |title, director, producer, screenplay_writer, cast|
+movie_list.each do |title, cast, director, producer, screenplay_writer|
 	Video.create(title:title,director:director,producer:producer,screenplay_writer:screenplay_writer,cast:cast)
 	puts 'CREATED NEW MOVIE: ' << title
 end
