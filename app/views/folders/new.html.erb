@@ -10,6 +10,10 @@
 		  <%= f.label :description %><br>
 		  <%= f.text_area :description %>
 		</p>
+		<p>
+		  <%= f.label :close_date %><br>
+			<%= select_date Date.today, prefix: :close_date %>
+		</p>
 		<p>					
 			<%= f.check_box :instructor_only %> <%= f.label :instructor_only %>
 		</p>

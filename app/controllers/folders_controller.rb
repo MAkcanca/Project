@@ -24,10 +24,17 @@ class FoldersController < ApplicationController
 	def create
 		if user_signed_in? and current_user.instructor?
 			@folder = Folder.new(secure_params)
-		 
-			@folder.save
-			flash[:notice] = "Successfully created a new folder '#{@folder.title}' for '#{@folder.course.title}'!"
-			redirect_to icon_path(@folder.course.id)
+
+			closedate = Date.civil(params[:close_date][:year].to_i, params[:close_date][:month].to_i, params[:close_date][:day].to_i)
+
+			if @folder.save
+				@folder.update_attributes(close_date: closedate)
+				flash[:notice] = "Successfully created a new folder '#{@folder.title}' for '#{@folder.course.title}'!"
+				redirect_to icon_path(@folder.course.id)
+			else
+				flash[:error] = @folder.errors.full_messages.to_sentence.humanize
+				render 'new'
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path

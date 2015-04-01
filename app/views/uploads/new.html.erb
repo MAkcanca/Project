@@ -11,7 +11,7 @@
 
 		<% if current_user.student? %>	
 			<%= f.label :folder_id %><br/>
-			<%= f.collection_select :folder_id, Folder.where('course_id = ? AND instructor_only = ?', @course_id,false).order(:title),:id,:title, include_blank: true %><br/><br/>
+			<%= f.collection_select :folder_id, Folder.where('course_id = ? AND instructor_only = ? AND close_date >= ?', @course_id,false,Date.today).order(:title),:id,:title, include_blank: true %><br/><br/>
 		<% end %>
 
 		<% if current_user.instructor? %>

@@ -12,13 +12,14 @@ class UploadsController < ApplicationController
   end
 	
   def create
+		@course_id = params[:course_id]
 		@file = Upload.new(secure_params)
 		@file.update_attributes(:user_id => current_user.id)
 
 		if @file.save
 			redirect_to icon_path(@file.course.id), :notice => "The file '#{@file.title}' has been uploaded for '#{@file.course.title}'."
 		else
-			flash[:notice] = 'You cannot leave any field blank!'
+			flash[:error] = @file.errors.full_messages.to_sentence.humanize
 			redirect_to :back
 		end
   end

@@ -17,14 +17,14 @@
 					<th>Date</th>
 					<th>Download</th>
 				</tr>
-				<tr>
-					<% @folder.uploads.where('user_id = ?', (@folder.instructor_only ? @folder.course.instructor_id : current_user.id)).each do |u| %>
+				<% @folder.uploads.where('user_id = ?', (@folder.instructor_only ? @folder.course.instructor_id : current_user.id)).each do |u| %>
+					<tr>
 						<td><%= u.title %></td>
 						<td><%= u.created_at.to_date %></td>
 						<td><%= link_to '', u.attachment_url,
 								:class => 'glyphicon glyphicon-save' %></td>
-					<% end %>
-				</tr>
+					</tr>
+				<% end %>
 			</table>
 		<% end %>
 	<% end %>
