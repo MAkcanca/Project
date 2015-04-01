@@ -99,13 +99,13 @@ category_list.each do |title|
 end
 
 occupation_list = [
-	['Writer'],				#1
-	['Director'],			#2
-	['Producer'],			#3
-	['Screenwriter'],	#4
-	['Actor'],				#5
-	['Economist'],		#6
-	['Lawyer']				#7
+	'Writer',				#1
+	'Director',			#2
+	'Producer',			#3
+	'Screenwriter',	#4
+	'Actor',				#5
+	'Economist',		#6
+	'Lawyer'				#7
 ]
 
 occupation_list.each do |title|
@@ -116,7 +116,7 @@ end
 person_list = [
 	['Temple Grandin',Date.new(1947,8,29), false, 1],				#1
 	['Catherine Johnson',Date.new(1962,1,1), false, 1],			#2
-	['Richard H. Thaler'Date.new(1945,9,12), true, 6],			#3
+	['Richard H. Thaler',Date.new(1945,9,12), true, 6],			#3
 	['Cass R. Sunstein', Date.new(1954,9,21), true, 7],			#4
 	['George Hodgman', Date.new(1956,1,1), true, 1],				#5
 	['Erik Larson', Date.new(1954,1,3), true, 1],						#6
@@ -135,8 +135,8 @@ person_list = [
 	['Stellan Skarsgard', Date.new(1951,6,13), true, 5],		#19
 	['Samuel L. Jackson', Date.new(1948,12,21), true, 5]		#20
 ]
-person_list.each do |name, birthday, sex, occupation|
-	Person.create(full_name:name, birthday:birthday, sex:sex, occupation:occupation)
+person_list.each do |name, birthday, sex, occupation_id|
+	Person.create(full_name:name, birthday:birthday, sex:sex, occupation_id:occupation_id)
 end
 book_list = [
 	[
@@ -200,7 +200,7 @@ movie_list = [
 	]
 ]
 movie_list.each do |title, director, producer, screenplay_writer, cast|
-	MOvie.create(title:title,director:director,producer:producer,screenplay_writer:screenplay_writer,cast:cast]
+	Video.create(title:title,director:director,producer:producer,screenplay_writer:screenplay_writer,cast:cast)
 	puts 'CREATED NEW MOVIE: ' << title
 end
 
