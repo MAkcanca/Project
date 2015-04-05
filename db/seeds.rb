@@ -98,6 +98,21 @@ category_list.each do |title|
 	puts 'CREATED NEW CATEGORY: ' << title
 end
 
+person_list [
+	['Temple', 'Grandin'],
+	['Catherine','Johnson'],
+	['Richard','Thaler'],
+	['Cass','Sunstein'],
+	['George','Hodgman'],
+	['Erik','Larson'],
+	['David','McCullough']
+]
+
+person_list.each do |first_name, last_name|
+	Person.create(first_name:first_name, last_name:last_name)
+	puts 'CREATED NEW PERSON: ' << first_name << ' ' << last_name
+end
+
 book_list = [
 	[
 		'Animals in Translation: Using the Mysteries of Autism to Decode Animal Behavior',  
