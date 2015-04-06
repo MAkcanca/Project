@@ -6,6 +6,10 @@
 			<td><%= @person.full_name %></td>
 		</tr>
 		<tr>
+			<th>Total Books</th>
+			<td><%= @person.books.count %></td>
+		</tr>
+		<tr>
 			<th>Books</th>
 			<td>
 				<% if @person.books.empty? %>
