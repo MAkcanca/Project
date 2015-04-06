@@ -23,60 +23,52 @@ class DepartmentsController < ApplicationController
 		end
 	end
   def edit
-		if Department.find(params[:id])
-			flash[:error] = 'Department does not exist.'
+		@department = Department.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@department = Department.find(params[:id])
-		end
   end
   def update
 		if user_signed_in? and current_user.admin?
-			if Department.find(params[:id])
-				flash[:error] = 'Department does not exist.'
-				redirect_to root_path
-			else
-		  	@department = Department.find(params[:id])
+	  	@department = Department.find(params[:id])
 	
-				if @department.update(secure_params)
-					flash[:notice] = "Successfully updated the course #{@department.title}!"
-					redirect_to department_path(@department.id)
-				else
-					flash[:error] = @department.errors.full_messages.to_sentence.humanize
-					render 'edit'
-				end
+			if @department.update(secure_params)
+				flash[:notice] = "Successfully updated the course #{@department.title}!"
+				redirect_to department_path(@department.id)
+			else
+				flash[:error] = @department.errors.full_messages.to_sentence.humanize
+				render 'edit'
 			end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 		end
   end
 	def show
-		if Department.find(params[:id])
-			flash[:error] = 'Department does not exist.'
+		@department = Department.find(params[:id])
+		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@department = Department.find(params[:id])
-			@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
-		end
 	end
 	def destroy
-		if Department.find(params[:id])
-			flash[:error] = 'Department does not exist.'
-			redirect_to root_path
-		else
-			@department = Department.find(params[:id])
+		@department = Department.find(params[:id])
 		
-			if @department.courses.empty?
-				@department.users.each do |user|
-					user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').first.id)
-				end
-				@department.destroy
-				redirect_to departments_path
-			else
-				flash[:error] = 'Cannot delete a department with courses.'
-				redirect_to :back
-		 	end
-		end
+		if @department.courses.empty?
+			@department.users.each do |user|
+				user.update_attribute(:department_id, Department.where('title = ?', 'Uninitialized').first.id)
+			end
+			@department.destroy
+			redirect_to departments_path
+		else
+			flash[:error] = 'Cannot delete a department with courses.'
+			redirect_to :back
+	 	end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 	end
 
 	private

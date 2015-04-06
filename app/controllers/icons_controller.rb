@@ -17,21 +17,19 @@ class IconsController < ApplicationController
 	 	if not current_user.id == Course.find(params[:id]).instructor_id and not current_user.courses.include? Course.find(params[:id]) 
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		else
-			if Icon.find(params[:id]).nil?
-				flash[:error] = 'Course does not exist.'
-				redirect_to root_path
-			else
-				@course = Course.find(params[:id])
-				if current_user.student? 
-					@grades = Grade.where('user_id = ? AND course_id = ?', current_user.id, @course.id)
-				elsif current_user.instructor?
-					@grades = Grade.where('course_id = ?', params[:id])
-					@students = @course.users
-				end
-				@folder = Folder.where('course_id = ? AND instructor_only = ?', params[:id], false)
-				@instructor_uploads = Folder.where('course_id = ? AND instructor_only = ?', params[:id], true)
-				@articles = Article.where('course_id = ?', @course.id).reverse
+			@course = Course.find(params[:id])
+			if current_user.student? 
+				@grades = Grade.where('user_id = ? AND course_id = ?', current_user.id, @course.id)
+			elsif current_user.instructor?
+				@grades = Grade.where('course_id = ?', params[:id])
+				@students = @course.users
 			end
+			@folder = Folder.where('course_id = ? AND instructor_only = ?', params[:id], false)
+			@instructor_uploads = Folder.where('course_id = ? AND instructor_only = ?', params[:id], true)
+			@articles = Article.where('course_id = ?', @course.id).reverse
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		end
   end
 end

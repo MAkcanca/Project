@@ -3,12 +3,10 @@ class ArticlesController < ApplicationController
 	
 	def new
 	  @article = Article.new
-		if params[:course].nil?
-			flash[:error] = 'Error in fetching news items.'
+		@course_id = params[:course_id]
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@course_id = params[:course_id]
-		end
 	end
 
 	def create
@@ -32,52 +30,46 @@ class ArticlesController < ApplicationController
 	end
 
 	def show
-		if Article.find(params[:id]).nil?
-			flash[:error] = 'Article does not exist.'
+    @article = Article.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-	    @article = Article.find(params[:id])
-		end
   end
 
 	def edit
-		if Article.find(params[:id]).nil?
-			flash[:error] = 'Article does not exist.'
+		@article = Article.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@article = Article.find(params[:id])
-		end
 	end
 
 	def update
 		if user_signed_in? and current_user.instructor?
-			if Article.find(params[:id]).nil?
-				flash[:error] = 'Article does not exist.'
-				redirect_to root_path
-			else
-				@article = Article.find(params[:id])
+			@article = Article.find(params[:id])
 		 	
-				if @article.update(article_params)
-					redirect_to @article
-				else
-					render 'edit'
-				end
+			if @article.update(article_params)
+				redirect_to @article
+			else
+				render 'edit'
 			end
+
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
 		end
 	end
 	def destroy
-		if Article.find(params[:id]).nil?
-			flash[:error] = 'Article does not exist.'
+		@article = Article.find(params[:id])
+		@article.destroy
+	 
+		redirect_to articles_path
+
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@article = Article.find(params[:id])
-			@article.destroy
-		 
-			redirect_to articles_path
-		end
 	end
 	private
 		def article_params

@@ -9,12 +9,10 @@ class FoldersController < ApplicationController
 		if user_signed_in? and 
 			((current_user.instructor? and current_user.id == Folder.find(params[:id]).course.instructor_id) or 
 			 (current_user.student?    and current_user.courses.include? Folder.find(params[:id]).course))
-				if params[:id] > Folder.all.count
-					flash[:error] = 'Folder does not exist.'
+				@folder = Folder.find(params[:id])
+				rescue ActiveRecord::RecordNotFound
+					flash[:error] = 'Record not found.'
 					redirect_to root_path
-				else
-					@folder = Folder.find(params[:id])
-				end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -23,12 +21,10 @@ class FoldersController < ApplicationController
 
   def new
 		@folder = Folder.new
-		if not Course.find(params[:course_id]).nil?
-			@course_id = params[:course_id]
-		else
-			flash[:error] = 'Error with handling course ID.'
+		@course_id = params[:course_id]
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		end
   end
 
 	def create

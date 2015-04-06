@@ -8,14 +8,12 @@ class CoursesController < ApplicationController
   end
 
   def show
-		if Course.find(params[:id]).nil?
-			flash[:error] = 'Course does not exist.'
+	  @course = Course.find(params[:id])
+	  @course_id = "%04d" % @course.course_number.to_s
+		@instructor = User.find(@course.instructor_id)
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-		  @course = Course.find(params[:id])
-		  @course_id = "%04d" % @course.course_number.to_s
-			@instructor = User.find(@course.instructor_id)
-		end
   end
 
   def new
@@ -40,13 +38,11 @@ class CoursesController < ApplicationController
 
   def edit
 		if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == Course.find(params[:id]).instructor_id))
-			if Course.find(params[:id]).nil?
-				flash[:error] = 'Course does not exist.'
+			@course = Course.find(params[:id])
+			@disabled = @course.semester.start_date + 10.days < Date.today
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
 				redirect_to root_path
-			else
-				@course = Course.find(params[:id])
-				@disabled = @course.semester.start_date + 10.days < Date.today
-			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -55,74 +51,73 @@ class CoursesController < ApplicationController
 
   def update
 		if user_signed_in? and current_user.admin?
-			if Course.find(params[:id]).nil?
-				flash[:error] = 'Course does not exist.'
-				redirect_to root_path
-			else
-				@course = Course.find(params[:id])
+			@course = Course.find(params[:id])
 
-				if @course.update(secure_params)
-					flash[:notice] = "Successfully updated the course #{@course.title}!"
-					redirect_to course_path(@course.id)
-				else
-					flash[:error] = @course.errors.full_messages.to_sentence.humanize
-					render 'edit'
-				end
+			if @course.update(secure_params)
+				flash[:notice] = "Successfully updated the course #{@course.title}!"
+				redirect_to course_path(@course.id)
+			else
+				flash[:error] = @course.errors.full_messages.to_sentence.humanize
+				render 'edit'
 			end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
+			redirect_to root_path
 		end
   end
 
   def enroll
-		if Course.find(params[:id]).nil?
-			flash[:error] = 'Course does not exist.'
-			redirect_to root_path
-		else
-		  @course = Course.find(params[:course])
-		  if not current_user.courses.include? @course and @course.enrolled < @course.capacity and @course.semester.start_date + 10.days > Date.today
-		    current_user.course_ids = current_user.course_ids << @course.id
-		    @course.enrolled = @course.users.size
-		    @course.save!
+	  @course = Course.find(params[:course])
+	  if not current_user.courses.include? @course and @course.enrolled < @course.capacity and @course.semester.start_date + 10.days > Date.today
+	    current_user.course_ids = current_user.course_ids << @course.id
+	    @course.enrolled = @course.users.size
+	    @course.save!
 
-		    respond_to do |format|
-		      format.html {redirect_to course_path(@course.id) }
-		      format.js
-		    end
-			end
+		  respond_to do |format|
+	    	format.html {redirect_to course_path(@course.id) }
+		    format.js
+		  end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
+		else
+			flash[:error] = 'Access denied.'
+			redirect_to root_path
 		end
   end
 
   def drop
-		if Course.find(params[:id]).nil?
-			flash[:error] = 'Course does not exist.'
-			redirect_to root_path
-		else
-		  @course = Course.find(params[:course])
-		  if user_signed_in? and @course.users.include? current_user and @course.semester.start_date + 10.days > Date.today
-		    current_user.course_ids = current_user.course_ids - [@course.id]
-		    @course.user_ids = @course.users - [current_user.id]
-		    @course.enrolled = @course.users.size
-		    @course.save!
+	  @course = Course.find(params[:course])
+	  if user_signed_in? and @course.users.include? current_user and @course.semester.start_date + 10.days > Date.today
+	    current_user.course_ids = current_user.course_ids - [@course.id]
+	    @course.user_ids = @course.users - [current_user.id]
+	    @course.enrolled = @course.users.size
+	    @course.save!
 
-		    respond_to do |format|
-		      format.html {redirect_to course_path(@course.id) }
-		      format.js
-		    end
-		  end
+	    respond_to do |format|
+	      format.html {redirect_to course_path(@course.id) }
+	      format.js
+	    end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
+		else 
+			flash[:error] = 'Access denied.'
+			redirect_to root_path
 		end
   end
 
   def destroy
 		if user_signed_in? and current_user.admin?
-			if params[:id].to_i > Course.all.count or params[:id].to_i < 0
-				flash[:error] = 'Course does not exist.'
+			@course = Course.find(params[:id])
+			@course.destroy
+			redirect_to courses_path
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
 				redirect_to root_path
-			else
-				@course = Course.find(params[:id])
-				@course.destroy
-				redirect_to courses_path
-			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -131,16 +126,18 @@ class CoursesController < ApplicationController
 
 	def remove
 		if user_signed_in? and current_user.admin? 
-			if Course.find(params[:course]).nil? or User.find(params[:user]).nil?
-				flash[:error] = 'Course does not exist.'
-				redirect_to root_path
-			else
-				user = User.find(params[:user])
-				course = Course.find(params[:course])
-				course.users = course.users - [user]
-				course.save!
-			end
+			user = User.find(params[:user])
+			course = Course.find(params[:course])
+			course.users = course.users - [user]
+			course.save!
+
 			redirect_to user_path(user)
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
+		else 
+			flash[:error] = 'Access Denied.'
+			redirect_to root_path
 		end
 	end
   private

@@ -8,12 +8,10 @@ class BooksController < ApplicationController
   end
 
   def show
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
+		@book = Book.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else 
-			@book = Book.find(params[:id])
-		end
   end
 
   def new
@@ -46,29 +44,25 @@ class BooksController < ApplicationController
 	end
 
 	def edit
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
+		@book = Book.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@book = Book.find(params[:id])
-		end
 	end
 
 	def update
 		if user_signed_in? and current_user.librarian?
-			if Book.find(params[:id]).nil?
-				flash[:error] = 'Book does not exist.'
-				redirect_to root_path
+			@book = Book.find(params[:id])
+			if @book.update(secure_params)
+				flash[:notice] = "Successfully updated the book '#{@book.title}!'"
+			  redirect_to @book
 			else
-				@book = Book.find(params[:id])
-				if @book.update(secure_params)
-					flash[:notice] = "Successfully updated the book '#{@book.title}!'"
-				  redirect_to @book
-				else
-					flash[:error] = @book.errors.full_messages.to_sentence.humanize
-				  render 'edit'
-				end
+				flash[:error] = @book.errors.full_messages.to_sentence.humanize
+			  render 'edit'
 			end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -76,14 +70,12 @@ class BooksController < ApplicationController
 	end
  	def destroy
 		if user_signed_in? and current_user.librarian? 
-			if Book.find(params[:id]).nil?
-				flash[:error] = 'Book does not exist.'
+			book = Book.find(params[:id])
+			book.destroy
+			redirect_to books_path
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
 				redirect_to root_path
-			else
-				book = Book.find(params[:id])
-				book.destroy
-				redirect_to books_path
-			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -92,20 +84,18 @@ class BooksController < ApplicationController
 
 	def reserve
 		if user_signed_in? and (current_user.student? or current_user.instructor? or current_user.admin?)
-			if Book.find(params[:id]).nil?
-				flash[:error] = 'Book does not exist.'
-				redirect_to root_path
-			else
-				@book = Book.find(params[:book])
-				if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
-					@book.user_ids = @book.user_ids << current_user.id
-					@book.save!
-					respond_to do |format|
-					  format.html {redirect_to book_path(@book.id) }
-					  format.js
-					end
+			@book = Book.find(params[:book])
+			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
+				@book.user_ids = @book.user_ids << current_user.id
+				@book.save!
+				respond_to do |format|
+				  format.html {redirect_to book_path(@book.id) }
+				  format.js
 				end
 			end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -113,24 +103,22 @@ class BooksController < ApplicationController
 	end
 
 	def unreserve
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
 		@book = Book.find(params[:book])
-			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
-				current_user.book_ids = current_user.book_ids - [@book.id]
-				@book.user_ids = @book.user_ids - [current_user.id]
-				@book.save!
-				respond_to do |format|
-			    format.html {redirect_to book_path(@book.id) }
-			    format.js
-			  end
-			else
-				flash[:error] = 'Access denied.'
-				redirect_to root_path 
-			end
+		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
+			current_user.book_ids = current_user.book_ids - [@book.id]
+			@book.user_ids = @book.user_ids - [current_user.id]
+			@book.save!
+			respond_to do |format|
+		    format.html {redirect_to book_path(@book.id) }
+		    format.js
+		  end
+		else
+			flash[:error] = 'Access denied.'
+			redirect_to root_path 
 		end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 	end
 	
 	def checkout
@@ -144,6 +132,9 @@ class BooksController < ApplicationController
 	      format.html {redirect_to book_path(@book.id) }
 	      format.js
 	    end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -152,100 +143,87 @@ class BooksController < ApplicationController
 
 	def uncheckout
 		if user_signed_in? and current_user.librarian?
-			if Book.find(params[:id]).nil?
-				flash[:error] = 'Book does not exist.'
-				redirect_to root_path
-			else
-				@book = Book.find(params[:book])
-				if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
-					user = User.find(@book.holder_id)
-					user.book_ids = user.book_ids - [@book.id]
+			@book = Book.find(params[:book])
+			if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
+				user = User.find(@book.holder_id)
+				user.book_ids = user.book_ids - [@book.id]
 
-					@book.user_ids = @book.user_ids - [user.id]
-					@book.holder_id = nil
-					@book.due_date = nil
-					@book.save!
-					respond_to do |format|
-					  format.html {redirect_to book_path(@book.id) }
-					  format.js
-					end
+				@book.user_ids = @book.user_ids - [user.id]
+				@book.holder_id = nil
+				@book.due_date = nil
+				@book.save!
+				respond_to do |format|
+				  format.html {redirect_to book_path(@book.id) }
+				  format.js
 				end
 			end
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
+				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
 		end
 	end
 	def renew
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
-			@book = Book.find(params[:book])
-			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?) and @book.holder_id == current_user.id and not @book.renewed 
-				@book.renewed = true
-				if Date.today >= @book.due_date
-					@book.update_attributes(:due_date => Date.today + 7.days)
-				else
-					@book.update_attributes(:due_date => @book.due_date + 7.days)
-				end
-				@book.save!
-				respond_to do |format|
-			    format.html {redirect_to book_path(@book.id) }
-			    format.js
-			  end
+		@book = Book.find(params[:book])
+		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?) and @book.holder_id == current_user.id and not @book.renewed 
+			@book.renewed = true
+			if Date.today >= @book.due_date
+				@book.update_attributes(:due_date => Date.today + 7.days)
+			else
+				@book.update_attributes(:due_date => @book.due_date + 7.days)
 			end
+			@book.save!
+			respond_to do |format|
+		    format.html {redirect_to book_path(@book.id) }
+		    format.js
+		  end
 		end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 	end
 
 	def noauthor
-		if Book.find(params[:book]).nil? or Person.find(params[:person]).nil?
-			flash[:error] = 'Record does not exist.'
-			redirect_to root_path
-		else
-			@person = Person.find(params[:person])
-			@book = Book.find(params[:book])
-			if @book.people.count > 1
-				@book.person_ids = @book.person_ids - [@person.id]
-				@book.save!
-
+		@person = Person.find(params[:person])
+		@book = Book.find(params[:book])
+		if @book.people.count > 1
+			@book.person_ids = @book.person_ids - [@person.id]
+			@book.save!
 				@person.book_ids = @person.book_ids - [@book.id]
-				@person.save!
-
+			@person.save!
 		    respond_to do |format|
-		      format.html {redirect_to book_path(@book.id) }
-		      format.js
-		    end
-			end
+	      format.html {redirect_to book_path(@book.id) }
+	      format.js
+	    end
 		end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 	end
 	def newauthor
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
-			@book = Book.find(params[:book])
-			respond_to do |format|
-				format.js
-			end
+		@book = Book.find(params[:book])
+		respond_to do |format|
+			format.js
 		end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 	end
 	def createnewauthor
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
-			@book = Book.find(params[:book])
-			@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
+		@book = Book.find(params[:book])
+		@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
+		@book.person_ids = @book.person_ids << @person.id
+		@book.save!
 
-			@book.person_ids = @book.person_ids << @person.id
-			@book.save!
-	
-			respond_to do |format|
-				format.html {redirect_to book_path(@book.id) }
-				format.js
-			end
+		respond_to do |format|
+			format.html {redirect_to book_path(@book.id) }
+			format.js
 		end
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
+			redirect_to root_path
 		# render plain: params[:id].to_s.gsub(/\D/, '').to_i.inspect
 	end
 

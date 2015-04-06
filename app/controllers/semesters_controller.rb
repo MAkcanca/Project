@@ -42,12 +42,10 @@ class SemestersController < ApplicationController
 	end
 
 	def show
-		if Semester.find(params[:id]).nil?
-			flash[:error] = 'Semester does not exist.'
+		@semester = Semester.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			flash[:error] = 'Record not found.'
 			redirect_to root_path
-		else
-			@semester = Semester.find(params[:id])
-		end
 	end
 	def edit
 		redirect_to root_path
@@ -57,15 +55,13 @@ class SemestersController < ApplicationController
 	end
 	def destroy
 		if user_signed_in? and current_user.admin? 
-			if Semester.find(params[:id]).nil?
-				flash[:error] = 'Semester does not exist.'
+			semester = Semester.find(params[:id])
+			semester.destroy
+			flash[:notice] = 'Successfully deleted a semester.'
+			redirect_to semesters_path
+			rescue ActiveRecord::RecordNotFound
+				flash[:error] = 'Record not found.'
 				redirect_to root_path
-			else
-				semester = Semester.find(params[:id])
-				semester.destroy
-				flash[:notice] = 'Successfully deleted a semester.'
-				redirect_to semesters_path
-			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
