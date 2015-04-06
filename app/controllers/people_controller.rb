@@ -55,7 +55,7 @@ class PeopleController < ApplicationController
 			end
 			flash[:notice] = 'Successfully deleted #{person.full_name}!'
 		  person.destroy
-		  redirect_to people_path
+		  redirect_to peoples_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
