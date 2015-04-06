@@ -40,6 +40,9 @@
 		<th>Name</th>
 		<th>Books</th>
 		<th>Date Added</th>
+		<% if user_signed_in? and current_user.librarian? %>
+			<th></th>
+		<% end %>
 	</tr>
 	<% if @people.empty? %>
 		<em>No authors here!</em>
@@ -49,6 +52,13 @@
 				<td><%= link_to person.full_name, person_path(person) %></td>
 				<td><%= person.books.count %></td>
 				<td><%= "#{person.created_at.to_date.day} #{Date::MONTHNAMES[person.created_at.to_date.month]} #{person.created_at.to_date.year}" %></td>
+				<% if user_signed_in? and current_user.librarian? %>
+					<%= link_to '', edit_person_path(person), class: 'glyphicon glyphicon-wrench' %>
+					<%= link_to '', person_path(person),
+								class: 'glyphicon glyphicon-trash',
+								method: :delete,
+								data: { confirm: "Delete '#{person.full_name}'?" } %>
+				<% end %>
 			</tr>
 		<% end %>
 	<% end %>
