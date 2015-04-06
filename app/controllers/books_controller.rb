@@ -151,23 +151,25 @@ class BooksController < ApplicationController
 	end
 
 	def uncheckout
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
-			@book = Book.find(params[:book])
-			if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
-				user = User.find(@book.holder_id)
-				user.book_ids = user.book_ids - [@book.id]
+		if user_signed_in? and current_user.librarian?
+			if Book.find(params[:id]).nil?
+				flash[:error] = 'Book does not exist.'
+				redirect_to root_path
+			else
+				@book = Book.find(params[:book])
+				if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
+					user = User.find(@book.holder_id)
+					user.book_ids = user.book_ids - [@book.id]
 
-				@book.user_ids = @book.user_ids - [user.id]
-				@book.holder_id = nil
-				@book.due_date = nil
-				@book.save!
-				respond_to do |format|
-			    format.html {redirect_to book_path(@book.id) }
-			    format.js
-			  end
+					@book.user_ids = @book.user_ids - [user.id]
+					@book.holder_id = nil
+					@book.due_date = nil
+					@book.save!
+					respond_to do |format|
+					  format.html {redirect_to book_path(@book.id) }
+					  format.js
+					end
+				end
 			end
 		else
 			flash[:error] = 'Access denied.'
