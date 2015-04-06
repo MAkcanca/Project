@@ -11,4 +11,6 @@
 				<% end %>
 				<div id='newauthor'>
 				</div>
-				<%= link_to 'Add Author', newauthor_path(:book => @book), :remote => true %>
+				<% if user_signed_in? and current_user.librarian? %>
+					<%= link_to 'Add Author', newauthor_path(:book => @book), :remote => true %>
+				<% end %>
