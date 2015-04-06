@@ -27,7 +27,7 @@
 				<% if user_signed_in? and current_user.librarian? %>
 					<th>Tools</th>
 					<td>
-						<%= link_to 'Edit', edit_person_path(@person), class: 'button-xs' %><br/><br/>
+						<%= link_to 'Edit', edit_person_path(@person), class: 'button-xs' %>&nbsp;&nbsp;
 						<%= link_to 'Delete', person_path(@person),
 									class: 'button-xs',
 									method: :delete,
