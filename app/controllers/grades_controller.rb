@@ -20,7 +20,7 @@ class GradesController < ApplicationController
 		else
 			flash[:error] = 'Error handling course ID.']
 			redirect_to root_path
-		ne
+		end
 	end
 
 	def create
