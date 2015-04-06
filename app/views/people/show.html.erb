@@ -26,9 +26,9 @@
 		<tr>
 				<% if user_signed_in? and current_user.librarian? %>
 					<td>
-						<%= link_to '', edit_person_path(@person), class: 'glyphicon glyphicon-wrench' %>
-						<%= link_to '', person_path(@person),
-									class: 'glyphicon glyphicon-trash',
+						<%= link_to 'Edit', edit_person_path(@person), class: 'button-xs' %><br/>
+						<%= link_to 'Delete', person_path(@person),
+									class: 'button-xs',
 									method: :delete,
 									data: { confirm: "Delete '#{@person.full_name}'?" } %>
 					</td>
