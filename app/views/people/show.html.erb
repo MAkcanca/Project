@@ -26,11 +26,11 @@
 		<tr>
 				<% if user_signed_in? and current_user.librarian? %>
 					<td>
-						<%= link_to '', edit_person_path(person), class: 'glyphicon glyphicon-wrench' %>
-						<%= link_to '', person_path(person),
+						<%= link_to '', edit_person_path(@person), class: 'glyphicon glyphicon-wrench' %>
+						<%= link_to '', person_path(@person),
 									class: 'glyphicon glyphicon-trash',
 									method: :delete,
-									data: { confirm: "Delete '#{person.full_name}'?" } %>
+									data: { confirm: "Delete '#{@person.full_name}'?" } %>
 					</td>
 				<% end %>
 		</tr>
