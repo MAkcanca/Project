@@ -195,7 +195,7 @@ class BooksController < ApplicationController
 	end
 
 	def noauthor
-		if Book.find(params[:book]).nil? or Person.find(params[:person).nil?
+		if Book.find(params[:book]).nil? or Person.find(params[:person]).nil?
 			flash[:error] = 'Record does not exist.'
 			redirect_to root_path
 		else
