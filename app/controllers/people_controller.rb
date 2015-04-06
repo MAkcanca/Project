@@ -50,8 +50,7 @@ class PeopleController < ApplicationController
 			person = Person.find(params[:id])
 			person.books.each do |book|
 				if book.people.count == 1
-					flash[:notice] = 'One or more books must be moved to another author before this user can be deleted.'
-					redirect_to :back
+					book.destroy
 				end
 			end
 			flash[:notice] = 'Successfully deleted #{person.full_name}!'
