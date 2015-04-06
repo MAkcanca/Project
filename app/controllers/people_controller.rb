@@ -46,6 +46,23 @@ class PeopleController < ApplicationController
 	end
 
 	def delete
+		if user_signed_in? and current_user.librarian? 
+			person = Person.find(params[:id])
+			person.books.each do |book|
+				if book.people.count == 1
+					flash[:notice] = 'One or more books must be moved to another author before this user can be deleted.'
+					redirect_to :back
+				end
+			end
+			flash[:notice] = 'Successfully deleted #{person.full_name}!'
+		  person.destroy
+		  redirect_to people_path
+		else
+			flash[:error] = 'Access denied.'
+			redirect_to root_path
+		end
+
+		
 	end
 	private 
 		def secure_params
