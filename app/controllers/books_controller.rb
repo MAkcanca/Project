@@ -91,18 +91,20 @@ class BooksController < ApplicationController
   end
 
 	def reserve
-		if Book.find(params[:id]).nil?
-			flash[:error] = 'Book does not exist.'
-			redirect_to root_path
-		else
-			@book = Book.find(params[:book])
-			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
-				@book.user_ids = @book.user_ids << current_user.id
-				@book.save!
-				respond_to do |format|
-			    format.html {redirect_to book_path(@book.id) }
-			    format.js
-			  end
+		if user_signed_in? and (current_user.student? or current_user.instructor? or current_user.admin?)
+			if Book.find(params[:id]).nil?
+				flash[:error] = 'Book does not exist.'
+				redirect_to root_path
+			else
+				@book = Book.find(params[:book])
+				if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
+					@book.user_ids = @book.user_ids << current_user.id
+					@book.save!
+					respond_to do |format|
+					  format.html {redirect_to book_path(@book.id) }
+					  format.js
+					end
+				end
 			end
 		else
 			flash[:error] = 'Access denied.'
