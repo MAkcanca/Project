@@ -11,12 +11,11 @@
 				<% if @person.books.empty? %>
 					<em>No books here</em>
 				<% else %>
-					<% @person.books.each do |book| %>
-						<% if book != @person.books.first %>
-							<hr>
-						<% end %>
-						<%= link_to book.title, book_path(book) %>
-					<% end %>	
+					<ul>
+						<% @person.books.each do |book| %>
+							<li><%= link_to book.title, book_path(book) %></li>
+						<% end %>	
+					</ul>
 				<% end %>
 			</td>
 		</tr>
