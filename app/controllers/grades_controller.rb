@@ -15,7 +15,7 @@ class GradesController < ApplicationController
 	end
 	 
 	def new
-		if not params[:course_id].nil? and params[:id].to_i < Grade.all.count or params[:id].to_i >= 0
+		if not Course.find(params[:course_id].nil?
 			@course_id = params[:course_id]
 		else
 			flash[:error] = 'Error handling course ID.'
@@ -51,7 +51,7 @@ class GradesController < ApplicationController
 
   def show
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
-			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+			if Grade.find(params[:id]).nil?
 				flash[:error] = 'Grade does not exist.'
 				redirect_to root_path
 			else
@@ -69,7 +69,7 @@ class GradesController < ApplicationController
 
 	def update
 		if user_signed_in? and current_user.instructor?
-			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+			if Grade.find(params[:id]).nil?
 				flash[:error] = 'Grade does not exist.'
 				redirect_to root_path
 			else
@@ -87,7 +87,7 @@ class GradesController < ApplicationController
 		end
 	end
 	def destroy
-		if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+		if Grade.find(params[:id]).nil?
 			flash[:error] = 'Grade does not exist.'
 			redirect_to root_path
 		else

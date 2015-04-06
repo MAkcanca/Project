@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
-		if params[:id].to_i > User.all.count or params[:id].to_i < 0
+		if User.find(params[:id]).nil?
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
 		else
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   end
 
   def update
-		if params[:id].to_i > User.all.count or params[:id].to_i < 0
+		if User.find(params[:id]).nil?
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
 		else
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-		if params[:id].to_i > User.all.count or params[:id].to_i < 0
+		if User.find(params[:id]).nil?
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
 		else

@@ -8,7 +8,7 @@ class CoursesController < ApplicationController
   end
 
   def show
-		if params[:id].to_i > Course.all.count or params[:id].to_i < 0
+		if Course.find(params[:id]).nil?
 			flash[:error] = 'Course does not exist.'
 			redirect_to root_path
 		else
@@ -40,7 +40,7 @@ class CoursesController < ApplicationController
 
   def edit
 		if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == Course.find(params[:id]).instructor_id))
-			if params[:id] > Course.all.count
+			if Course.find(params[:id]).nil?
 				flash[:error] = 'Course does not exist.'
 				redirect_to root_path
 			else
@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
 
   def update
 		if user_signed_in? and current_user.admin?
-			if params[:id].to_i > Course.all.count or params[:id].to_i < 0
+			if Course.find(params[:id]).nil?
 				flash[:error] = 'Course does not exist.'
 				redirect_to root_path
 			else
@@ -75,7 +75,7 @@ class CoursesController < ApplicationController
   end
 
   def enroll
-		if params[:id].to_i > Course.all.count or params[:id].to_i < 0
+		if Course.find(params[:id]).nil?
 			flash[:error] = 'Course does not exist.'
 			redirect_to root_path
 		else
@@ -94,7 +94,7 @@ class CoursesController < ApplicationController
   end
 
   def drop
-		if params[:id].to_i > Course.all.count or params[:id].to_i < 0
+		if Course.find(params[:id]).nil?
 			flash[:error] = 'Course does not exist.'
 			redirect_to root_path
 		else
@@ -131,7 +131,7 @@ class CoursesController < ApplicationController
 
 	def remove
 		if user_signed_in? and current_user.admin? 
-			if (params[:user].to_i > User.all.count or params[:user].to_i < 0) or (params[:course].to_i > Course.all.count or params[:course].to_i < 0)
+			if Course.find(params[:course]).nil? or User.find(params[:user]).nil?
 				flash[:error] = 'Course does not exist.'
 				redirect_to root_path
 			else

@@ -8,7 +8,7 @@ class BooksController < ApplicationController
   end
 
   def show
-		if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+		if Book.find(params[:id]).nil?
 			flash[:error] = 'Book does not exist.'
 			redirect_to root_path
 		else 
@@ -46,7 +46,7 @@ class BooksController < ApplicationController
 	end
 
 	def edit
-		if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+		if Book.find(params[:id]).nil?
 			flash[:error] = 'Book does not exist.'
 			redirect_to root_path
 		else
@@ -56,7 +56,7 @@ class BooksController < ApplicationController
 
 	def update
 		if user_signed_in? and current_user.librarian?
-			if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+			if Book.find(params[:id]).nil?
 				flash[:error] = 'Book does not exist.'
 				redirect_to root_path
 			else
@@ -76,7 +76,7 @@ class BooksController < ApplicationController
 	end
  	def destroy
 		if user_signed_in? and current_user.librarian? 
-			if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+			if Book.find(params[:id]).nil?
 				flash[:error] = 'Book does not exist.'
 				redirect_to root_path
 			else
@@ -91,14 +91,19 @@ class BooksController < ApplicationController
   end
 
 	def reserve
-		@book = Book.find(params[:book])
-		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
-			@book.user_ids = @book.user_ids << current_user.id
-			@book.save!
-			respond_to do |format|
-	      format.html {redirect_to book_path(@book.id) }
-	      format.js
-	    end
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		else
+			@book = Book.find(params[:book])
+			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
+				@book.user_ids = @book.user_ids << current_user.id
+				@book.save!
+				respond_to do |format|
+			    format.html {redirect_to book_path(@book.id) }
+			    format.js
+			  end
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -106,18 +111,23 @@ class BooksController < ApplicationController
 	end
 
 	def unreserve
-		@book = Book.find(params[:book])
-		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
-			current_user.book_ids = current_user.book_ids - [@book.id]
-			@book.user_ids = @book.user_ids - [current_user.id]
-			@book.save!
-			respond_to do |format|
-	      format.html {redirect_to book_path(@book.id) }
-	      format.js
-	    end
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
 		else
-			flash[:error] = 'Access denied.'
-			redirect_to root_path 
+		@book = Book.find(params[:book])
+			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?)
+				current_user.book_ids = current_user.book_ids - [@book.id]
+				@book.user_ids = @book.user_ids - [current_user.id]
+				@book.save!
+				respond_to do |format|
+			    format.html {redirect_to book_path(@book.id) }
+			    format.js
+			  end
+			else
+				flash[:error] = 'Access denied.'
+				redirect_to root_path 
+			end
 		end
 	end
 	
@@ -139,75 +149,99 @@ class BooksController < ApplicationController
 	end
 
 	def uncheckout
-		@book = Book.find(params[:book])
-		if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
-			user = User.find(@book.holder_id)
-			user.book_ids = user.book_ids - [@book.id]
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		else
+			@book = Book.find(params[:book])
+			if user_signed_in? and current_user.librarian? and not (@book.holder_id.nil?)
+				user = User.find(@book.holder_id)
+				user.book_ids = user.book_ids - [@book.id]
 
-			@book.user_ids = @book.user_ids - [user.id]
-			@book.holder_id = nil
-			@book.due_date = nil
-			@book.save!
-			respond_to do |format|
-	      format.html {redirect_to book_path(@book.id) }
-	      format.js
-	    end
+				@book.user_ids = @book.user_ids - [user.id]
+				@book.holder_id = nil
+				@book.due_date = nil
+				@book.save!
+				respond_to do |format|
+			    format.html {redirect_to book_path(@book.id) }
+			    format.js
+			  end
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
 		end
 	end
 	def renew
-		@book = Book.find(params[:book])
-		if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?) and @book.holder_id == current_user.id and not @book.renewed 
-			@book.renewed = true
-			if Date.today >= @book.due_date
-				@book.update_attributes(:due_date => Date.today + 7.days)
-			else
-				@book.update_attributes(:due_date => @book.due_date + 7.days)
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		else
+			@book = Book.find(params[:book])
+			if user_signed_in? and not (current_user.librarian? or current_user.uninitialized?) and @book.holder_id == current_user.id and not @book.renewed 
+				@book.renewed = true
+				if Date.today >= @book.due_date
+					@book.update_attributes(:due_date => Date.today + 7.days)
+				else
+					@book.update_attributes(:due_date => @book.due_date + 7.days)
+				end
+				@book.save!
+				respond_to do |format|
+			    format.html {redirect_to book_path(@book.id) }
+			    format.js
+			  end
 			end
-			@book.save!
-			respond_to do |format|
-	      format.html {redirect_to book_path(@book.id) }
-	      format.js
-	    end
 		end
 	end
 
 	def noauthor
-		@person = Person.find(params[:person])
-		@book = Book.find(params[:book])
-		if @book.people.count > 1
-			@book.person_ids = @book.person_ids - [@person.id]
-			@book.save!
+		if Book.find(params[:book]).nil? or Person.find(params[:person).nil?
+			flash[:error] = 'Record does not exist.'
+			redirect_to root_path
+		else
+			@person = Person.find(params[:person])
+			@book = Book.find(params[:book])
+			if @book.people.count > 1
+				@book.person_ids = @book.person_ids - [@person.id]
+				@book.save!
 
-			@person.book_ids = @person.book_ids - [@book.id]
-			@person.save!
+				@person.book_ids = @person.book_ids - [@book.id]
+				@person.save!
 
-      respond_to do |format|
-        format.html {redirect_to book_path(@book.id) }
-        format.js
-      end
+		    respond_to do |format|
+		      format.html {redirect_to book_path(@book.id) }
+		      format.js
+		    end
+			end
 		end
 	end
 	def newauthor
-		@book = Book.find(params[:book])
-		respond_to do |format|
-			format.js
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		else
+			@book = Book.find(params[:book])
+			respond_to do |format|
+				format.js
+			end
 		end
 	end
 	def createnewauthor
-		@book = Book.find(params[:book])
-		@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
+		if Book.find(params[:id]).nil?
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		else
+			@book = Book.find(params[:book])
+			@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
 
-		@book.person_ids = @book.person_ids << @person.id
-		@book.save!
+			@book.person_ids = @book.person_ids << @person.id
+			@book.save!
 	
-		respond_to do |format|
-			format.html {redirect_to book_path(@book.id) }
-			format.js
+			respond_to do |format|
+				format.html {redirect_to book_path(@book.id) }
+				format.js
+			end
 		end
-
 		# render plain: params[:id].to_s.gsub(/\D/, '').to_i.inspect
 	end
 

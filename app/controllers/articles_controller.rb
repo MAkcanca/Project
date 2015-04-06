@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
 	end
 
 	def show
-		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+		if Article.find(params[:id]).nil?
 			flash[:error] = 'Article does not exist.'
 			redirect_to root_path
 		else
@@ -41,7 +41,7 @@ class ArticlesController < ApplicationController
   end
 
 	def edit
-		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+		if Article.find(params[:id]).nil?
 			flash[:error] = 'Article does not exist.'
 			redirect_to root_path
 		else
@@ -51,7 +51,7 @@ class ArticlesController < ApplicationController
 
 	def update
 		if user_signed_in? and current_user.instructor?
-			if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+			if Article.find(params[:id]).nil?
 				flash[:error] = 'Article does not exist.'
 				redirect_to root_path
 			else
@@ -69,7 +69,7 @@ class ArticlesController < ApplicationController
 		end
 	end
 	def destroy
-		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+		if Article.find(params[:id]).nil?
 			flash[:error] = 'Article does not exist.'
 			redirect_to root_path
 		else

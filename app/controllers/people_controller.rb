@@ -23,7 +23,7 @@ class PeopleController < ApplicationController
 		end
 	end
 	def show
-		if params[:id].to_i > Person.all.count or params[:id].to_i < 0
+		if Person.find(params[:id]).nil?
 			flash[:error] = 'Author does not exist.'
 			redirect_to root_path
 		else
@@ -32,7 +32,7 @@ class PeopleController < ApplicationController
 	end
 
 	def edit
-		if params[:id].to_i > Person.all.count or params[:id].to_i < 0
+		if Person.find(params[:id]).nil?
 			flash[:error] = 'Author does not exist.'
 			redirect_to root_path
 		else
@@ -42,7 +42,7 @@ class PeopleController < ApplicationController
 	end
 	def update
 		if user_signed_in? and current_user.librarian?
-			if params[:id].to_i > Person.all.count or params[:id].to_i < 0
+			if Person.find(params[:id]).nil?
 				flash[:error] = 'Author does not exist.'
 				redirect_to root_path
 			else 
@@ -64,7 +64,7 @@ class PeopleController < ApplicationController
 
 	def destroy
 		if user_signed_in? and current_user.librarian? 
-			if params[:id].to_i > Person.all.count or params[:id].to_i < 0
+			if Person.find(params[:id]).nil?
 				flash[:error] = 'Author does not exist.'
 				redirect_to root_path
 			else 

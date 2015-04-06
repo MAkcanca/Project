@@ -23,7 +23,7 @@ class DepartmentsController < ApplicationController
 		end
 	end
   def edit
-		if params[:id].to_i > Department.all.count or params[:id].to_i < 0
+		if Department.find(params[:id])
 			flash[:error] = 'Department does not exist.'
 			redirect_to root_path
 		else
@@ -32,7 +32,7 @@ class DepartmentsController < ApplicationController
   end
   def update
 		if user_signed_in? and current_user.admin?
-			if params[:id].to_i > Department.all.count or params[:id].to_i < 0
+			if Department.find(params[:id])
 				flash[:error] = 'Department does not exist.'
 				redirect_to root_path
 			else
@@ -51,7 +51,7 @@ class DepartmentsController < ApplicationController
 		end
   end
 	def show
-		if params[:id].to_i > Department.all.count or params[:id].to_i < 0
+		if Department.find(params[:id])
 			flash[:error] = 'Department does not exist.'
 			redirect_to root_path
 		else
@@ -60,7 +60,7 @@ class DepartmentsController < ApplicationController
 		end
 	end
 	def destroy
-		if params[:id].to_i > Department.all.count or params[:id].to_i < 0
+		if Department.find(params[:id])
 			flash[:error] = 'Department does not exist.'
 			redirect_to root_path
 		else

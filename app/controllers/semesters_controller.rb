@@ -42,7 +42,7 @@ class SemestersController < ApplicationController
 	end
 
 	def show
-		if params[:id].to_i > Semester.all.count or params[:id].to_i < 0
+		if Semester.find(params[:id]).nil?
 			flash[:error] = 'Semester does not exist.'
 			redirect_to root_path
 		else
@@ -57,7 +57,7 @@ class SemestersController < ApplicationController
 	end
 	def destroy
 		if user_signed_in? and current_user.admin? 
-			if params[:id].to_i > Semester.all.count or params[:id].to_i < 0
+			if Semester.find(params[:id]).nil?
 				flash[:error] = 'Semester does not exist.'
 				redirect_to root_path
 			else

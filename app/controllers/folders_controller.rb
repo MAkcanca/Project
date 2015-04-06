@@ -23,7 +23,7 @@ class FoldersController < ApplicationController
 
   def new
 		@folder = Folder.new
-		if not params[:course_id].nil? and params[:course_id].to_i < Course.all.count and params[:course_id].to_i >= 0
+		if not Course.find(params[:course_id]).nil?
 			@course_id = params[:course_id]
 		else
 			flash[:error] = 'Error with handling course ID.'
