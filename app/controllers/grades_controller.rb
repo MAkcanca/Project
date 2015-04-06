@@ -3,9 +3,13 @@ class GradesController < ApplicationController
 
 	def edit
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
+			if params[:id] > Grade.all.count
+				flash[:error] = 'Grade does not exist.'
+				redirect_to root_path
+			end
 			@grade = Grade.find(params[:id])
 		else
-			redirect_to root_path, :flash => { :error => "You are not authorized to view this page." }
+			redirect_to root_path, :flash => { :error => "Access denied." }
 		end
 	end
 	 
@@ -41,6 +45,10 @@ class GradesController < ApplicationController
 
   def show
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
+			if params[:id] > Article.all.count
+				flash[:error] = 'Article does not exist.'
+				redirect_to root_path
+			end
 	    @grade = Grade.find(params[:id])
 			@student = @grade.user
 		else
@@ -53,7 +61,11 @@ class GradesController < ApplicationController
   end
 
 	def update
-		if user_signed_in? and current_user.admin?
+		if user_signed_in? and current_user.instructor?
+			if params[:id] > Grade.all.count
+				flash[:error] = 'Grade does not exist.'
+				redirect_to root_path
+			end
 			@grade = Grade.find(params[:id])
 			if @grade.update(secure_params)
 				flash[:notice] = "Successfully updated the grade for #{@grade.title} for #{@grade.user.first_name} #{@grade.user.last_name}."
@@ -67,10 +79,10 @@ class GradesController < ApplicationController
 		end
 	end
 	def destroy
-		@article = Article.find(params[:id])
-		@article.destroy
+		@grade = Grade.find(params[:id])
+		@grade.destroy
 	 
-		redirect_to articles_path
+		redirect_to grades_path
 	end
 	private 
 		def secure_params

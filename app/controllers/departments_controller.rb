@@ -6,7 +6,6 @@ class DepartmentsController < ApplicationController
   end
 
   def new
-
   end
 	def create
 		if user_signed_in? and current_user.admin?
@@ -24,6 +23,10 @@ class DepartmentsController < ApplicationController
 		end
 	end
   def edit
+		if params[:id] > Department.all.count
+			flash[:error] = 'Department does not exist.'
+			redirect_to root_path
+		end
 		@department = Department.find(params[:id])
   end
   def update
@@ -42,6 +45,10 @@ class DepartmentsController < ApplicationController
 		end
   end
 	def show
+		if params[:id] > Departrment.all.count
+			flash[:error] = 'Department does not exist.'
+			redirect_to root_path
+		end
 		@department = Department.find(params[:id])
 		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
 	end

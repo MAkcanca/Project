@@ -8,6 +8,10 @@ class BooksController < ApplicationController
   end
 
   def show
+		if params[:id] > Book.all.count
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		end
 		@book = Book.find(params[:id])
   end
 
@@ -41,6 +45,10 @@ class BooksController < ApplicationController
 	end
 
 	def edit
+		if params[:id] > Book.all.count
+			flash[:error] = 'Book does not exist.'
+			redirect_to root_path
+		end
 		@book = Book.find(params[:id])
 	end
 

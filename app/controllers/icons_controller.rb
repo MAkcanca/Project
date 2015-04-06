@@ -17,6 +17,10 @@ class IconsController < ApplicationController
 	 	if not current_user.id == Course.find(params[:id]).instructor_id and not current_user.courses.include? Course.find(params[:id]) 
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		else
+			if params[:id] > Course.all.count
+				flash[:error] = 'Course does not exist.'
+				redirect_to root_path
+			end
 		  @course = Course.find(params[:id])
 			if current_user.student? 
 				@grades = Grade.where('user_id = ? AND course_id = ?', current_user.id, @course.id)

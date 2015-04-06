@@ -8,6 +8,10 @@ class CoursesController < ApplicationController
   end
 
   def show
+		if params[:id] > Course.all.count
+			flash[:error] = 'Course does not exist.'
+			redirect_to root_path
+		end
     @course = Course.find(params[:id])
     @course_id = "%04d" % @course.course_number.to_s
 		@instructor = User.find(@course.instructor_id)
@@ -35,6 +39,10 @@ class CoursesController < ApplicationController
 
   def edit
 		if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == Course.find(params[:id]).instructor_id))
+			if params[:id] > Course.all.count
+				flash[:error] = 'Course does not exist.'
+				redirect_to root_path
+			end
 		  @course = Course.find(params[:id])
 			@disabled = @course.semester.start_date + 10.days < Date.today
 		else

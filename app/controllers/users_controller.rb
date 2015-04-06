@@ -10,11 +10,19 @@ class UsersController < ApplicationController
   end
 
   def show
+		if params[:id] > User.all.count
+			flash[:error] = 'User does not exist.'
+			redirect_to root_path
+		end
 		@user = User.find(params[:id])
 		authorize @user
   end
 
   def update
+		if params[:id] > User.all.count
+			flash[:error] = 'User does not exist.'
+			redirect_to root_path
+		end
     @user = User.find(params[:id])
     authorize @user
 		@user.avatar = params[:avatar] 
@@ -26,6 +34,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
+		if params[:id] > User.all.count
+			flash[:error] = 'User does not exist.'
+			redirect_to root_path
+		end
     user = User.find(params[:id])
     authorize user
     user.destroy

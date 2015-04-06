@@ -9,6 +9,10 @@ class FoldersController < ApplicationController
 		if user_signed_in? and 
 			((current_user.instructor? and current_user.id == Folder.find(params[:id]).course.instructor_id) or 
 			 (current_user.student?    and current_user.courses.include? Folder.find(params[:id]).course))
+				if params[:id] > Folder.all.count
+					flash[:error] = 'Folder does not exist.'
+					redirect_to root_path
+				end
 				@folder = Folder.find(params[:id])
 		else
 			flash[:error] = 'Access denied.'

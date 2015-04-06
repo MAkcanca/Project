@@ -42,6 +42,10 @@ class SemestersController < ApplicationController
 	end
 
 	def show
+		if params[:id] > Semester.all.count
+			flash[:error] = 'Semester does not exist.'
+			redirect_to root_path
+		end
 		@semester = Semester.find(params[:id])
 	end
 	def edit
@@ -52,6 +56,10 @@ class SemestersController < ApplicationController
 	end
 	def destroy
 		if user_signed_in? and current_user.admin? 
+			if params[:id] > Semester.all.count
+				flash[:error] = 'Semester does not exist.'
+				redirect_to root_path
+			end
 		  semester = Semester.find(params[:id])
 		  semester.destroy
 			flash[:notice] = 'Successfully deleted a semester.'

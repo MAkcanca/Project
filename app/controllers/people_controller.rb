@@ -23,13 +23,25 @@ class PeopleController < ApplicationController
 		end
 	end
 	def show
+		if params[:id] > Person.all.count
+			flash[:error] = 'Author does not exist.'
+			redirect_to root_path
+		end
 		@person = Person.find(params[:id])
 	end
 	def edit
+		if params[:id] > Person.all.count
+			flash[:error] = 'Author does not exist.'
+			redirect_to root_path
+		end
 		@person = Person.find(params[:id])
 	end
 	def update
 		if user_signed_in? and current_user.librarian?
+			if params[:id] > Person.all.count
+				flash[:error] = 'Author does not exist.'
+				redirect_to root_path
+			end
 			@person = Person.find(params[:id])
 
 		  if @person.update(secure_params)

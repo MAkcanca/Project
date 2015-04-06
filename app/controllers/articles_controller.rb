@@ -27,10 +27,18 @@ class ArticlesController < ApplicationController
 	end
 
 	def show
+		if params[:id] > Article.all.count
+			flash[:error] = 'Article does not exist.'
+			redirect_to root_path
+		end
     @article = Article.find(params[:id])
   end
 
 	def edit
+		if params[:id] > Article.all.count
+			flash[:error] = 'Article does not exist.'
+			redirect_to root_path
+		end
 		@article = Article.find(params[:id])
 	end
 
