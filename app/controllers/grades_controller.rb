@@ -87,7 +87,7 @@ class GradesController < ApplicationController
 		end
 	end
 	def destroy
-			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+		if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
 			flash[:error] = 'Grade does not exist.'
 			redirect_to root_path
 		else
