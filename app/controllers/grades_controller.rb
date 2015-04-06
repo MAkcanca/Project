@@ -3,18 +3,24 @@ class GradesController < ApplicationController
 
 	def edit
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
-			if params[:id] > Grade.all.count
+			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
 				flash[:error] = 'Grade does not exist.'
 				redirect_to root_path
+			else
+				@grade = Grade.find(params[:id])
 			end
-			@grade = Grade.find(params[:id])
 		else
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		end
 	end
 	 
 	def new
-		@course_id = params[:course_id]
+		if not params[:course_id].nil? and params[:id].to_i < Grade.all.count or params[:id].to_i >= 0
+			@course_id = params[:course_id]
+		else
+			flash[:error] = 'Error handling course ID.']
+			redirect_to root_path
+		ne
 	end
 
 	def create
@@ -45,12 +51,13 @@ class GradesController < ApplicationController
 
   def show
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
-			if params[:id] > Article.all.count
-				flash[:error] = 'Article does not exist.'
+			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+				flash[:error] = 'Grade does not exist.'
 				redirect_to root_path
+			else
+			  @grade = Grade.find(params[:id])
+				@student = @grade.user
 			end
-	    @grade = Grade.find(params[:id])
-			@student = @grade.user
 		else
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		end
@@ -62,16 +69,17 @@ class GradesController < ApplicationController
 
 	def update
 		if user_signed_in? and current_user.instructor?
-			if params[:id] > Grade.all.count
+			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
 				flash[:error] = 'Grade does not exist.'
 				redirect_to root_path
-			end
-			@grade = Grade.find(params[:id])
-			if @grade.update(secure_params)
-				flash[:notice] = "Successfully updated the grade for #{@grade.title} for #{@grade.user.first_name} #{@grade.user.last_name}."
-				redirect_to icon_path(@grade.course_id)
 			else
-				render 'edit'
+				@grade = Grade.find(params[:id])
+				if @grade.update(secure_params)
+					flash[:notice] = "Successfully updated the grade for #{@grade.title} for #{@grade.user.first_name} #{@grade.user.last_name}."
+					redirect_to icon_path(@grade.course_id)
+				else
+					render 'edit'
+				end
 			end
 		else
 			flash[:notice] = 'Access denied.'
@@ -79,10 +87,15 @@ class GradesController < ApplicationController
 		end
 	end
 	def destroy
-		@grade = Grade.find(params[:id])
-		@grade.destroy
-	 
-		redirect_to grades_path
+			if params[:id].to_i > Grade.all.count or params[:id].to_i < 0
+			flash[:error] = 'Grade does not exist.'
+			redirect_to root_path
+		else
+			@grade = Grade.find(params[:id])
+			@grade.destroy
+		 
+			redirect_to grades_path
+		end
 	end
 	private 
 		def secure_params

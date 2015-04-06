@@ -23,34 +23,39 @@ class PeopleController < ApplicationController
 		end
 	end
 	def show
-		if params[:id] > Person.all.count
+		if params[:id].to_i > Person.all.count or params[:id].to_i < 0
 			flash[:error] = 'Author does not exist.'
 			redirect_to root_path
+		else
+			@person = Person.find(params[:id])
 		end
-		@person = Person.find(params[:id])
 	end
+
 	def edit
-		if params[:id] > Person.all.count
+		if params[:id].to_i > Person.all.count or params[:id].to_i < 0
 			flash[:error] = 'Author does not exist.'
 			redirect_to root_path
+		else
+			@person = Person.find(params[:id])
 		end
-		@person = Person.find(params[:id])
+
 	end
 	def update
 		if user_signed_in? and current_user.librarian?
-			if params[:id] > Person.all.count
+			if params[:id].to_i > Person.all.count or params[:id].to_i < 0
 				flash[:error] = 'Author does not exist.'
 				redirect_to root_path
-			end
-			@person = Person.find(params[:id])
+			else 
+				@person = Person.find(params[:id])
 
-		  if @person.update(secure_params)
-				flash[:notice] = "Successfully updated the person '#{@person.full_name}!'"
-		    redirect_to @person
-		  else
-				flash[:error] = @person.errors.full_messages.to_sentence.humanize
-		    render 'edit'
-		  end
+				if @person.update(secure_params)
+					flash[:notice] = "Successfully updated the person '#{@person.full_name}!'"
+				  redirect_to @person
+				else
+					flash[:error] = @person.errors.full_messages.to_sentence.humanize
+				  render 'edit'
+				end
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -59,15 +64,20 @@ class PeopleController < ApplicationController
 
 	def delete
 		if user_signed_in? and current_user.librarian? 
-			person = Person.find(params[:id])
-			person.books.each do |book|
-				if book.people.count == 1
-					book.destroy
+			if params[:id].to_i > Person.all.count or params[:id].to_i < 0
+				flash[:error] = 'Author does not exist.'
+				redirect_to root_path
+			else 
+				person = Person.find(params[:id])
+				person.books.each do |book|
+					if book.people.count == 1
+						book.destroy
+					end
 				end
+				flash[:notice] = 'Successfully deleted #{person.full_name}!'
+				person.destroy
+				redirect_to peoples_path
 			end
-			flash[:notice] = 'Successfully deleted #{person.full_name}!'
-		  person.destroy
-		  redirect_to peoples_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path

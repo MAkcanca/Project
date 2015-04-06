@@ -10,38 +10,42 @@ class UsersController < ApplicationController
   end
 
   def show
-		if params[:id] > User.all.count
+		if params[:id].to_i > User.all.count or params[:id].to_i < 0
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
+		else
+			@user = User.find(params[:id])
 		end
-		@user = User.find(params[:id])
+
 		authorize @user
   end
 
   def update
-		if params[:id] > User.all.count
+		if params[:id].to_i > User.all.count or params[:id].to_i < 0
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
+		else
+		  @user = User.find(params[:id])
+		  authorize @user
+			@user.avatar = params[:avatar] 
+			if @user.update_attributes(secure_params)
+		    redirect_to :back, :notice => "User updated."
+		  else
+		    redirect_to users_path, :alert => "Unable to update user."
+		  end
 		end
-    @user = User.find(params[:id])
-    authorize @user
-		@user.avatar = params[:avatar] 
-		if @user.update_attributes(secure_params)
-      redirect_to :back, :notice => "User updated."
-    else
-      redirect_to users_path, :alert => "Unable to update user."
-    end
   end
 
   def destroy
-		if params[:id] > User.all.count
+		if params[:id].to_i > User.all.count or params[:id].to_i < 0
 			flash[:error] = 'User does not exist.'
 			redirect_to root_path
+		else
+		  user = User.find(params[:id])
+		  authorize user
+		  user.destroy
+		  redirect_to users_path, :notice => "User deleted."
 		end
-    user = User.find(params[:id])
-    authorize user
-    user.destroy
-    redirect_to users_path, :notice => "User deleted."
   end
 
   private

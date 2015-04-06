@@ -3,7 +3,12 @@ class ArticlesController < ApplicationController
 	
 	def new
 	  @article = Article.new
-		@course_id = params[:course_id]
+		if params[:course].nil?
+			flash[:error] = 'Error in fetching news items.'
+			redirect_to root_path
+		else
+			@course_id = params[:course_id]
+		end
 	end
 
 	def create
@@ -27,29 +32,36 @@ class ArticlesController < ApplicationController
 	end
 
 	def show
-		if params[:id] > Article.all.count
+		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
 			flash[:error] = 'Article does not exist.'
 			redirect_to root_path
+		else
+	    @article = Article.find(params[:id])
 		end
-    @article = Article.find(params[:id])
   end
 
 	def edit
-		if params[:id] > Article.all.count
+		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
 			flash[:error] = 'Article does not exist.'
 			redirect_to root_path
+		else
+			@article = Article.find(params[:id])
 		end
-		@article = Article.find(params[:id])
 	end
 
 	def update
 		if user_signed_in? and current_user.instructor?
-			@article = Article.find(params[:id])
-		 
-			if @article.update(article_params)
-				redirect_to @article
+			if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+				flash[:error] = 'Article does not exist.'
+				redirect_to root_path
 			else
-				render 'edit'
+				@article = Article.find(params[:id])
+		 	
+				if @article.update(article_params)
+					redirect_to @article
+				else
+					render 'edit'
+				end
 			end
 		else
 			flash[:error] = 'Access denied.'
@@ -57,10 +69,15 @@ class ArticlesController < ApplicationController
 		end
 	end
 	def destroy
-		@article = Article.find(params[:id])
-		@article.destroy
-	 
-		redirect_to articles_path
+		if params[:id].to_i > Article.all.count or params[:id].to_i < 0
+			flash[:error] = 'Article does not exist.'
+			redirect_to root_path
+		else
+			@article = Article.find(params[:id])
+			@article.destroy
+		 
+			redirect_to articles_path
+		end
 	end
 	private
 		def article_params

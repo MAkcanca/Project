@@ -16,7 +16,11 @@ class HomesController < ApplicationController
 	end
 
 	def edit
-		@home = Home.first
+		if Home.first.nil?
+			@home = Home.new
+		else
+			@home = Home.first
+		end
 	end
 
 	def update

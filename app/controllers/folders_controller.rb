@@ -12,8 +12,9 @@ class FoldersController < ApplicationController
 				if params[:id] > Folder.all.count
 					flash[:error] = 'Folder does not exist.'
 					redirect_to root_path
+				else
+					@folder = Folder.find(params[:id])
 				end
-				@folder = Folder.find(params[:id])
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -22,7 +23,12 @@ class FoldersController < ApplicationController
 
   def new
 		@folder = Folder.new
-		@course_id = params[:course_id]
+		if not params[:course_id].nil? and params[:course_id].to_i < Course.all.count and params[:course_id].to_i >= 0
+			@course_id = params[:course_id]
+		else
+			flash[:error] = 'Error with handling course ID.'
+			redirect_to root_path
+		end
   end
 
 	def create

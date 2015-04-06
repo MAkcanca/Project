@@ -8,11 +8,12 @@ class BooksController < ApplicationController
   end
 
   def show
-		if params[:id].to_i > Book.all.count
+		if params[:id].to_i > Book.all.count or params[:id].to_i < 0
 			flash[:error] = 'Book does not exist.'
 			redirect_to root_path
+		else 
+			@book = Book.find(params[:id])
 		end
-		@book = Book.find(params[:id])
   end
 
   def new
@@ -45,24 +46,29 @@ class BooksController < ApplicationController
 	end
 
 	def edit
-		if params[:id] > Book.all.count
+		if params[:id].to_i > Book.all.count or params[:id].to_i < 0
 			flash[:error] = 'Book does not exist.'
 			redirect_to root_path
+		else
+			@book = Book.find(params[:id])
 		end
-		@book = Book.find(params[:id])
 	end
 
 	def update
 		if user_signed_in? and current_user.librarian?
-			@book = Book.find(params[:id])
-
-		  if @book.update(secure_params)
-				flash[:notice] = "Successfully updated the book '#{@book.title}!'"
-		    redirect_to @book
-		  else
-				flash[:error] = @book.errors.full_messages.to_sentence.humanize
-		    render 'edit'
-		  end
+			if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+				flash[:error] = 'Book does not exist.'
+				redirect_to root_path
+			else
+				@book = Book.find(params[:id])
+				if @book.update(secure_params)
+					flash[:notice] = "Successfully updated the book '#{@book.title}!'"
+				  redirect_to @book
+				else
+					flash[:error] = @book.errors.full_messages.to_sentence.humanize
+				  render 'edit'
+				end
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -70,9 +76,14 @@ class BooksController < ApplicationController
 	end
  	def destroy
 		if user_signed_in? and current_user.librarian? 
-		  book = Book.find(params[:id])
-		  book.destroy
-		  redirect_to books_path
+			if params[:id].to_i > Book.all.count or params[:id].to_i < 0
+				flash[:error] = 'Book does not exist.'
+				redirect_to root_path
+			else
+				book = Book.find(params[:id])
+				book.destroy
+				redirect_to books_path
+			end
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
