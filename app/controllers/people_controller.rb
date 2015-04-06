@@ -74,7 +74,7 @@ class PeopleController < ApplicationController
 						book.destroy
 					end
 				end
-				flash[:notice] = 'Successfully deleted #{person.full_name}!'
+				flash[:notice] = "Successfully deleted #{person.full_name}!"
 				person.destroy
 				redirect_to people_path
 			end
