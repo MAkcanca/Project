@@ -1,0 +1,55 @@
+<style>
+	td,th{ padding: 0 10px; }
+	div#collapse1 table{ margin: 0 auto; }
+	div#collapse1 select{ width: 10em; }
+	div#collapse1 input{ width: 10em; }
+</style>
+<div class='panel-group' id='accordion'>
+	<div class='panel panel-default'>
+		<div class='panel-heading'>
+			<h4 class='panel-title' style='text-align:center'>				
+				<a data-toggle='collapse' data-parent='#accordion' href='#collapse1'>Search Form</a>
+			</h4>
+		</div>
+		<div id='collapse1' class="<%= @collapse ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+			<div class='panel-body'>
+				<%= search_form_for @q, url: search_people_path, method: :post do |f| %>
+					<table class="<%= (mobile_device?) ? '' : 'desktop' %>">	
+						<tr>
+							<td><%= f.label 'First Name' %></td>
+							<td><%= f.search_field :first_name_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Last Name' %></td>
+							<td><%= f.search_field :last_name_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label 'Book titles' %></td>
+							<td><%= f.search_field :books_title_cont %></td>
+						</tr>
+					</table><br/>
+					<span style="width:100%;text-align:center;display:inline-block;"><%= f.submit "Search", :class => 'btn btn-primary'%></span>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table class='table table-striped'>
+	<tr>
+		<th>Name</th>
+		<th>Books</th>
+		<th>Date Added</th>
+	</tr>
+	<% if @people.empty? %>
+		<em>No authors here!</em>
+	<% else %>
+		<% @people.each do |person| %>
+			<tr>
+				<td><%= link_to person.full_name, person_path(person) %></td>
+				<td><%= person.books.count %></td>
+				<td><%= "#{person.created_at.to_date.day} #{Date::MONTHNAMES[person.created_at.to_date.month]} #{person.created_at.to_date.year}" %></td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>

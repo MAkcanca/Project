@@ -154,6 +154,23 @@ class BooksController < ApplicationController
 	    end
 		end
 	end
+
+	def noauthor
+		@person = Person.find(params[:person])
+		@book = Book.find(params[:book])
+		if @book.people.count > 1
+			@book.person_ids = @book.person_ids - [@person.id]
+			@book.save!
+
+			@person.book_ids = @person.book_ids - [@book.id]
+			@person.save!
+
+      respond_to do |format|
+        format.html {redirect_to book_path(@book.id) }
+        format.js
+      end
+		end
+	end
 	private
 		def secure_params
 		  params[:book].permit(:title,:author,:description,:pages,:isbn,:publisher,:publish_date,:category_id)

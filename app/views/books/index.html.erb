@@ -21,6 +21,14 @@
 							<td><%= f.search_field :title_cont %></td>
 						</tr>
 						<tr>
+							<td><%= f.label "Author's First Name" %></td>
+							<td><%= f.search_field :people_first_name_cont %></td>
+						</tr>
+						<tr>
+							<td><%= f.label "Author's Last Name" %></td>
+							<td><%= f.search_field :people_last_name_cont %></td>
+						</tr>
+						<tr>
 							<td><label>ISBN</label></td>
 							<td><%= f.search_field :isbn_cont %></td>
 						</tr>
@@ -99,7 +107,8 @@
 		</table>
 		<hr/>
 		<% if user_signed_in? and current_user.librarian? %>
-			<%= link_to 'Create New Book', new_book_path %>
+			<%= link_to 'Create New Book', new_book_path %><br/>
+			<%= link_to 'Create New Author', new_person_path %>
 		<% end %>
 	</div>
 <% else %>

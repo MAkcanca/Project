@@ -76,10 +76,8 @@ class CoursesController < ApplicationController
   def drop
     @course = Course.find(params[:course])
     if user_signed_in? and @course.users.include? current_user and @course.semester.start_date + 10.days > Date.today
-      courses = current_user.course_ids
-      current_user.course_ids = courses - [@course.id]
-      @users = @course.users
-      @course.user_ids = @users - [current_user.id]
+      current_user.course_ids = current_user.course_ids - [@course.id]
+      @course.user_ids = @course.users - [current_user.id]
       @course.enrolled = @course.users.size
       @course.save!
 

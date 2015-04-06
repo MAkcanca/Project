@@ -11,12 +11,8 @@
 			<td><%= @book.title %></td>
 		</tr>
 		<tr>
-			<th>Author(s):</th>
-			<td>
-				<% @book.people.each do |p| %>
-					<%= p.full_name %><%= "," if not p == @book.people.last %>
-				<% end %>
-			</td>
+			<th><%= @book.people.count == 1 ? "Author" : "Authors" %></th>
+			<td id='remove'><%= render 'remove' %></td>
 		</td>
 		<tr>
 			<th>Description</th>
