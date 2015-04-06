@@ -171,8 +171,29 @@ class BooksController < ApplicationController
       end
 		end
 	end
+	def newauthor
+		@book = Book.find(params[:book])
+		respond_to do |format|
+			format.js
+		end
+	end
+	def createnewauthor
+		@book = Book.find(params[:book])
+		@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
+
+		@book.person_ids = @book.person_ids << @person.id
+		@book.save!
+	
+		respond_to do |format|
+			format.html {redirect_to book_path(@book.id) }
+			format.js
+		end
+
+		# render plain: params[:id].to_s.gsub(/\D/, '').to_i.inspect
+	end
+
 	private
 		def secure_params
-		  params[:book].permit(:title,person_ids:[] ,:description,:pages,:isbn,:publisher,:publish_date,:category_id)
+		  params[:book].permit(:title,:person_id,:description,:pages,:isbn,:publisher,:publish_date,:category_id)
 		end
 end

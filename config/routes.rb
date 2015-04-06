@@ -28,11 +28,14 @@ Rails.application.routes.draw do
 
   get '/enroll' => 'courses#enroll', :as => :enroll
   get '/drop' => 'courses#drop', :as => :drop
+	get '/remove' => 'courses#remove', :as => :remove
+
 	get '/reserve' => 'books#reserve', :as => :reserve
 	get '/unreserve' => 'books#unreserve', :as => :unreserve
 	get '/checkout' => 'books#checkout', :as => :checkout
 	get '/uncheckout' => 'books#uncheckout', :as => :uncheckout
 	get '/renew' => 'books#renew', :as => :renew
 	get '/noauthor' => 'books#noauthor', :as => :noauthor
-	get '/remove' => 'courses#remove', :as => :remove
+	get '/newauthor' => 'books#newauthor', :as => :newauthor
+	post '/createnewauthor' => 'books#createnewauthor', :as => :createnewauthor
 end

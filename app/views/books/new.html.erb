@@ -13,7 +13,7 @@
 		</p>
 		<p>
 			<%= f.label :author %><br/>
-			<%= f.text_field :author, :class => 'field' %>
+			<%= f.collection_select :person_id, Person.order(:first_name),:id,:full_name,:include_blank => true %>
 		</p>
 		<p>
 			<%= f.label :description %><br/>
@@ -37,7 +37,7 @@
 		</p>
 		<p id='category'>
 			<%= f.label :category_id %><br/>
-			<%= f.collection_select :category_id, Category.order(:title),:id,:title, :style=>'width:50%;',:include_blank => true %>
+			<%= f.collection_select :category_id, Category.order(:title),:id,:title, :include_blank => true %>
 		</p>
 		<%= f.submit 'Submit', :class=>'btn btn-primary' %>
 	<% end %>

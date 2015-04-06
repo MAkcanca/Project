@@ -9,3 +9,6 @@
 						<br/>
 					<% end %>
 				<% end %>
+				<div id='newauthor'>
+				</div>
+				<%= link_to 'Add Author', newauthor_path(:book => @book), :remote => true %>

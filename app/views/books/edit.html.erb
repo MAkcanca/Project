@@ -1,5 +1,5 @@
 <style>
-	input.field, textarea, p#category select{ 
+	input.field, textarea, p.category select{ 
 		width: 50%;
 		max-width: 300px;
 	}
@@ -26,10 +26,6 @@
 			<%= f.text_field :title, :class=> 'field' %>
 		</p>
 		<p>
-			<%= f.label :author %><br/>
-			<%= f.collection_select :person_id, Person.order(:first_name),:id,:full_name, :style=>'width:50%;',:include_blank => true, :class => 'field', :multiple => true %>
-		</p>
-		<p>
 			<%= f.label :description %><br/>
 			<%= f.text_area 'description', :rows => 3, :style=>'width:50%'%>
 		</p>
@@ -41,9 +37,9 @@
 			<%= f.label :isbn %><br/>
 			<%= f.text_field :isbn, :class=> 'field' %>
 		</p>
-		<p id='category'>
+		<p class='category'>
 			<%= f.label :category_id %><br/>
-			<%= f.collection_select :category_id, Category.order(:title),:id,:title, :style=>'width:50%;',:include_blank => true %>
+			<%= f.collection_select :category_id, Category.order(:title),:id,:title %>
 		</p>
 		<%= f.submit 'Submit', :class=>"btn btn-primary" %>
 	<% end %>
