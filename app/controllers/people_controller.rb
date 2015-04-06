@@ -62,7 +62,7 @@ class PeopleController < ApplicationController
 		end
 	end
 
-	def delete
+	def destroy
 		if user_signed_in? and current_user.librarian? 
 			if params[:id].to_i > Person.all.count or params[:id].to_i < 0
 				flash[:error] = 'Author does not exist.'
@@ -82,8 +82,6 @@ class PeopleController < ApplicationController
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
 		end
-
-		
 	end
 	private 
 		def secure_params
