@@ -8,7 +8,7 @@ class BooksController < ApplicationController
   end
 
   def show
-		if params[:id] > Book.all.count
+		if params[:id].to_i > Book.all.count
 			flash[:error] = 'Book does not exist.'
 			redirect_to root_path
 		end
