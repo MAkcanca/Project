@@ -24,16 +24,10 @@ class PeopleController < ApplicationController
 	end
 	def show
 		@person = Person.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def edit
 		@person = Person.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def update
@@ -47,9 +41,6 @@ class PeopleController < ApplicationController
 				flash[:error] = @person.errors.full_messages.to_sentence.humanize
 			  render 'edit'
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -67,9 +58,6 @@ class PeopleController < ApplicationController
 			flash[:notice] = "Successfully deleted #{person.full_name}!"
 			person.destroy
 			redirect_to people_path
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path

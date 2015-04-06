@@ -9,9 +9,6 @@ class BooksController < ApplicationController
 
   def show
 		@book = Book.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
   def new
@@ -45,9 +42,6 @@ class BooksController < ApplicationController
 
 	def edit
 		@book = Book.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def update
@@ -60,9 +54,6 @@ class BooksController < ApplicationController
 				flash[:error] = @book.errors.full_messages.to_sentence.humanize
 			  render 'edit'
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -73,9 +64,6 @@ class BooksController < ApplicationController
 			book = Book.find(params[:id])
 			book.destroy
 			redirect_to books_path
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -93,9 +81,6 @@ class BooksController < ApplicationController
 				  format.js
 				end
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -116,9 +101,6 @@ class BooksController < ApplicationController
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	
 	def checkout
@@ -132,9 +114,6 @@ class BooksController < ApplicationController
 	      format.html {redirect_to book_path(@book.id) }
 	      format.js
 	    end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -157,9 +136,6 @@ class BooksController < ApplicationController
 				  format.js
 				end
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path 
@@ -180,9 +156,6 @@ class BooksController < ApplicationController
 		    format.js
 		  end
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def noauthor
@@ -198,18 +171,12 @@ class BooksController < ApplicationController
 	      format.js
 	    end
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	def newauthor
 		@book = Book.find(params[:book])
 		respond_to do |format|
 			format.js
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	def createnewauthor
 		@book = Book.find(params[:book])
@@ -221,9 +188,6 @@ class BooksController < ApplicationController
 			format.html {redirect_to book_path(@book.id) }
 			format.js
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 		# render plain: params[:id].to_s.gsub(/\D/, '').to_i.inspect
 	end
 

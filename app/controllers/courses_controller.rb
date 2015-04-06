@@ -11,9 +11,6 @@ class CoursesController < ApplicationController
 	  @course = Course.find(params[:id])
 	  @course_id = "%04d" % @course.course_number.to_s
 		@instructor = User.find(@course.instructor_id)
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
   def new
@@ -40,9 +37,6 @@ class CoursesController < ApplicationController
 		if user_signed_in? and (current_user.admin? or (current_user.instructor? and current_user.id == Course.find(params[:id]).instructor_id))
 			@course = Course.find(params[:id])
 			@disabled = @course.semester.start_date + 10.days < Date.today
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -60,9 +54,6 @@ class CoursesController < ApplicationController
 				flash[:error] = @course.errors.full_messages.to_sentence.humanize
 				render 'edit'
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -80,9 +71,6 @@ class CoursesController < ApplicationController
 	    	format.html {redirect_to course_path(@course.id) }
 		    format.js
 		  end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -101,9 +89,6 @@ class CoursesController < ApplicationController
 	      format.html {redirect_to course_path(@course.id) }
 	      format.js
 	    end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else 
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -115,9 +100,6 @@ class CoursesController < ApplicationController
 			@course = Course.find(params[:id])
 			@course.destroy
 			redirect_to courses_path
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -132,9 +114,6 @@ class CoursesController < ApplicationController
 			course.save!
 
 			redirect_to user_path(user)
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else 
 			flash[:error] = 'Access Denied.'
 			redirect_to root_path

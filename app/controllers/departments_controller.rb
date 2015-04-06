@@ -24,9 +24,6 @@ class DepartmentsController < ApplicationController
 	end
   def edit
 		@department = Department.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
   def update
 		if user_signed_in? and current_user.admin?
@@ -39,9 +36,6 @@ class DepartmentsController < ApplicationController
 				flash[:error] = @department.errors.full_messages.to_sentence.humanize
 				render 'edit'
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 		end
@@ -49,9 +43,6 @@ class DepartmentsController < ApplicationController
 	def show
 		@department = Department.find(params[:id])
 		@current_semester = Semester.where('start_date < ? AND end_date > ?', Date.today, Date.today).first
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	def destroy
 		@department = Department.find(params[:id])
@@ -66,9 +57,6 @@ class DepartmentsController < ApplicationController
 			flash[:error] = 'Cannot delete a department with courses.'
 			redirect_to :back
 	 	end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	private

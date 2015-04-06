@@ -9,9 +9,6 @@ class UploadsController < ApplicationController
 		@file = Upload.new
 		@course_id = params[:course_id]
 		redirect_to icons_path unless not @course_id.nil? 
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 	
   def create
@@ -25,9 +22,6 @@ class UploadsController < ApplicationController
 			flash[:error] = @file.errors.full_messages.to_sentence.humanize
 			redirect_to :back
 		end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
 	def show
@@ -42,10 +36,6 @@ class UploadsController < ApplicationController
 		@file = Upload.find(params[:id])
 		@file.destroy
 		redirect_to session.delete(:return_to), :notice => "The file '#{@file.title}' has been deleted."
-
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
 	private 

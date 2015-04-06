@@ -11,10 +11,6 @@ class UsersController < ApplicationController
 
   def show
 		@user = User.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
-
 		authorize @user
   end
 
@@ -27,9 +23,6 @@ class UsersController < ApplicationController
 	  else
 	    redirect_to users_path, :alert => "Unable to update user."
 	  end
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
   def destroy
@@ -37,9 +30,6 @@ class UsersController < ApplicationController
 	  authorize user
 	  user.destroy
 	  redirect_to users_path, :notice => "User deleted."
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
   private

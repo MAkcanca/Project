@@ -10,9 +10,6 @@ class FoldersController < ApplicationController
 			((current_user.instructor? and current_user.id == Folder.find(params[:id]).course.instructor_id) or 
 			 (current_user.student?    and current_user.courses.include? Folder.find(params[:id]).course))
 				@folder = Folder.find(params[:id])
-				rescue ActiveRecord::RecordNotFound
-					flash[:error] = 'Record not found.'
-					redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -22,9 +19,6 @@ class FoldersController < ApplicationController
   def new
 		@folder = Folder.new
 		@course_id = params[:course_id]
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
 	def create

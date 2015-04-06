@@ -4,9 +4,6 @@ class ArticlesController < ApplicationController
 	def new
 	  @article = Article.new
 		@course_id = params[:course_id]
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def create
@@ -31,16 +28,10 @@ class ArticlesController < ApplicationController
 
 	def show
     @article = Article.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
   end
 
 	def edit
 		@article = Article.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def update
@@ -52,10 +43,6 @@ class ArticlesController < ApplicationController
 			else
 				render 'edit'
 			end
-
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path
@@ -66,10 +53,6 @@ class ArticlesController < ApplicationController
 		@article.destroy
 	 
 		redirect_to articles_path
-
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	private
 		def article_params

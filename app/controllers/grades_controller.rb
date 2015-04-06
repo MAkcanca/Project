@@ -4,9 +4,6 @@ class GradesController < ApplicationController
 	def edit
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
 			@grade = Grade.find(params[:id])
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		end
@@ -14,9 +11,6 @@ class GradesController < ApplicationController
 	 
 	def new
 		@course_id = params[:course_id]
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 
 	def create
@@ -49,10 +43,6 @@ class GradesController < ApplicationController
 		if user_signed_in? and current_user.instructor? and Grade.find(params[:id]).course.instructor_id == current_user.id
 		  @grade = Grade.find(params[:id])
 			@student = @grade.user
-
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			redirect_to root_path, :flash => { :error => "Access denied." }
 		end
@@ -71,9 +61,6 @@ class GradesController < ApplicationController
 			else
 				render 'edit'
 			end
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:notice] = 'Access denied.'
 			redirect_to root_path
@@ -84,9 +71,6 @@ class GradesController < ApplicationController
 		@grade.destroy
 		 
 		redirect_to grades_path
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	private 
 		def secure_params

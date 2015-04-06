@@ -43,9 +43,6 @@ class SemestersController < ApplicationController
 
 	def show
 		@semester = Semester.find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-			flash[:error] = 'Record not found.'
-			redirect_to root_path
 	end
 	def edit
 		redirect_to root_path
@@ -59,9 +56,6 @@ class SemestersController < ApplicationController
 			semester.destroy
 			flash[:notice] = 'Successfully deleted a semester.'
 			redirect_to semesters_path
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		else
 			flash[:error] = 'Access denied.'
 			redirect_to root_path

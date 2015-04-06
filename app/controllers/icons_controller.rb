@@ -27,9 +27,6 @@ class IconsController < ApplicationController
 			@folder = Folder.where('course_id = ? AND instructor_only = ?', params[:id], false)
 			@instructor_uploads = Folder.where('course_id = ? AND instructor_only = ?', params[:id], true)
 			@articles = Article.where('course_id = ?', @course.id).reverse
-			rescue ActiveRecord::RecordNotFound
-				flash[:error] = 'Record not found.'
-				redirect_to root_path
 		end
   end
 end
