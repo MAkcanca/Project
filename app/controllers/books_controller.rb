@@ -173,6 +173,6 @@ class BooksController < ApplicationController
 	end
 	private
 		def secure_params
-		  params[:book].permit(:title,:author,:description,:pages,:isbn,:publisher,:publish_date,:category_id)
+		  params[:book].permit(:title,person_ids:[] ,:description,:pages,:isbn,:publisher,:publish_date,:category_id)
 		end
 end

@@ -27,7 +27,7 @@
 		</p>
 		<p>
 			<%= f.label :author %><br/>
-			<%= f.collection_select :person_id, Person.order(:first_name),:id,:full_name, :style=>'width:50%;',:include_blank => true %>
+			<%= f.collection_select :person_id, Person.order(:first_name),:id,:full_name, :style=>'width:50%;',:include_blank => true, :class => 'field', :multiple => true %>
 		</p>
 		<p>
 			<%= f.label :description %><br/>
