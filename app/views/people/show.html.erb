@@ -13,9 +13,9 @@
 				<% else %>
 					<% @person.books.each do |book| %>
 						<% if book != @person.books.first %>
-							<hr/>
-							<%= link_to book.title, book_path(book) %>
+							<hr>
 						<% end %>
+						<%= link_to book.title, book_path(book) %>
 					<% end %>	
 				<% end %>
 			</td>
