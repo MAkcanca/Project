@@ -26,9 +26,25 @@ class PeopleController < ApplicationController
 		@person = Person.find(params[:id])
 	end
 	def edit
+		@person = Person.find(params[:id])
 	end
 	def update
+		if user_signed_in? and current_user.librarian?
+			@person = Person.find(params[:id])
+
+		  if @person.update(secure_params)
+				flash[:notice] = "Successfully updated the person '#{@person.full_name}!'"
+		    redirect_to @person
+		  else
+				flash[:error] = @person.errors.full_messages.to_sentence.humanize
+		    render 'edit'
+		  end
+		else
+			flash[:error] = 'Access denied.'
+			redirect_to root_path
+		end
 	end
+
 	def delete
 	end
 	private 
