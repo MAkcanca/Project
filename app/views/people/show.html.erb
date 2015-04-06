@@ -12,7 +12,10 @@
 					<em>No books here</em>
 				<% else %>
 					<% @person.books.each do |book| %>
-						<%= link_to book.title, book_path(book) %><br/>
+						<% if book != @person.books.first %>
+							<hr/>
+							<%= link_to book.title, book_path(book) %>
+						<% end %>
 					<% end %>	
 				<% end %>
 			</td>
