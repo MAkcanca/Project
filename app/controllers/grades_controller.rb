@@ -15,7 +15,7 @@ class GradesController < ApplicationController
 	end
 	 
 	def new
-		if not Course.find(params[:course_id].nil?
+		if not Course.find(params[:course_id]).nil?
 			@course_id = params[:course_id]
 		else
 			flash[:error] = 'Error handling course ID.'
