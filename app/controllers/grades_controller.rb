@@ -18,7 +18,7 @@ class GradesController < ApplicationController
 		if not params[:course_id].nil? and params[:id].to_i < Grade.all.count or params[:id].to_i >= 0
 			@course_id = params[:course_id]
 		else
-			flash[:error] = 'Error handling course ID.']
+			flash[:error] = 'Error handling course ID.'
 			redirect_to root_path
 		end
 	end
