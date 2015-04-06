@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150328232003) do
+ActiveRecord::Schema.define(version: 20150405213203) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title",       default: "", null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20150328232003) do
   create_table "books", force: :cascade do |t|
     t.string   "title",                                             null: false
     t.string   "description",  default: "No description available", null: false
-    t.string   "author",       default: "",                         null: false
+    t.integer  "person_id",    default: 0,                          null: false
     t.string   "isbn",                                              null: false
     t.integer  "pages",                                             null: false
     t.string   "publisher",                                         null: false
@@ -44,6 +44,13 @@ ActiveRecord::Schema.define(version: 20150328232003) do
   end
 
   add_index "books_categories", ["book_id", "category_id"], name: "index_books_categories_on_book_id_and_category_id"
+
+  create_table "books_people", id: false, force: :cascade do |t|
+    t.integer "book_id"
+    t.integer "person_id"
+  end
+
+  add_index "books_people", ["book_id", "person_id"], name: "index_books_people_on_book_id_and_person_id"
 
   create_table "books_users", id: false, force: :cascade do |t|
     t.integer "book_id"
@@ -118,6 +125,13 @@ ActiveRecord::Schema.define(version: 20150328232003) do
     t.string   "description", default: "", null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+  end
+
+  create_table "people", force: :cascade do |t|
+    t.string   "first_name", default: "", null: false
+    t.string   "last_name",  default: "", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "semesters", force: :cascade do |t|

@@ -3,7 +3,7 @@ class CreateBooks < ActiveRecord::Migration
     create_table :books do |t|
       t.string :title, :null => false
       t.string :description, :null => false, :default => "No description available"
-      t.string :author, :null => false, :default => ''
+      t.integer :person_id, :null => false, :default => 0
       t.string :isbn, :null => false, :unique => true
       t.integer :pages, :null => false
       t.string :publisher, :null => false

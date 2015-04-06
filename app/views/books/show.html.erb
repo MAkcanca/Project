@@ -12,7 +12,11 @@
 		</tr>
 		<tr>
 			<th>Author(s):</th>
-			<td><%= @book.author %></td>
+			<td>
+				<% @book.people.each do |p| %>
+					<%= p.full_name %><%= "," if not p == @book.people.last %>
+				<% end %>
+			</td>
 		</td>
 		<tr>
 			<th>Description</th>

@@ -1,0 +1,18 @@
+<table class='table table-striped'>
+	<tr>
+		<th>Name</th>
+		<td><%= @person.full_name %></td>
+	</tr>
+	<tr>
+		<th>Books</th>
+		<td>
+			<% if @person.books.empty? %>
+				<em>No books here</em>
+			<% else %>
+				<% @person.books.each do |book| %>
+					<%= link_to book.title, book_path(book.title) %><br/>
+				<% end %>	
+			<% end %>
+		</td>
+	</tr>
+</table>
