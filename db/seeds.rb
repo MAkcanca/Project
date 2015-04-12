@@ -113,6 +113,18 @@ person_list.each do |first_name, last_name|
 	puts 'CREATED NEW PERSON: ' << first_name << ' ' << last_name
 end
 
+publisher_list = [
+	"Harcourt",
+	"Yale University Press",
+	"Viking",
+	"Crown",
+	"Simon and Schuster"
+]
+publisher_list.each do |title|
+	Publisher.create(title:title)
+	puts 'CREATED NEW PUBLISHER: ' << title 
+end 
+
 book_list = [
 	[
 		'Animals in Translation: Using the Mysteries of Autism to Decode Animal Behavior',  
@@ -120,7 +132,7 @@ book_list = [
 		358,
 		'0156031442',
 		1,
-		'Harcourt',
+		1,
 		Date.new(2006,1,2)
 	],
 	[
@@ -129,7 +141,7 @@ book_list = [
 		304,
 		'0300122233',
 		1,
-		'Yale University Press',
+		2,
 		Date.new(2008,4,8)
 	],
 	[ 
@@ -138,7 +150,7 @@ book_list = [
 		288,
 		'0525427201',
 		3,
-		'Viking',
+		3,
 		Date.new(2015,3,10)
 	],
 	[
@@ -147,7 +159,7 @@ book_list = [
 		488,
 		'0307408868',
 		3,
-		'Crown',
+		4,
 		Date.new(2015,3,10)
 	],
 	[
@@ -156,13 +168,13 @@ book_list = [
 		368,
 		'1476728747',
 		3,
-		'Simon and Schuster',
+		5,
 		Date.new(2015,5,5)
 	]
 ]
 
-book_list.each do |title, person_id, pages, isbn, category_id, publisher, publish_date|
-	Book.create(title:title, person_ids:person_id, pages:pages, isbn:isbn, category_id:category_id, publisher:publisher, publish_date:publish_date)
+book_list.each do |title, person_id, pages, isbn, category_id, publisher_id, publish_date|
+	Book.create(title:title, person_ids:person_id, pages:pages, isbn:isbn, category_id:category_id, publisher_id:publisher_id, publish_date:publish_date)
 	puts 'CREATED NEW BOOK: ' << title
 end
 home_description = [
