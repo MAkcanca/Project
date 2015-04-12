@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150405213203) do
+ActiveRecord::Schema.define(version: 20150412171929) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "title",       default: "", null: false
@@ -130,6 +130,13 @@ ActiveRecord::Schema.define(version: 20150405213203) do
   create_table "people", force: :cascade do |t|
     t.string   "first_name", default: "", null: false
     t.string   "last_name",  default: "", null: false
+    t.integer  "book_id",    default: 0,  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "publishers", force: :cascade do |t|
+    t.string   "title",      default: "", null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
