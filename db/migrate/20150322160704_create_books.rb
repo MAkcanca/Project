@@ -6,7 +6,7 @@ class CreateBooks < ActiveRecord::Migration
       t.integer :person_id, :null => false, :default => 0
       t.string :isbn, :null => false, :unique => true
       t.integer :pages, :null => false
-      t.string :publisher, :null => false
+      t.integer :publisher_id, :null => false
       t.date :publish_date, :null => false
       t.integer :category_id, :null => false
       t.date :due_date

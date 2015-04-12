@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20150412171929) do
     t.integer  "person_id",    default: 0,                          null: false
     t.string   "isbn",                                              null: false
     t.integer  "pages",                                             null: false
-    t.string   "publisher",                                         null: false
+    t.integer  "publisher_id",                                      null: false
     t.date     "publish_date",                                      null: false
     t.integer  "category_id",                                       null: false
     t.date     "due_date"
