@@ -4,4 +4,6 @@ class Folder < ActiveRecord::Base
 
 	validates :title, presence: true
 	validates :description, presence: true
+
+	validates_uniqueness_of :title, :case_sensitive => false
 end

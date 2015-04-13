@@ -26,6 +26,7 @@ class BooksController < ApplicationController
 			else
 				publish_date = Date.civil(params[:publish_date][:year].to_i, params[:publish_date][:month].to_i, params[:publish_date][:day].to_i)
 				@book.update_attributes(:publish_date => publish_date)
+				@book.person_ids = @book.person_ids << params[:person_id]
 				if @book.save
 					flash[:notice] = "Book created!"
 					redirect_to @book
@@ -193,6 +194,6 @@ class BooksController < ApplicationController
 
 	private
 		def secure_params
-		  params[:book].permit(:title,:person_id,:description,:pages,:isbn,:publisher,:publish_date,:category_id)
+		  params[:book].permit(:title,:person_id,:description,:pages,:isbn,:publisher_id,:publish_date,:category_id)
 		end
 end

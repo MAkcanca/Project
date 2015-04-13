@@ -38,6 +38,10 @@
 			<%= f.text_field :isbn, :class=> 'field' %>
 		</p>
 		<p class='category'>
+			<%= f.label :publisher %><br/>
+			<%= f.collection_select :publisher_id, Publisher.order(:title),:id,:title,:include_blank => true %>
+		</p>
+		<p class='category'>
 			<%= f.label :category_id %><br/>
 			<%= f.collection_select :category_id, Category.order(:title),:id,:title %>
 		</p>

@@ -28,7 +28,11 @@
 		</tr>
 		<tr>
 			<th>Publisher</th>
-			<td><%= @book.publisher.title %></td>
+			<% if not @book.publisher_id.nil? %>
+				<td><%= @book.publisher.title %></td>
+			<% else %>
+				<td><em>No publisher assigned</em></td>
+			<% end %>
 		</tr>
 		<tr>
 			<th>Category</th>
