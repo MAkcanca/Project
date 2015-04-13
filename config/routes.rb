@@ -14,7 +14,9 @@ Rails.application.routes.draw do
 	resources :people do
 		collection {post :search, to: 'people#index'}
 	end
-
+	resources :publishers do
+		collection {post :search, to: 'publishers#index' }
+	end
 	resources :icons
 	resources :uploads, :only => [:new, :create, :show, :destroy]
 	resources :grades
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
 	resources :departments
 	resources :homes
 	resources :avatars
+
 
   get '/enroll' => 'courses#enroll', :as => :enroll
   get '/drop' => 'courses#drop', :as => :drop

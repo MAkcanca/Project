@@ -13,7 +13,7 @@
 		<tr>
 			<th><%= @book.people.count == 1 ? "Author" : "Authors" %></th>
 			<td id='remove'><%= render 'authors' %></td>
-		</td>
+		</tr>
 		<tr>
 			<th>Description</th>
 			<td><%= @book.description %></td>
@@ -29,7 +29,7 @@
 		<tr>
 			<th>Publisher</th>
 			<% if not @book.publisher_id.nil? %>
-				<td><%= @book.publisher.title %></td>
+				<td><%= link_to @book.publisher.title, publisher_path(@book.publisher)%></td>
 			<% else %>
 				<td><em>No publisher assigned</em></td>
 			<% end %>

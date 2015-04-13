@@ -1,0 +1,53 @@
+<style>
+	td,th{ padding: 0 10px; }
+	div#collapse1 table{ margin: 0 auto; }
+	div#collapse1 select{ width: 10em; }
+	div#collapse1 input{ width: 10em; }
+</style>
+
+<div class='panel-group' id='accordion'>
+	<div class='panel panel-default'>
+		<div class='panel-heading'>
+			<h4 class='panel-title' style='text-align:center'>				
+				<a data-toggle='collapse' data-parent='#accordion' href='#collapse1'>Search Form</a>
+			</h4>
+		</div>
+		<div id='collapse1' class="<%= @collapse ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+			<div class='panel-body'>
+				<%= search_form_for @q, url: search_publishers_path, method: :post do |f| %>
+					<table class="<%= (mobile_device?) ? '' : 'desktop' %>">	
+						<tr>
+							<td><%= f.label 'Keywords' %></td>
+							<td><%= f.search_field :title_cont %></td>
+						</tr>
+					</table><br/>
+					<span style="width:100%;text-align:center;display:inline-block;"><%= f.submit "Search", :class => 'btn btn-primary'%></span>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
+<% if not @publishers.empty? %>
+	<div class='well'>
+		<h3>Publishers</h3>
+		<table class='table table-striped' style='width:100%'>
+			<tr>
+				<th>Title</th>
+				<th>Books</th>
+			</tr>
+			<% @publishers.each do |publisher| %>
+				<tr>			
+					<td><%= link_to publisher.title, publisher_path(publisher.id) %></td>
+					<td><%= publisher.books.count %> </td>
+				</tr>
+			<% end %>
+		</table>
+		<hr/>
+		<% if user_signed_in? and current_user.librarian? %>
+			<%= link_to 'Create New Book', new_book_path %><br/>
+			<%= link_to 'Create New Author', new_person_path %>
+		<% end %>
+	</div>
+<% else %>
+	No results returned.
+<% end %>

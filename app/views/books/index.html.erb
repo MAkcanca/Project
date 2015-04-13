@@ -34,7 +34,7 @@
 						</tr>
 						<tr>
 							<td><%= f.label 'Publisher' %></td>
-							<td><%= f.search_field :publisher_title_cont %></td>
+							<td><%= f.select :publisher_id_eq, options_from_collection_for_select(Publisher.all, 'id', 'title', @q.publisher_id_eq), :style => 'display:inline-block;width:100%',:include_blank => true %></td>
 						</tr>
 						<tr>						
 							<td><%= f.label 'Category' %></td>

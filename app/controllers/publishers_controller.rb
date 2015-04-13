@@ -1,7 +1,9 @@
 class PublishersController < ApplicationController
 	before_filter :authorize_initialized, :except => [:index, :show]
 	def index
-		@publishers = Publisher.all 
+		@q = Publisher.ransack(params[:q])
+		@publishers = @q.result(distinct:true)
+		@collapse = @publishers.count != Publisher.all.count
 	end
 	def new
 	end
@@ -38,6 +40,11 @@ class PublishersController < ApplicationController
 			redirect_to root_path
 		end
 	end
+
+	def show
+		@publisher = Publisher.find(params[:id])
+	end
+
 	def destroy
 		@publisher = Publisher.find(params[:id])
 		if user_signed_in? and current_user.librarian?
