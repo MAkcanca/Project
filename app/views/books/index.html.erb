@@ -108,7 +108,7 @@
 		<hr/>
 		<% if user_signed_in? and current_user.librarian? %>
 			<%= link_to 'Create New Book', new_book_path %><br/>
-			<%= link_to 'Create New Author', new_person_path %>
+			<%= link_to 'Create New Author', new_person_path %><br/>
 			<%= link_to 'Create New Publisher', new_publisher_path %>
 		<% end %>
 	</div>
