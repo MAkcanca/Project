@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
 		if @user.update_attributes(secure_params)
 			flash[:notice] = "User updated!"
-			redirect_to @user
+			redirect_to :back
 		else
 			flash[:error] = @user.errors.full_messages.to_sentence.humanize
 			render 'new'
