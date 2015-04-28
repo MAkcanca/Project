@@ -9,13 +9,13 @@
   <%= link_to user.email, user %>
 </td>
 <% if not mobile_device? %>
-	<td>
+	<td id="role-<%= user.id %>">
 		<%= form_for(user) do |f| %>
 		  <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, :disabled => (user == current_user)) %>
 		  <%= f.submit 'Save', :class => 'button-xs' %>
 		<% end %>
 	</td>
-	<td>
+	<td id="department-<%= user.id %>">
 		<%= form_for(user) do |f| %>
 			<%= f.collection_select :department_id, Department.order(:title),:id,:title, include_blank: true %>
 			<%= f.submit 'Save', :class => 'button-xs' %>

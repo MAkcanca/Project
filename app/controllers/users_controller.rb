@@ -18,11 +18,12 @@ class UsersController < ApplicationController
 	  @user = User.find(params[:id])
 	  authorize @user
 		@user.avatar = params[:avatar] 
-		if @user.update_attributes(secure_params)
-	    redirect_to :back, :notice => "User updated."
-	  else
-	    redirect_to users_path, :alert => "Unable to update user."
-	  end
+
+		@user.update_attributes(secure_params!
+		respond_to do |format|
+		  format.html {redirect_to user_path(@user.id) }
+		  format.js
+		end
   end
 
   def destroy
