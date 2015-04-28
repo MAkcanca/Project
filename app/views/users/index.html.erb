@@ -72,7 +72,7 @@
 				</tr>
 			<% else %>
 				<% @users.each do |user| %>
-				   <tr>
+				   <tr id="user-<%= user.id %>">
 				     <%= render user %>
 				   </tr>
 				 <% end %>
