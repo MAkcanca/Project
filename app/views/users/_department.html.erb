@@ -1,0 +1,4 @@
+		<%= form_for(user) do |f| %>
+			<%= f.collection_select :department_id, Department.order(:title),:id,:title, include_blank: true %>
+			<%= f.submit 'Save', :class => 'button-xs' %>
+		<% end %>

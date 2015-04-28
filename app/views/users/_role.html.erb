@@ -1,0 +1,4 @@
+		<%= form_for(user) do |f| %>
+		  <%= f.select(:role, User.roles.keys.map {|role| [role.titleize,role]}, :disabled => (user == current_user)) %>
+		  <%= f.submit 'Save', :class => 'button-xs' %>
+		<% end %>
