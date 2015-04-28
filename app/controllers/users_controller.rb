@@ -20,10 +20,12 @@ class UsersController < ApplicationController
 	  authorize @user
 		@user.avatar = params[:avatar] 
 
-		@user.update_attributes(secure_params)
-		respond_to do |format|
-		  format.html{ redirect_to users_path, :notice => 'updated entire screen' }
-		  format.js{ flash[:notice] = "Successfully updated user!" }
+		if @user.update_attributes(secure_params)
+			flash[:notice] = "User updated!"
+			redirect_to @user
+		else
+			flash[:error] = @user.errors.full_messages.to_sentence.humanize
+			render 'new'
 		end
   end
 
