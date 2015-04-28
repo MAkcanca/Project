@@ -10,10 +10,10 @@
 </td>
 <% if not mobile_device? %>
 	<td id="role-<%= user.id %>">
-		<%= render 'role', locals: {user:user} %>
+		<%= render :partial => 'users/role', :locals => {:user => user} %>
 	</td>
 	<td id="department-<%= user.id %>">
-		<%= render 'department', locals: {user:user} %>
+		<%= render :partial => 'users/department',:locals => {:user => user}%>
 	</td>
 <% end %>
 <td>
