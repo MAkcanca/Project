@@ -1,2 +1,6 @@
+<% if flash[:success] %>
+    $("#flash_delete_option").html("<%= j flash[:success]%>");
+<% end %>
+
 $("#user-<%= @user.id %>").html("<%= (j render :partial => 'users/user', :locals => {user:@user}).html_safe %>" );
 
