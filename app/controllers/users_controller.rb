@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 		@q = User.ransack(params[:q])
 		@users = @q.result(distinct:true)
 		@collapse = @users.count != User.all.count
+		@users.order! 'first_name ASC'
     authorize @users
   end
 
