@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 	  authorize @user
 		@user.avatar = params[:avatar] 
 
-		@user.update_attributes(secure_params!
+		@user.update_attributes(secure_params)
 		respond_to do |format|
 		  format.html {redirect_to user_path(@user.id) }
 		  format.js

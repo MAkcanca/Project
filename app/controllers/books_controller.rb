@@ -165,7 +165,8 @@ class BooksController < ApplicationController
 		if @book.people.count > 1
 			@book.person_ids = @book.person_ids - [@person.id]
 			@book.save!
-				@person.book_ids = @person.book_ids - [@book.id]
+			
+			@person.book_ids = @person.book_ids - [@book.id]
 			@person.save!
 		    respond_to do |format|
 	      format.html {redirect_to book_path(@book.id) }
