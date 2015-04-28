@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 		@user.update_attributes(secure_params)
 		respond_to do |format|
 		  format.html{ redirect_to users_path }
-		  format.js
+		  format.js{ flash[:notice] = "Successfully updated user!" }
 		end
   end
 
