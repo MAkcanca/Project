@@ -1,2 +1,3 @@
 $("#notice").html("<%= flash[:notice] %>");
-$("#user-<%= @user.id %>").html("<%= (j render :partial => 'users/user', :locals => {user:@user}).html_safe %>" );
+$("#role-<%= @user.id %>").html("<%= (j render :partial => 'users/role', :locals => {user:@user}).html_safe %>" );
+$("#department-<%= @user.id %>").html("<%= (j render :partial => 'users/department', :locals => {user:@user}).html_safe %>" );
