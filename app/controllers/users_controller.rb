@@ -19,7 +19,12 @@ class UsersController < ApplicationController
 	  @user = User.find(params[:id])
 	  authorize @user
 		@user.avatar = params[:avatar] 
+		respond_to do |format|
+			format.html {redirect_to book_path(@book.id) }
+			format.js
+		end
 
+=begin
 		if @user.update_attributes(secure_params)
 			flash[:notice] = "User updated!"
 			redirect_to :back
@@ -27,6 +32,7 @@ class UsersController < ApplicationController
 			flash[:error] = @user.errors.full_messages.to_sentence.humanize
 			render 'new'
 		end
+=end
   end
 
   def destroy
