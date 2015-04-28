@@ -1,4 +1,4 @@
 $("#notice").html("<%= flash[:notice] %>");
 $("#role-<%= @user.id %>").html("<%= (j render :partial => 'users/role', :locals => {user:@user}).html_safe %>" );
 $("#department-<%= @user.id %>").html("<%= (j render :partial => 'users/department', :locals => {user:@user}).html_safe %>" );
-$("#notice").html("<%= flash[:notice] %>");
+$(".notice").html("<%= flash[:notice] %>");
