@@ -13,7 +13,7 @@
       <%= render 'layouts/navigation' %>
     </header>
     <main role="main">
-			<div id="notice"><%= render 'layouts/messages' %></div>
+			<div id="notice"><%= render 'layouts/messages', :locals => {flash: flash} %></div>
       <%= yield %>
     </main>
   </body>
