@@ -1,2 +1,2 @@
+$("#notice").html("<%=j flash[:notice] %>");
 $("#user-<%= @user.id %>").html("<%= (j render :partial => 'users/user', :locals => {user:@user}).html_safe %>" );
-
