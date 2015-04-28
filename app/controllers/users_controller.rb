@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
 		@user.update_attributes(secure_params)
 		respond_to do |format|
-		  format.html {redirect_to user_path(@user.id) }
+		  format.html{ redirect_to users_path }
 		  format.js
 		end
   end
