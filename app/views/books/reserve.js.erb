@@ -1,2 +1,3 @@
 $("#reserve-<%= @book.id %>").html("<%= (j render :partial => 'books/reserve', :locals => {book:@book}).html_safe %>");
 $("#queue-<%= @book.id %>").html("<%= (j render :partial => 'books/queue', :locals => {book:@book}).html_safe %>");
+$("#notice").html("<%= (j render 'layouts/messages', :locals => {flash: flash}) %>");
