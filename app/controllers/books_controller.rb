@@ -177,7 +177,7 @@ class BooksController < ApplicationController
 	def newauthor
 		@book = Book.find(params[:book])
 		respond_to do |format|
-			format.js 
+			format.js { flash.now[:notice] = "Created #{@person.full_name} to author list of '#{@book.title}'." }
 		end
 	end
 	def createnewauthor
