@@ -1,1 +1,2 @@
 $("#newauthor").html("<%= (j render :partial => 'books/newauthor', :locals => {book:@book}).html_safe %>");
+$("#notice").html("<%= (j render 'layouts/messages', :locals => {flash: flash}) %>");

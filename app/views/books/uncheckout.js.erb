@@ -4,3 +4,4 @@ $("#checkout-<%= @book.id %>").html("<%= (j render :partial => 'books/checkout',
 $("#holder-<%= @book.id %>").html("<%= (j render :partial => 'books/holder', :locals => {book:@book}).html_safe %>");
 $("#duedate-<%= @book.id %>").html("<%= (j render :partial => 'books/duedate', :locals => {book:@book}).html_safe %>");
 $("#fine-<%= @book.id %>").html("<%= (j render :partial => 'books/fine', :locals => {book:@book}).html_safe %>");
+$("#notice").html("<%= (j render 'layouts/messages', :locals => {flash: flash}) %>");
