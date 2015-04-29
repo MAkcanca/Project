@@ -69,7 +69,7 @@ class CoursesController < ApplicationController
 
 		  respond_to do |format|
 	    	format.html {redirect_to course_path(@course.id) }
-		    format.js
+		    format.js { flash.now[:notice] = "Enrolled in '#{@course.title}.'" }
 		  end
 		else
 			flash[:error] = 'Access denied.'
@@ -87,7 +87,7 @@ class CoursesController < ApplicationController
 
 	    respond_to do |format|
 	      format.html {redirect_to course_path(@course.id) }
-	      format.js
+	      format.js { flash.now[:notice] = "Dropped course '#{@course.title}.'" } 
 	    end
 		else 
 			flash[:error] = 'Access denied.'

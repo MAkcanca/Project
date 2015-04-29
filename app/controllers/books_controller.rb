@@ -79,7 +79,7 @@ class BooksController < ApplicationController
 				@book.save!
 				respond_to do |format|
 				  format.html {redirect_to book_path(@book.id) }
-				  format.js { flash[:notice] = "Reserved book '#{@book.title}'." }
+				  format.js { flash.now[:notice] = "Reserved book '#{@book.title}'." }
 				end
 			end
 		else
@@ -96,7 +96,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 		    format.html {redirect_to book_path(@book.id) }
-		    format.js { flash[:notice] = "Unreserved book '#{@book.title}'." }
+		    format.js { flash.now[:notice] = "Unreserved book '#{@book.title}'." }
 		  end
 		else
 			flash[:error] = 'Access denied.'
@@ -113,7 +113,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 	      format.html {redirect_to book_path(@book.id) }
-	      format.js { flash[:notice] = "Checked '#{@book.title}' out to #{user.full_name}." }
+	      format.js { flash.now[:notice] = "Checked '#{@book.title}' out to #{user.full_name}." }
 	    end
 		else
 			flash[:error] = 'Access denied.'
@@ -134,7 +134,7 @@ class BooksController < ApplicationController
 				@book.save!
 				respond_to do |format|
 				  format.html {redirect_to book_path(@book.id) }
-				  format.js { flash[:notice] = "Returned '#{@book.title}'." }
+				  format.js { flash.now[:notice] = "Returned '#{@book.title}'." }
 				end
 			end
 		else
@@ -154,7 +154,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 		    format.html {redirect_to book_path(@book.id) }
-		    format.js { flash[:notice] = "Renewed '#{@book.title}'." }
+		    format.js { flash.now[:notice] = "Renewed '#{@book.title}'." }
 		  end
 		end
 	end
@@ -170,7 +170,7 @@ class BooksController < ApplicationController
 			@person.save!
 		    respond_to do |format|
 	      format.html {redirect_to book_path(@book.id) }
-	      format.js { flash[:notice] = "Removed #{@person.full_name} from author list of '#{@book.title}'." }
+	      format.js { flash.now[:notice] = "Removed #{@person.full_name} from author list of '#{@book.title}'." }
 	    end
 		end
 	end
@@ -188,7 +188,7 @@ class BooksController < ApplicationController
 
 		respond_to do |format|
 			format.html {redirect_to book_path(@book.id) }
-			format.js { flash[:notice] = "Created #{@person.full_name} to author list of '#{@book.title}'." }
+			format.js { flash.now[:notice] = "Created #{@person.full_name} to author list of '#{@book.title}'." }
 		end
 		# render plain: params[:id].to_s.gsub(/\D/, '').to_i.inspect
 	end
