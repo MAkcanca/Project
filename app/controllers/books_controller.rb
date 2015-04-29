@@ -79,7 +79,7 @@ class BooksController < ApplicationController
 				@book.save!
 				respond_to do |format|
 				  format.html {redirect_to book_path(@book.id) }
-				  format.js { flash.now[:notice] = "Reserved book '#{@book.title}'." }
+				  format.js { flash.now[:notice] = "Reserved book '#{@book.title}.'" }
 				end
 			end
 		else
@@ -96,7 +96,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 		    format.html {redirect_to book_path(@book.id) }
-		    format.js { flash.now[:notice] = "Unreserved book '#{@book.title}'." }
+		    format.js { flash.now[:notice] = "Unreserved book '#{@book.title}.'" }
 		  end
 		else
 			flash[:error] = 'Access denied.'
@@ -168,10 +168,10 @@ class BooksController < ApplicationController
 			
 			@person.book_ids = @person.book_ids - [@book.id]
 			@person.save!
-		    respond_to do |format|
-			    format.html {redirect_to book_path(@book.id) }
-			    format.js { flash.now[:notice] = "Removed #{@person.full_name} from author list of '#{@book.title}.'" }
-			  end
+
+		  respond_to do |format|
+			  format.js { flash.now[:notice] = "Removed #{@person.full_name} from author list of '#{@book.title}.'" }
+			end
 		end
 	end
 	def newauthor
@@ -187,7 +187,6 @@ class BooksController < ApplicationController
 		@book.save!
 
 		respond_to do |format|
-			format.html {redirect_to book_path(@book.id) }
 			format.js { flash.now[:notice] = "Created #{@person.full_name} to author list of '#{@book.title}.'" }
 		end
 	end
