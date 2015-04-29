@@ -4,7 +4,7 @@
 					<% @book.people.each do |p| %>
 						<%= link_to p.full_name, person_path(p), :style => 'display:inline-block; width: 10em' %>
 						<% if @book.people.count > 1 and user_signed_in? and current_user.librarian? %>
-							<%= link_to 'Remove', noauthor_path(:person => p, :book => @book), :data => {:confirm => "Remove '#{p.full_name}' as author from '#{@book.title}'?", :remote => true } %>
+							<%= link_to 'Remove', noauthor_path(:person => p, :book => @book), :data => { confirm: "Remove '#{p.full_name}' as author from '#{@book.title}'?", :remote => true } %>
 						<% end %>
 						<br/>
 					<% end %>
@@ -12,5 +12,5 @@
 				<div id='newauthor'>
 				</div>
 				<% if user_signed_in? and current_user.librarian? %>
-					<%= link_to 'Add Author', newauthor_path(:book => @book), :data => {:remote => true}%>
+					<%= link_to 'Add Author', newauthor_path(:book => @book), :data => { :remote => true }%>
 				<% end %>
