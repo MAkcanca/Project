@@ -1,4 +1,4 @@
-<%= form_for :id, :url => {:action => "createnewauthor", params: {:book => @book.id}}, :method => 'get' do |f| %>
+<%= form_for :id, :url => {:action => "createnewauthor", params: {:book => @book.id}} do |f| %>
 	<%= f.collection_select :id, Person.all.order(:first_name),:id,:full_name,:include_blank => true %>
 	<%= f.submit 'Submit', :class=>'button-xs' %>
 <% end %>
