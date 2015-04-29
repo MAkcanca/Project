@@ -165,12 +165,9 @@ class BooksController < ApplicationController
 		if @book.people.count > 1
 			@book.person_ids = @book.person_ids - [@person.id]
 			@book.save!
-			
-			@person.book_ids = @person.book_ids - [@book.id]
-			@person.save!
-
-		  respond_to do |format|
-			  format.js { flash.now[:notice] = "Removed #{@person.full_name} from author list of '#{@book.title}.'" }
+			respond_to do |format|
+			  format.html {redirect_to book_path(@book.id) }
+			  format.js { flash.now[:notice] = "Returned '#{@book.title}.'" }
 			end
 		end
 	end
@@ -185,9 +182,9 @@ class BooksController < ApplicationController
 		@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
 		@book.person_ids = @book.person_ids << @person.id
 		@book.save!
-
 		respond_to do |format|
-			format.js { flash.now[:notice] = "Created #{@person.full_name} to author list of '#{@book.title}.'" }
+		  format.html {redirect_to book_path(@book.id) }
+		  format.js { flash.now[:notice] = "Returned '#{@book.title}.'" }
 		end
 	end
 
