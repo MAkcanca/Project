@@ -167,7 +167,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 			  format.html {redirect_to book_path(@book.id) }
-			  format.js { flash.now[:notice] = "Removed author from '#{@book.title}.'" }
+			  format.js { flash.now[:notice] = "Removed #{@person.full_name} from '#{@book.title}.'" }
 			end
 		else
 			redirect_to root_path, :error => 'Access denied.'
@@ -188,7 +188,7 @@ class BooksController < ApplicationController
 			@book.save!
 			respond_to do |format|
 				format.html {redirect_to book_path(@book.id) }
-				format.js { flash.now[:notice] = "Created new author for '#{@book.title}.'" }
+				format.js { flash.now[:notice] = "Added #{@person.full_name} to '#{@book.title}.'" }
 			end
 		else
 			redirect_to root_path, :error => 'Access denied.'
