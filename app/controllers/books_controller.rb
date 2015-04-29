@@ -133,8 +133,8 @@ class BooksController < ApplicationController
 				@book.due_date = nil
 				@book.save!
 				respond_to do |format|
-				  format.html {redirect_to book_path(@book.id) }
 				  format.js { flash.now[:notice] = "Returned '#{@book.title}.'" }
+				  format.html {redirect_to book_path(@book.id) }
 				end
 			end
 		else
@@ -153,8 +153,8 @@ class BooksController < ApplicationController
 			end
 			@book.save!
 			respond_to do |format|
-		    format.html {redirect_to book_path(@book.id) }
 		    format.js { flash.now[:notice] = "Renewed '#{@book.title}.'" }
+		    format.html {redirect_to book_path(@book.id) }
 		  end
 		end
 	end
@@ -166,8 +166,8 @@ class BooksController < ApplicationController
 			@book.person_ids = @book.person_ids - [@person.id]
 			@book.save!
 			respond_to do |format|
+			  format.js { flash.now[:notice] = "Removed author from '#{@book.title}.'" }
 			  format.html {redirect_to book_path(@book.id) }
-			  format.js { flash.now[:notice] = "Returned '#{@book.title}.'" }
 			end
 		end
 	end
@@ -183,8 +183,8 @@ class BooksController < ApplicationController
 		@book.person_ids = @book.person_ids << @person.id
 		@book.save!
 		respond_to do |format|
+		  format.js { flash.now[:notice] = "Created new author for '#{@book.title}.'" }
 		  format.html {redirect_to book_path(@book.id) }
-		  format.js { flash.now[:notice] = "Returned '#{@book.title}.'" }
 		end
 	end
 
