@@ -162,30 +162,36 @@ class BooksController < ApplicationController
 	def noauthor
 		@person = Person.find(params[:person])
 		@book = Book.find(params[:book])
-		if @book.people.count > 1
+		if user_signed_in? and current_user.librarian? and @book.people.count > 1
 			@book.person_ids = @book.person_ids - [@person.id]
 			@book.save!
 			respond_to do |format|
 			  format.html {redirect_to book_path(@book.id) }
 			  format.js { flash.now[:notice] = "Removed author from '#{@book.title}.'" }
 			end
+		else
+			redirect_to root_path, :error => 'Access denied.'
 		end
 	end
 	def newauthor
 		@book = Book.find(params[:book])
 		respond_to do |format|
-			format.html {redirect_to book_path(@book.id) } 
+			format.html { redirect_to book_path(@book.id) } 
 			format.js 
 		end
 	end
 	def createnewauthor
-		@book = Book.find(params[:book])
-		@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
-		@book.person_ids = @book.person_ids << @person.id
-		@book.save!
-		respond_to do |format|
-		  format.html {redirect_to book_path(@book.id) }
-		  format.js { flash.now[:notice] = "Created new author for '#{@book.title}.'" }
+		if user_signed_in? and current_user.librarian?
+			@book = Book.find(params[:book])
+			@person = Person.find(params[:id].to_s.gsub(/\D/,'').to_i)
+			@book.person_ids = @book.person_ids << @person.id
+			@book.save!
+			respond_to do |format|
+				format.html {redirect_to book_path(@book.id) }
+				format.js { flash.now[:notice] = "Created new author for '#{@book.title}.'" }
+			end
+		else
+			redirect_to root_path, :error => 'Access denied.'
 		end
 	end
 
